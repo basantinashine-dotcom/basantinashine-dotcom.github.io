@@ -1,4 +1,4 @@
-# basantinashine-dotcom/personalwebsite
+# basantinashine-dotcom.github.io
 
 The personal website of Basanti Nashine, Head of Product at Orcana.AI and former Principal PM-T at Amazon.
 
@@ -13,7 +13,7 @@ The site is one static file, `index.html`, plus two photos, with no build step a
 2. Under **Build and deployment**, set **Source** to **Deploy from a branch**.
 3. Choose branch **main** and folder **/ (root)**, then **Save**.
 
-After a minute the site is live at https://basantinashine-dotcom.github.io/personalwebsite/. Every push to `main` republishes it.
+The site is live at https://basantinashine-dotcom.github.io/. Because this repository is named `basantinashine-dotcom.github.io`, GitHub serves it at the root of that address. Every push to `main` republishes it.
 
 ## Edit it
 
