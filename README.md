@@ -6,7 +6,7 @@ The site is one static file, `index.html`, plus a few images, with no build step
 
 - `banner-600.webp`, `banner-1200.webp` and `banner-1200.jpg` are the wide sculpture artwork at the top of the page (1200×670 at full size).
 - `avatar-256.webp` and `avatar-256.jpg` are the round headshot next to the name (a 256×256 square crop; the page shows it as a 64px circle).
-- `shot-tagalong-*` and `shot-campaign-lab-*` are screenshots of those two live apps, shown in Side projects. Each comes as 600px and 1200px WebP plus a 1200×750 JPEG fallback (16:10).
+- `shot-tagalong-*` and `shot-campaign-lab-*` are screenshots of those two live apps, shown in Personal projects. Each comes as 600px and 1200px WebP plus a 1200×750 JPEG fallback (16:10).
 - `photo-1200.jpg` is the 1200×800 image shown when the site is shared on social media or in messages.
 
 ## Publish with GitHub Pages
@@ -19,4 +19,4 @@ The site is live at https://basantinashine-dotcom.github.io/. Because this repos
 
 ## Edit it
 
-Open `index.html` and change the text directly. The sections run in this order: the banner, the intro with the round photo, **Selected work** (four short stories), **Side projects** (Hey Mama and the project list), **How I work**, **Background** (one line per role), and the footer links. To preview locally, open the file in a browser.
+Open `index.html` and change the text directly. The sections run in this order: the banner, the intro with the round photo, **Selected work** (four short stories), **Personal projects** (Hey Mama and the project list), **How I work**, **Background** (one line per role), and the footer links. To preview locally, open the file in a browser.
