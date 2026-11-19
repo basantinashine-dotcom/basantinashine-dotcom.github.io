@@ -25,6 +25,7 @@
     --underline: #cdc3ae;
     --font-sans: "Geist", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
     --font-mono: "Geist Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    --panel: min(38vw, 560px);
     --text: 1rem;
     --small: 0.875rem;
     --tiny: 0.75rem;
@@ -84,8 +85,24 @@
 
   /* Intro */
   .intro { gap: 1.25rem; }
-  .banner { margin-bottom: 0.75rem; }
-  .banner img { display: block; width: 100%; height: auto; border-radius: 8px; background: var(--line); }
+  /* Banner: a slim strip above the name on phones and tablets, a fixed full-height side panel on desktop */
+  .banner { margin-bottom: 0.25rem; }
+  .banner img {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 4 / 1;
+    object-fit: cover;
+    object-position: 50% 58%;
+    border-radius: 8px;
+    background: var(--line);
+  }
+  @media (min-width: 1024px) {
+    body { padding-left: calc(var(--panel) + 2rem); padding-right: 2rem; }
+    .banner { position: fixed; top: 0; bottom: 0; left: 0; width: var(--panel); margin: 0; }
+    .banner img { height: 100%; aspect-ratio: auto; object-position: 50% 50%; border-radius: 0; }
+  }
+  .proof { padding-left: 0.85rem; border-left: 2px solid var(--fg); }
   .intro header { display: flex; align-items: center; gap: 1rem; }
   .intro header picture { flex: none; }
   .intro .who { display: flex; flex-direction: column; gap: 0.15rem; min-width: 0; }
@@ -175,7 +192,6 @@
     border-top: 1px solid var(--line);
   }
   .career li:last-child { border-bottom: 1px solid var(--line); }
-  .career .mono { color: var(--muted); }
 
   footer {
     display: flex;
@@ -194,6 +210,7 @@
 
   <section class="intro" aria-label="About">
     <picture class="banner">
+      <source media="(min-width: 1024px)" type="image/webp" srcset="banner-tall.webp">
       <source type="image/webp" srcset="banner-600.webp 600w, banner-1200.webp 1200w" sizes="(max-width: 608px) calc(100vw - 32px), 576px">
       <img src="banner-1200.jpg" width="1200" height="670" fetchpriority="high" alt="Five sculptures, a blue ribbon, a glass sphere, a chrome ring, a folded paper star and a lavender branching form, linked by fine threads to a glowing amber crystal">
     </picture>
@@ -208,6 +225,7 @@
       </div>
     </header>
     <p>I turn complex AI into products people trust and use – from Amazon’s advertising platforms to a startup’s first analytics agents.</p>
+    <p class="proof"><strong>$975M</strong> in annualized revenue impact from the AI-written search ads I led at Amazon.</p>
     <p>Today I’m Head of Product at Orcana.AI, where I joined as the founding product manager to build AI agents for pharma marketing teams. Before that, I spent nearly seven years at Amazon, was promoted to Principal Product <span class="nowrap">Manager-Technical</span>, and led work on the ads Amazon runs on Google search, AI agents for advertisers, and the personalization shoppers see when they arrive.</p>
     <p>I started out as a data scientist, and it stuck: I don’t call something a win until an experiment says so.</p>
   </section>
@@ -300,11 +318,11 @@
   <section aria-labelledby="background">
     <h2 id="background">Background</h2>
     <ul class="career">
-      <li><span>Orcana.AI <span class="muted">· Head of Product</span></span><span class="mono">2026 – now</span></li>
-      <li><span>Amazon <span class="muted">· Principal PM-T, before that Senior PM-T</span></span><span class="mono">2019 – 2026</span></li>
-      <li><span>Kellogg School of Management <span class="muted">· MBA</span></span><span class="mono">2017 – 2019</span></li>
-      <li><span>ZS Associates <span class="muted">· Data scientist, then consultant</span></span><span class="mono">2013 – 2017</span></li>
-      <li><span>BITS Pilani <span class="muted">· B.E. (Honors), Electronics and Instrumentation</span></span><span class="mono">2009 – 2013</span></li>
+      <li><span>Orcana.AI <span class="muted">· Head of Product</span></span></li>
+      <li><span>Amazon <span class="muted">· Principal PM-T, before that Senior PM-T</span></span></li>
+      <li><span>Kellogg School of Management <span class="muted">· MBA</span></span></li>
+      <li><span>ZS Associates <span class="muted">· Data scientist, then consultant</span></span></li>
+      <li><span>BITS Pilani <span class="muted">· B.E. (Honors), Electronics and Instrumentation</span></span></li>
     </ul>
     <p class="muted">The full story is on <a href="https://www.linkedin.com/in/basanti-nashine-b7751aa2/">LinkedIn</a>.</p>
   </section>
