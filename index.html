@@ -15,198 +15,16 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400&display=swap">
-<style>
-  /* Layout: one narrow left-aligned reading column on cream, text-first. Structure carries the design. */
-  :root {
-    --bg: #fcf9f0;
-    --fg: #1c1a16;
-    --muted: #6b655b;
-    --line: #ebe4d4;
-    --underline: #cdc3ae;
-    --font-sans: "Geist", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-    --font-mono: "Geist Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
-    --panel: min(38vw, 560px);
-    --text: 1rem;
-    --small: 0.875rem;
-    --tiny: 0.75rem;
-    color-scheme: light;
-  }
-
-  * { box-sizing: border-box; }
-  html { -webkit-text-size-adjust: 100%; background: var(--bg); }
-  body {
-    margin: 0;
-    background: var(--bg);
-    color: var(--fg);
-    font-family: var(--font-sans);
-    font-size: var(--text);
-    line-height: 1.65;
-    -webkit-font-smoothing: antialiased;
-    padding-left: max(16px, env(safe-area-inset-left, 0px));
-    padding-right: max(16px, env(safe-area-inset-right, 0px));
-  }
-  ::selection { background: var(--fg); color: var(--bg); }
-
-  main {
-    max-width: 36rem;
-    margin: 0 auto;
-    padding-block: 5rem 3rem;
-    display: flex;
-    flex-direction: column;
-    gap: 3.25rem;
-  }
-  @media (max-width: 480px) {
-    main { padding-block: 2.75rem 2rem; gap: 2.75rem; }
-  }
-
-  h1, h2, h3, p, ul, dl, dd { margin: 0; }
-  h1 { font-size: 1.125rem; font-weight: 600; letter-spacing: -0.01em; line-height: 1.3; }
-  h2 { font-size: var(--text); font-weight: 600; letter-spacing: -0.005em; text-wrap: balance; }
-  h3 { font-size: var(--text); font-weight: 500; }
-  strong { font-weight: 600; }
-  p { text-wrap: pretty; }
-
-  a {
-    color: inherit;
-    text-decoration: underline;
-    text-decoration-color: var(--underline);
-    text-decoration-thickness: 1px;
-    text-underline-offset: 3px;
-    transition: text-decoration-color 120ms ease;
-  }
-  a:hover { text-decoration-color: var(--fg); }
-  a:focus-visible { outline: 2px solid var(--fg); outline-offset: 3px; border-radius: 2px; }
-  @media (prefers-reduced-motion: reduce) { a { transition: none; } }
-
-  section { display: flex; flex-direction: column; gap: 1.1rem; }
-  .muted { color: var(--muted); }
-  .nowrap { white-space: nowrap; }
-  .mono { font-family: var(--font-mono); font-size: var(--tiny); letter-spacing: 0.02em; }
-
-  /* Intro */
-  .intro { gap: 1.25rem; }
-  /* Banner: a slim strip above the name on phones and tablets, a fixed full-height side panel on desktop */
-  .banner { margin-bottom: 0.25rem; }
-  .banner img {
-    display: block;
-    width: 100%;
-    height: auto;
-    aspect-ratio: 4 / 1;
-    object-fit: cover;
-    object-position: 50% 58%;
-    border-radius: 8px;
-    background: var(--line);
-  }
-  @media (min-width: 1024px) {
-    body { padding-left: calc(var(--panel) + 2rem); padding-right: 2rem; }
-    .banner { position: fixed; top: 0; bottom: 0; left: 0; width: var(--panel); margin: 0; }
-    .banner img { height: 100%; aspect-ratio: auto; object-position: 50% 50%; border-radius: 0; }
-  }
-  .proof { padding-left: 0.85rem; border-left: 2px solid var(--fg); }
-  .intro header { display: flex; align-items: center; gap: 1rem; }
-  .intro header picture { flex: none; }
-  .intro .who { display: flex; flex-direction: column; gap: 0.15rem; min-width: 0; }
-  .avatar {
-    display: block;
-    width: 64px;
-    height: 64px;
-    border-radius: 50%;
-    object-fit: cover;
-    background: var(--line);
-  }
-
-  /* Shared list of bordered items: selected work and side projects */
-  .items { list-style: none; padding: 0; display: flex; flex-direction: column; }
-  .item {
-    display: flex;
-    flex-direction: column;
-    gap: 0.4rem;
-    padding-block: 1rem;
-    border-top: 1px solid var(--line);
-  }
-  .item:last-child { border-bottom: 1px solid var(--line); }
-  .item-head {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: baseline;
-    justify-content: space-between;
-    column-gap: 1rem;
-    row-gap: 0.1rem;
-  }
-  .item-head .mono { color: var(--muted); }
-  .work .item { gap: 0.55rem; padding-block: 1.25rem; }
-  .projects .item p { color: var(--muted); min-width: 0; }
-  .links { display: flex; flex-wrap: wrap; gap: 1rem; font-size: var(--small); }
-
-  /* Project screenshots */
-  .shot {
-    display: block;
-    margin-bottom: 0.35rem;
-    border: 1px solid var(--line);
-    border-radius: 8px;
-    overflow: hidden;
-    background: #fff;
-  }
-  .shot img { display: block; width: 100%; height: auto; aspect-ratio: 16 / 10; object-fit: cover; object-position: top; }
-  .shot:focus-visible { outline: 2px solid var(--fg); outline-offset: 3px; }
-
-  /* Product spec sheet for Hey Mama */
-  .spec {
-    display: grid;
-    grid-template-columns: 7.5rem 1fr;
-    border-top: 1px solid var(--line);
-  }
-  .spec dt, .spec dd {
-    padding-block: 0.6rem;
-    border-bottom: 1px solid var(--line);
-  }
-  .spec dt {
-    font-family: var(--font-mono);
-    font-size: var(--tiny);
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-    color: var(--muted);
-    padding-top: 0.85rem;
-  }
-  .spec dd { min-width: 0; }
-  @media (max-width: 480px) {
-    .spec { grid-template-columns: 1fr; }
-    .spec dt { border-bottom: 0; padding-bottom: 0; }
-    .spec dd { padding-top: 0.15rem; }
-  }
-
-  /* Principles */
-  .principles { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 1rem; }
-  .principles li { display: flex; flex-direction: column; gap: 0.15rem; }
-  .principles span { color: var(--muted); }
-
-  /* Background: one line per role */
-  .career { list-style: none; padding: 0; display: flex; flex-direction: column; }
-  .career li {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: baseline;
-    justify-content: space-between;
-    column-gap: 1rem;
-    padding-block: 0.6rem;
-    border-top: 1px solid var(--line);
-  }
-  .career li:last-child { border-bottom: 1px solid var(--line); }
-
-  footer {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    gap: 0.75rem 1.5rem;
-    padding-top: 1.25rem;
-    border-top: 1px solid var(--line);
-    font-size: var(--small);
-  }
-  footer .elsewhere { display: flex; flex-wrap: wrap; gap: 1.25rem; }
-</style>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
 <main>
+
+  <nav class="site-nav" aria-label="Site">
+    <a class="brand" href="./" aria-current="page">Basanti Nashine</a>
+    <a href="work/">work</a>
+    <a href="projects/">projects</a>
+  </nav>
 
   <section class="intro" aria-label="About">
     <picture class="banner">
@@ -228,103 +46,44 @@
     <p class="proof"><strong>$975M</strong> in annualized revenue impact from the AI-written search ads I led at Amazon.</p>
     <p>Today I’m Head of Product at Orcana.AI, where I joined as the founding product manager to build AI agents for pharma marketing teams. Before that, I spent nearly seven years at Amazon, was promoted to Principal Product <span class="nowrap">Manager-Technical</span>, and led work on the ads Amazon runs on Google search, AI agents for advertisers, and the personalization shoppers see when they arrive.</p>
     <p>I started out as a data scientist, and it stuck: I don’t call something a win until an experiment says so.</p>
+    <p>Outside of work, I love traveling and exploring the architecture. Renzo Piano once said an architect can’t just be a tourist; you have to really understand a place. I think that’s true for building products too.</p>
   </section>
 
-  <section class="work" aria-labelledby="work">
+  <section aria-labelledby="work">
     <h2 id="work">Selected work</h2>
-    <ul class="items">
-      <li class="item">
-        <div class="item-head"><h3>Search ads written for every keyword</h3><span class="mono">Amazon</span></div>
-        <p>Amazon’s Google search ads used to come from generic category templates, so a specific search got a vague ad. I led ten engineers and four applied scientists to replace them with ads written for each keyword, grounded in Amazon’s own search results and product details. US click-through rose 11.75%, and the launch was worth $975M in annualized revenue impact across marketplaces.</p>
-        <p>The harder problem was trust. To run AI-written ads at that scale, we needed an evaluation system that judged them the way a person would. Ours agreed with human reviewers 99% of the time.</p>
-      </li>
-      <li class="item">
-        <div class="item-head"><h3>Remembering why a shopper came</h3><span class="mono">Amazon</span></div>
-        <p>Shoppers often reach Amazon from an ad or a search result somewhere else. I wrote the case for carrying that outside context into Amazon’s ranking and recommendations, brought five organizations behind one roadmap, and launched the platform. Conversion from that traffic rose 16%, adding $430M in incremental revenue.</p>
-      </li>
-      <li class="item">
-        <div class="item-head"><h3>Agents that do the busywork for advertisers</h3><span class="mono">Amazon</span></div>
-        <p>Seasonal campaigns take a lot of manual setup. My team built SmartCampaign, an AI agent that finds keywords, drafts headlines and analyzes performance, so advertisers can launch campaigns more often. Setup completion rose 34%, and manual setup time fell 63%.</p>
-        <p>Teams across Amazon Ads were each building their own agent plumbing, so I defined one shared framework with permissions, approvals and explanations of agent actions built in. 22 teams adopted it, saving 260 engineering weeks.</p>
-      </li>
-      <li class="item">
-        <div class="item-head"><h3>What should a marketer do next?</h3><span class="mono">Orcana.AI</span></div>
-        <p>At Orcana.AI, I’m leading a Next Best Engagement agent that recommends a marketer’s next outreach across channels. In a pilot, it delivered twice the revenue lift of traditional rule-based systems. We use an LLM to review agent traces and find the failures that matter most, which has raised the task success rate by 15%.</p>
-      </li>
+    <ul class="list">
+      <li><a href="work/#search-ads">Search ads written for every keyword</a><span class="mono">Amazon</span></li>
+      <li><a href="work/#personalization">Remembering why a shopper came</a><span class="mono">Amazon</span></li>
+      <li><a href="work/#advertiser-agents">Agents that do the busywork for advertisers</a><span class="mono">Amazon</span></li>
+      <li><a href="work/#next-best-engagement">What should a marketer do next?</a><span class="mono">Orcana.AI</span></li>
     </ul>
   </section>
 
-  <section aria-labelledby="personal-projects">
-    <h2 id="personal-projects">Personal projects</h2>
-    <p>Outside work, I learn by building. When I want to understand something new, like agent loops, evals or AI safety review, I build a small product that depends on it and ship it. Right now that’s Hey Mama.</p>
-    <p><strong>Hey Mama</strong> sends a new mother one letter a day, written by a mother who has been there. Mothers write letters for each other, and the app matches each reader with the letter closest to what she’s going through.</p>
-    <dl class="spec">
-      <dt>North star</dt>
-      <dd>Mothers feel less alone and more confident as mothers.</dd>
-      <dt>Metric</dt>
-      <dd>Mothers who open today’s letter each day.</dd>
-      <dt>Matching</dt>
-      <dd>Claude picks the letter that best fits the topics she relates to. Fair rotation keeps any one letter from being overused.</dd>
-      <dt>Safety</dt>
-      <dd>AI screens every letter, then a moderator decides. Letters flagged as a crisis are never shared, and the writer is shown where to find help.</dd>
-    </dl>
-    <p><a href="https://lettersfornewmom.com">lettersfornewmom.com</a></p>
-    <ul class="items projects">
-      <li class="item">
-        <a class="shot" href="https://tagalongwithmeapp.lovable.app/">
-          <picture>
-            <source type="image/webp" srcset="shot-tagalong-600.webp 600w, shot-tagalong-1200.webp 1200w" sizes="(max-width: 608px) calc(100vw - 32px), 576px">
-            <img src="shot-tagalong-1200.jpg" width="1200" height="750" loading="lazy" alt="Tagalong home page: “Never walk in alone,” with a pod of three matched for a gallery night and a message from their AI host">
-          </picture>
-        </a>
-        <div class="item-head"><h3>Tagalong</h3><span class="mono">Web app · Hackathon</span></div>
-        <p>Matches women going to the same event in SF or NYC into small, vetted pods so nobody has to walk in alone. An AI host in the pod’s group text explains why they matched, sends the meetup plan, and checks that everyone got home. Built for the She Builds hackathon from a PRD I wrote.</p>
-        <div class="links"><a href="https://tagalongwithmeapp.lovable.app/">Try it ↗</a></div>
-      </li>
-      <li class="item">
-        <div class="item-head"><h3>Decision Log</h3><span class="mono">Agent · Slack app</span></div>
-        <p>Reads meeting notes and answers “why did we decide this?” Every fact has to quote the note it came from, and private notes stay out of anything you share.</p>
-        <div class="links"><a href="https://github.com/basantinashine-dotcom/inspired-products/tree/main/agents/decision-log">Source ↗</a></div>
-      </li>
-      <li class="item">
-        <a class="shot" href="https://campaign-lab-instagram.basanti-nashine.chatgpt.site">
-          <picture>
-            <source type="image/webp" srcset="shot-campaign-lab-600.webp 600w, shot-campaign-lab-1200.webp 1200w" sizes="(max-width: 608px) calc(100vw - 32px), 576px">
-            <img src="shot-campaign-lab-1200.jpg" width="1200" height="750" loading="lazy" alt="Campaign Lab’s first step, “Small shop. Big first step,” introducing a practice candle business and a $300 practice budget">
-          </picture>
-        </a>
-        <div class="item-head"><h3>Campaign Lab</h3><span class="mono">Web app</span></div>
-        <p>A practice run for a small shop’s first Instagram ads. Change one thing, rerun seven simulated days, and see exactly why the result moved.</p>
-        <div class="links"><a href="https://campaign-lab-instagram.basanti-nashine.chatgpt.site">Try it ↗</a><a href="https://github.com/basantinashine-dotcom/inspired-products/tree/main/apps/campaign-lab">Source ↗</a></div>
-      </li>
-      <li class="item">
-        <div class="item-head"><h3>AdCanvas Creative Studio</h3><span class="mono">Web app</span></div>
-        <p>Generates ad scenes from product photos, compares each one with the original, and exports only the images a person approved.</p>
-        <div class="links"><a href="https://github.com/basantinashine-dotcom/inspired-products/tree/main/apps/adcanvas-creative-studio">Source ↗</a></div>
-      </li>
-    </ul>
-  </section>
-
-  <section aria-labelledby="how">
-    <h2 id="how">How I work</h2>
-    <ul class="principles">
-      <li><strong>Prove it with an experiment.</strong><span>The Amazon revenue numbers on this page come from A/B tests. Where offsite traffic had no experimentation program, I started one.</span></li>
-      <li><strong>Evaluate AI like a product, not a demo.</strong><span>Before an AI feature ships, I want to know how often it’s wrong and why. That means checking it against human judgment first, then reading real traces after launch.</span></li>
-      <li><strong>AI advises, people decide.</strong><span>The Ads agent framework builds in approvals and explanations of what an agent did. In Hey Mama, the AI check is a note on the moderator’s desk, never the final call.</span></li>
-      <li><strong>Build once, for many teams.</strong><span>When teams keep rebuilding the same thing, I’d rather build it once and share it. The Ads agent framework and a shared metadata service for marketing channels both replaced duplicated work.</span></li>
+  <section aria-labelledby="projects">
+    <h2 id="projects">Personal projects</h2>
+    <ul class="list">
+      <li><a href="projects/#hey-mama">Hey Mama</a><span class="muted">, one letter a day for new mothers, written by mothers</span><span class="mono">building now</span></li>
+      <li><a href="projects/#tagalong">Tagalong</a><span class="muted">, small vetted pods so women never walk into an event alone</span></li>
+      <li><a href="projects/#decision-log">Decision Log</a><span class="muted">, answers “why did we decide this?” from meeting notes</span></li>
+      <li><a href="projects/#campaign-lab">Campaign Lab</a><span class="muted">, a practice run for a small shop’s first Instagram ads</span></li>
+      <li><a href="projects/#adcanvas">AdCanvas Creative Studio</a><span class="muted">, ad scenes from product photos, exported only once a person approves</span></li>
     </ul>
   </section>
 
   <section aria-labelledby="background">
     <h2 id="background">Background</h2>
     <ul class="career">
-      <li><span>Orcana.AI <span class="muted">· Head of Product</span></span></li>
-      <li><span>Amazon <span class="muted">· Principal PM-T, before that Senior PM-T</span></span></li>
-      <li><span>Kellogg School of Management <span class="muted">· MBA</span></span></li>
-      <li><span>ZS Associates <span class="muted">· Data scientist, then consultant</span></span></li>
-      <li><span>BITS Pilani <span class="muted">· B.E. (Honors), Electronics and Instrumentation</span></span></li>
+      <li>Orcana.AI <span class="muted">· Head of Product</span></li>
+      <li>Amazon <span class="muted">· Principal PM-T, before that Senior PM-T</span></li>
+      <li>Kellogg School of Management <span class="muted">· MBA</span></li>
+      <li>ZS Associates <span class="muted">· Data scientist, then consultant</span></li>
+      <li>BITS Pilani <span class="muted">· B.E. (Honors), Electronics and Instrumentation</span></li>
     </ul>
-    <p class="muted">The full story is on <a href="https://www.linkedin.com/in/basanti-nashine-b7751aa2/">LinkedIn</a>.</p>
+  </section>
+
+  <section aria-labelledby="contact">
+    <h2 id="contact">Get in touch</h2>
+    <p>The best way to reach me is on <a href="https://www.linkedin.com/in/basanti-nashine-b7751aa2/">LinkedIn</a>.</p>
   </section>
 
   <footer>
