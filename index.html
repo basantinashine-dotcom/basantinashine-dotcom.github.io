@@ -4,10 +4,12 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Basanti Nashine</title>
-<meta name="description" content="Basanti Nashine is a product manager who learns AI by building it: agents, evals and AI safety review, shipped as small products.">
+<meta name="description" content="Basanti Nashine builds AI products for advertising and marketing: Head of Product at Orcana.AI and former Principal PM-T at Amazon.">
 <meta property="og:title" content="Basanti Nashine">
-<meta property="og:description" content="Product manager, AI products. What I'm building now, what I've shipped, and how I work.">
+<meta property="og:description" content="Head of Product at Orcana.AI and former Principal PM-T at Amazon. AI products for advertising and marketing.">
 <meta property="og:type" content="website">
+<meta property="og:image" content="https://basantinashine-dotcom.github.io/personalwebsite/photo-1200.jpg">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23111'/%3E%3Ctext x='16' y='22' font-family='system-ui,sans-serif' font-size='17' font-weight='600' fill='%23fff' text-anchor='middle'%3Eb%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -75,10 +77,12 @@
     main { padding-block: 2.75rem 2rem; gap: 2.75rem; }
   }
 
-  h1, h2, p, ul, dl, dd { margin: 0; }
+  h1, h2, h3, p, ul, dl, dd { margin: 0; }
   h1 { font-size: 1.125rem; font-weight: 600; letter-spacing: -0.01em; line-height: 1.3; }
   h2 { font-size: var(--text); font-weight: 600; letter-spacing: -0.005em; text-wrap: balance; }
+  h3 { font-size: var(--text); font-weight: 500; }
   strong { font-weight: 600; }
+  p { text-wrap: pretty; }
 
   a {
     color: inherit;
@@ -100,8 +104,80 @@
   .intro { gap: 1.25rem; }
   .intro header { display: flex; flex-direction: column; gap: 0.15rem; }
   .intro p { max-width: 62ch; }
+  .photo img {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 3 / 2;
+    object-fit: cover;
+    border-radius: 8px;
+    background: var(--line);
+  }
 
-  /* Product spec sheet for the current build */
+  /* Impact: four headline numbers */
+  .stats {
+    list-style: none;
+    padding: 1.25rem 0;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.5rem 2rem;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+  }
+  .stats li { display: flex; flex-direction: column; gap: 0.25rem; min-width: 0; }
+  .stat-num {
+    font-size: 1.5rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 1.25;
+    font-variant-numeric: tabular-nums;
+  }
+  .stat-label { font-size: var(--small); line-height: 1.55; color: var(--muted); }
+  .note { color: var(--muted); }
+  .nowrap { white-space: nowrap; }
+  @media (max-width: 480px) {
+    .stats { gap: 1.25rem; }
+    .stat-num { font-size: 1.375rem; }
+  }
+
+  /* Experience */
+  .roles { list-style: none; padding: 0; display: flex; flex-direction: column; }
+  .role {
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+    padding-block: 1rem;
+    border-top: 1px solid var(--line);
+  }
+  .role:last-child { border-bottom: 1px solid var(--line); }
+  .role-meta { display: flex; flex-direction: column; gap: 0.1rem; }
+  .role-context { font-size: var(--small); color: var(--muted); }
+  .highlights { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 0.5rem; color: var(--muted); }
+  .highlights li { position: relative; padding-left: 1rem; }
+  .highlights li::before {
+    content: "";
+    position: absolute;
+    left: 0.1rem;
+    top: calc(0.825em - 2px);
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: var(--muted);
+  }
+  .highlights strong { color: var(--fg); }
+
+  /* Shared row: title on the left, mono meta on the right */
+  .item-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    column-gap: 1rem;
+    row-gap: 0.1rem;
+  }
+  .item-head .mono { color: var(--muted); }
+
+  /* Product spec sheet for Hey Mama */
   .spec {
     display: grid;
     grid-template-columns: 7.5rem 1fr;
@@ -136,16 +212,6 @@
     border-top: 1px solid var(--line);
   }
   .project:last-child { border-bottom: 1px solid var(--line); }
-  .project-head {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: baseline;
-    justify-content: space-between;
-    column-gap: 1rem;
-    row-gap: 0.1rem;
-  }
-  .project-head h3 { margin: 0; font-size: var(--text); font-weight: 500; }
-  .project-head .mono { color: var(--muted); }
   .project p { color: var(--muted); min-width: 0; }
   .project .links { display: flex; flex-wrap: wrap; gap: 1rem; font-size: var(--small); color: var(--fg); }
 
@@ -172,48 +238,110 @@
   <section class="intro" aria-label="About">
     <header>
       <h1>Basanti Nashine</h1>
-      <p class="muted">Product manager, AI products</p>
+      <p class="muted">Head of Product at Orcana.AI · Former Principal PM-T at Amazon</p>
     </header>
-    <p>I'm a product manager who works on AI products, and I learn by building. When I want to understand something, like agent loops, evals or AI safety review, I build a small product that depends on it and ship it.</p>
-    <p>Below is what I'm building now, the projects I've shipped this year, and the rules I keep coming back to.</p>
+    <picture class="photo">
+      <source type="image/webp" srcset="photo-600.webp 600w, photo-1200.webp 1200w" sizes="(max-width: 608px) calc(100vw - 32px), 576px">
+      <img src="photo-1200.jpg" width="1200" height="800" alt="Basanti Nashine smiling on a grassy hillside above a beach at sunset" fetchpriority="high">
+    </picture>
+    <p>I build AI products for advertising and marketing. In nearly seven years at Amazon, I led generative ad creative, AI agents for advertisers and real-time personalization, taking several from first idea to launch.</p>
+    <p>Now I lead product at Orcana.AI as its founding product manager, building AI agents for marketing analytics in commercial pharma. I started my career as a data scientist, so I measure everything I ship.</p>
   </section>
 
-  <section aria-labelledby="now">
-    <h2 id="now">Building now</h2>
-    <p><strong>Hey Mama</strong> sends a new mother one letter a day, written by a mother who has been there. Mothers write letters for each other, and the app matches each reader with the letter closest to what she's going through.</p>
+  <section aria-labelledby="impact">
+    <h2 id="impact">Impact</h2>
+    <ul class="stats">
+      <li><span class="stat-num">$975M</span><span class="stat-label">annualized revenue impact from generative ad creative at Amazon</span></li>
+      <li><span class="stat-num">$430M</span><span class="stat-label">incremental revenue from real-time personalization at Amazon</span></li>
+      <li><span class="stat-num">$300M+</span><span class="stat-label">annual profit from SEO and organic acquisition at Amazon</span></li>
+      <li><span class="stat-num">22 teams</span><span class="stat-label">adopted the Amazon Ads agent framework I defined</span></li>
+    </ul>
+    <p class="note mono">Revenue and profit figures are based on <span class="nowrap">A/B-test</span> results.</p>
+  </section>
+
+  <section aria-labelledby="experience">
+    <h2 id="experience">Experience</h2>
+    <ul class="roles">
+      <li class="role">
+        <div class="role-meta">
+          <div class="item-head"><h3>Orcana.AI</h3><span class="mono">2026 – now</span></div>
+          <p>Founding Product Manager / Head of Product</p>
+          <p class="role-context">AI agents for marketing analytics in commercial pharma · $1.5M+ ARR</p>
+        </div>
+        <ul class="highlights">
+          <li>Leading strategy for a 0-to-1 Next Best Engagement agent that recommends marketers’ next outreach across channels: <strong>2x the revenue lift</strong> of rule-based systems in a pilot.</li>
+          <li>Built agent evaluation and observability on LLM review of flagged and sampled traces, raising the <strong>task success rate by 15%</strong>.</li>
+        </ul>
+      </li>
+      <li class="role">
+        <div class="role-meta">
+          <div class="item-head"><h3>Amazon</h3><span class="mono">2019 – 2026</span></div>
+          <p>Principal Product Manager-Technical (promoted from Senior PM-T)</p>
+          <p class="role-context">Ads, AI platforms, personalization and performance marketing</p>
+        </div>
+        <ul class="highlights">
+          <li>Led 10 engineers and 4 applied scientists to launch a RAG platform that writes keyword-specific Google search ads from Amazon search results and product metadata: <strong>+11.75% US click-through rate</strong> and <strong>$975M in annualized revenue impact</strong>.</li>
+          <li>Defined its evaluation framework (rule-based checks, LLM-as-a-judge and critic-LLM feedback), reaching <strong>99% agreement with human labels</strong> on relevance, factual accuracy and policy compliance.</li>
+          <li>Launched a 0-to-1 personalization platform linking offsite marketing context to onsite ranking and recommendations: <strong>+16% conversion</strong> and <strong>$430M in incremental revenue</strong>. Wrote the product thesis and won VP/SVP buy-in across five organizations.</li>
+          <li>Led SmartCampaign, an AI agent that automates keyword discovery, headlines and performance analysis for advertisers: <strong>+34% setup completion</strong> and <strong>63% less manual setup time</strong>.</li>
+          <li>Defined the shared Amazon Ads agent framework, adopted by <strong>22 teams</strong> and saving <strong>260 engineering weeks</strong>. Managed 3 PMs on emerging ad channels, driving about 69 million incremental site visits a year.</li>
+          <li>Set strategy for global SEO and organic acquisition, including IndexNow with Bing: <strong>+37% crawl rate</strong> and <strong>$300M+ in annual profit</strong>. Built the offsite experimentation program: 15+ A/B tests and <strong>$120M in incremental annual revenue</strong>.</li>
+        </ul>
+      </li>
+      <li class="role">
+        <div class="role-meta">
+          <div class="item-head"><h3>ZS Associates</h3><span class="mono">2013 – 2017</span></div>
+          <p>Decision Analytics Associate Consultant (promoted from Data Scientist)</p>
+          <p class="role-context">Marketing and sales analytics</p>
+        </div>
+        <ul class="highlights">
+          <li>Found cannibalization in the sampling strategy for a $1B+ drug; the new allocation saved <strong>$40M a year</strong>.</li>
+          <li>Led a six-person team across the US and India for a Fortune 150 client, generating <strong>$3.5M in consulting revenue</strong> over two years.</li>
+        </ul>
+      </li>
+      <li class="role">
+        <div class="role-meta">
+          <div class="item-head"><h3>Education</h3></div>
+          <p class="muted">MBA, Kellogg School of Management, Northwestern University</p>
+          <p class="muted">B.E. (Honors) in Electronics and Instrumentation, BITS Pilani</p>
+        </div>
+      </li>
+    </ul>
+  </section>
+
+  <section aria-labelledby="side-projects">
+    <h2 id="side-projects">Side projects</h2>
+    <p>Outside work, I learn by building. When I want to understand something new, like agent loops, evals or AI safety review, I build a small product that depends on it and ship it. Right now that’s Hey Mama.</p>
+    <p><strong>Hey Mama</strong> sends a new mother one letter a day, written by a mother who has been there. Mothers write letters for each other, and the app matches each reader with the letter closest to what she’s going through.</p>
     <dl class="spec">
       <dt>North star</dt>
       <dd>Mothers feel less alone and more confident as mothers.</dd>
       <dt>Metric</dt>
-      <dd>Mothers who open today's letter each day.</dd>
+      <dd>Mothers who open today’s letter each day.</dd>
       <dt>Matching</dt>
       <dd>Claude picks the letter that best fits the topics she relates to. Fair rotation keeps any one letter from being overused.</dd>
       <dt>Safety</dt>
       <dd>AI screens every letter, then a moderator decides. Letters flagged as a crisis are never shared, and the writer is shown where to find help.</dd>
     </dl>
     <p><a href="https://lettersfornewmom.com">lettersfornewmom.com</a></p>
-  </section>
-
-  <section aria-labelledby="projects">
-    <h2 id="projects">Projects</h2>
     <ul class="projects">
       <li class="project">
-        <div class="project-head"><h3>Tagalong</h3><span class="mono">Web app · Hackathon</span></div>
-        <p>Matches women going to the same event in SF or NYC into small, vetted pods so nobody has to walk in alone. An AI host in the pod's group text explains why they matched, sends the meetup plan, and checks that everyone got home. Built for the She Builds hackathon from a PRD I wrote.</p>
+        <div class="item-head"><h3>Tagalong</h3><span class="mono">Web app · Hackathon</span></div>
+        <p>Matches women going to the same event in SF or NYC into small, vetted pods so nobody has to walk in alone. An AI host in the pod’s group text explains why they matched, sends the meetup plan, and checks that everyone got home. Built for the She Builds hackathon from a PRD I wrote.</p>
         <div class="links"><a href="https://tagalongwithmeapp.lovable.app/">Try it ↗</a></div>
       </li>
       <li class="project">
-        <div class="project-head"><h3>Decision Log</h3><span class="mono">Agent · Slack app</span></div>
-        <p>Reads meeting notes and answers "why did we decide this?" Every fact has to quote the note it came from, and private notes stay out of anything you share.</p>
+        <div class="item-head"><h3>Decision Log</h3><span class="mono">Agent · Slack app</span></div>
+        <p>Reads meeting notes and answers “why did we decide this?” Every fact has to quote the note it came from, and private notes stay out of anything you share.</p>
         <div class="links"><a href="https://github.com/basantinashine-dotcom/inspired-products/tree/main/agents/decision-log">Source ↗</a></div>
       </li>
       <li class="project">
-        <div class="project-head"><h3>Campaign Lab</h3><span class="mono">Web app</span></div>
-        <p>A practice run for a small shop's first Instagram ads. Change one thing, rerun seven simulated days, and see exactly why the result moved.</p>
+        <div class="item-head"><h3>Campaign Lab</h3><span class="mono">Web app</span></div>
+        <p>A practice run for a small shop’s first Instagram ads. Change one thing, rerun seven simulated days, and see exactly why the result moved.</p>
         <div class="links"><a href="https://campaign-lab-instagram.basanti-nashine.chatgpt.site">Try it ↗</a><a href="https://github.com/basantinashine-dotcom/inspired-products/tree/main/apps/campaign-lab">Source ↗</a></div>
       </li>
       <li class="project">
-        <div class="project-head"><h3>AdCanvas Creative Studio</h3><span class="mono">Web app</span></div>
+        <div class="item-head"><h3>AdCanvas Creative Studio</h3><span class="mono">Web app</span></div>
         <p>Generates ad scenes from product photos, compares each one with the original, and exports only the images a person approved.</p>
         <div class="links"><a href="https://github.com/basantinashine-dotcom/inspired-products/tree/main/apps/adcanvas-creative-studio">Source ↗</a></div>
       </li>
@@ -223,15 +351,16 @@
   <section aria-labelledby="how">
     <h2 id="how">How I work</h2>
     <ul class="principles">
-      <li><strong>AI advises, people decide.</strong><span>In Hey Mama the AI check is a note on the moderator's desk, never the final call. In AdCanvas nothing downloads until a person approves it.</span></li>
-      <li><strong>Every claim needs a source.</strong><span>Decision Log throws out any fact that can't quote its note. Hey Mama never shows a writer a delivery count or review status that didn't really happen.</span></li>
-      <li><strong>Build it without the model first.</strong><span>Decision Log has an offline mode built from plain rules with no API key, so you can see exactly what Claude adds.</span></li>
-      <li><strong>Write down the limits.</strong><span>Each project says what it doesn't do. Campaign Lab's numbers are teaching assumptions, and the app tells you so.</span></li>
+      <li><strong>Prove it with an experiment.</strong><span>The Amazon revenue figures on this page come from A/B tests. Where offsite traffic had no experimentation program, I started one and ran 15+ tests through it.</span></li>
+      <li><strong>Evaluate AI like a product, not a demo.</strong><span>My ad-copy evaluation framework matched human labels 99% of the time. At Orcana, reviewing agent traces decides which tool and prompt fixes ship first.</span></li>
+      <li><strong>AI advises, people decide.</strong><span>The Ads agent framework I defined standardized permissions, approvals and explanations of agent actions. In Hey Mama, the AI check is a note on the moderator’s desk, never the final call.</span></li>
+      <li><strong>Build once, for many teams.</strong><span>That framework replaced duplicated agent infrastructure across 22 teams. A shared metadata service cut new-channel integrations from 25 to 4 engineering person-weeks.</span></li>
     </ul>
   </section>
 
   <footer>
     <div class="elsewhere">
+      <a href="https://www.linkedin.com/in/basanti-nashine-b7751aa2/">LinkedIn ↗</a>
       <a href="https://github.com/basantinashine-dotcom">GitHub ↗</a>
     </div>
     <span class="muted">© 2026 Basanti Nashine</span>
