@@ -10,7 +10,7 @@ The site is three static pages with one shared stylesheet, no build step and no 
 | Work | `work/index.html` | The four Selected work stories, each with an anchor (`#search-ads`, `#personalization`, `#advertiser-agents`, `#next-best-engagement`) |
 | Projects | `projects/index.html` | Hey Mama with its spec sheet, then Tagalong, Decision Log, Campaign Lab and AdCanvas (`#hey-mama`, `#tagalong`, `#decision-log`, `#campaign-lab`, `#adcanvas`) |
 
-`style.css` holds every style. The colors are set once at the top.
+`style.css` holds every style. The colors are set once at the top. Each page links it as `style.css?v=…`: when you change `style.css`, change that version (for example, to today's date) in all three pages, so browsers fetch the new styles instead of reusing a saved copy.
 
 ## Images
 
