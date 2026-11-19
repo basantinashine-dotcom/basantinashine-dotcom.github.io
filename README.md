@@ -14,7 +14,7 @@ The site is three static pages with one shared stylesheet, no build step and no 
 
 ## Images
 
-- The sculpture artwork is a fixed, full-height panel on the left on screens 1024px and wider (`banner-tall.webp`, a 1000×1116 crop centered on the crystal), and a slim strip above the content on smaller screens (`banner-600.webp`, `banner-1200.webp` and `banner-1200.jpg`, 1200×670 at full size).
+- The sculpture artwork is a fixed, full-height panel on the right on screens 1024px and wider (`banner-tall.webp`, a 1000×1116 crop centered on the crystal), and a slim strip above the content on smaller screens (`banner-600.webp`, `banner-1200.webp` and `banner-1200.jpg`, 1200×670 at full size).
 - `avatar-256.webp` and `avatar-256.jpg` are the round headshot next to the name on Home (a 256×256 square crop shown as a 64px circle).
 - `shot-hey-mama-*`, `shot-tagalong-*` and `shot-campaign-lab-*` are screenshots of those three live apps on the Projects page. Each comes as 600px and 1200px WebP plus a 1200×750 JPEG fallback (16:10).
 - `photo-1200.jpg` is the 1200×800 image shown when the site is shared on social media or in messages.

@@ -79,7 +79,7 @@ section { display: flex; flex-direction: column; gap: 1.1rem; }
 .site-nav a:hover, .site-nav a[aria-current="page"] { color: var(--fg); }
 .site-nav .brand { color: var(--fg); font-weight: 600; margin-right: 0.5rem; }
 
-/* Banner: a slim strip on phones and tablets, a fixed full-height side panel on desktop */
+/* Banner: a slim strip on phones and tablets, a fixed full-height panel on the right on desktop */
 .banner { margin-bottom: 0.25rem; }
 .banner img {
   display: block;
@@ -92,9 +92,9 @@ section { display: flex; flex-direction: column; gap: 1.1rem; }
   background: var(--line);
 }
 @media (min-width: 1024px) {
-  body { padding-left: calc(var(--panel) + 2rem); padding-right: 2rem; }
+  body { padding-left: 2rem; padding-right: calc(var(--panel) + 2rem); }
   main { padding-top: 3rem; }
-  .banner { position: fixed; top: 0; bottom: 0; left: 0; width: var(--panel); margin: 0; }
+  .banner { position: fixed; top: 0; bottom: 0; right: 0; width: var(--panel); margin: 0; }
   .banner img { height: 100%; aspect-ratio: auto; object-position: 50% 50%; border-radius: 0; }
 }
 
