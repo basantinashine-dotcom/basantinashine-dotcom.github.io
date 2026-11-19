@@ -102,15 +102,16 @@
 
   /* Intro */
   .intro { gap: 1.25rem; }
-  .intro header { display: flex; flex-direction: column; gap: 0.15rem; }
+  .intro header { display: flex; align-items: center; gap: 1rem; }
+  .intro header picture { flex: none; }
+  .intro .who { display: flex; flex-direction: column; gap: 0.15rem; min-width: 0; }
   .intro p { max-width: 62ch; }
-  .photo img {
+  .avatar {
     display: block;
-    width: 100%;
-    height: auto;
-    aspect-ratio: 3 / 2;
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
     object-fit: cover;
-    border-radius: 8px;
     background: var(--line);
   }
 
@@ -237,13 +238,15 @@
 
   <section class="intro" aria-label="About">
     <header>
-      <h1>Basanti Nashine</h1>
-      <p class="muted">Head of Product at Orcana.AI · Former Principal PM-T at Amazon</p>
+      <picture>
+        <source type="image/webp" srcset="avatar-256.webp">
+        <img class="avatar" src="avatar-256.jpg" width="64" height="64" alt="Basanti Nashine">
+      </picture>
+      <div class="who">
+        <h1>Basanti Nashine</h1>
+        <p class="muted">Head of Product at Orcana.AI · Former Principal PM-T at Amazon</p>
+      </div>
     </header>
-    <picture class="photo">
-      <source type="image/webp" srcset="photo-600.webp 600w, photo-1200.webp 1200w" sizes="(max-width: 608px) calc(100vw - 32px), 576px">
-      <img src="photo-1200.jpg" width="1200" height="800" alt="Basanti Nashine smiling on a grassy hillside above a beach at sunset" fetchpriority="high">
-    </picture>
     <p>I build AI products for advertising and marketing. In nearly seven years at Amazon, I led generative ad creative, AI agents for advertisers and real-time personalization, taking several from first idea to launch.</p>
     <p>Now I lead product at Orcana.AI as its founding product manager, building AI agents for marketing analytics in commercial pharma. I started my career as a data scientist, so I measure everything I ship.</p>
   </section>
