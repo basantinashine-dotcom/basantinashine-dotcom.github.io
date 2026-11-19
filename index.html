@@ -1,0 +1,252 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Basanti Nashine</title>
+<meta name="description" content="Basanti Nashine is a product manager who learns AI by building it: agents, evals and AI safety review, shipped as small products.">
+<meta property="og:title" content="Basanti Nashine">
+<meta property="og:description" content="Product manager, AI products. What I'm building now, what I've shipped, and how I work.">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23111'/%3E%3Ctext x='16' y='22' font-family='system-ui,sans-serif' font-size='17' font-weight='600' fill='%23fff' text-anchor='middle'%3Eb%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400&display=swap">
+<style>
+  /* Layout: one narrow left-aligned reading column, monochrome, text-first. Structure carries the design. */
+  :root {
+    --bg: #ffffff;
+    --fg: #111113;
+    --muted: #6b6b73;
+    --faint: #9a9aa2;
+    --line: #e7e7ea;
+    --underline: #c9c9cf;
+    --font-sans: "Geist", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    --font-mono: "Geist Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    --text: 1rem;
+    --small: 0.875rem;
+    --tiny: 0.75rem;
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0b0b0c;
+      --fg: #ededf0;
+      --muted: #a1a1aa;
+      --faint: #74747c;
+      --line: #232327;
+      --underline: #4a4a52;
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #0b0b0c;
+    --fg: #ededf0;
+    --muted: #a1a1aa;
+    --faint: #74747c;
+    --line: #232327;
+    --underline: #4a4a52;
+    color-scheme: dark;
+  }
+
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: var(--font-sans);
+    font-size: var(--text);
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+    padding-left: max(16px, env(safe-area-inset-left, 0px));
+    padding-right: max(16px, env(safe-area-inset-right, 0px));
+  }
+
+  main {
+    max-width: 36rem;
+    margin: 0 auto;
+    padding-block: 5rem 3rem;
+    display: flex;
+    flex-direction: column;
+    gap: 3.25rem;
+  }
+  @media (max-width: 480px) {
+    main { padding-block: 2.75rem 2rem; gap: 2.75rem; }
+  }
+
+  h1, h2, p, ul, dl, dd { margin: 0; }
+  h1 { font-size: 1.125rem; font-weight: 600; letter-spacing: -0.01em; line-height: 1.3; }
+  h2 { font-size: var(--text); font-weight: 600; letter-spacing: -0.005em; text-wrap: balance; }
+  strong { font-weight: 600; }
+
+  a {
+    color: inherit;
+    text-decoration: underline;
+    text-decoration-color: var(--underline);
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+    transition: text-decoration-color 120ms ease;
+  }
+  a:hover { text-decoration-color: var(--fg); }
+  a:focus-visible { outline: 2px solid var(--fg); outline-offset: 3px; border-radius: 2px; }
+  @media (prefers-reduced-motion: reduce) { a { transition: none; } }
+
+  section { display: flex; flex-direction: column; gap: 1.1rem; }
+  .muted { color: var(--muted); }
+  .mono { font-family: var(--font-mono); font-size: var(--tiny); letter-spacing: 0.02em; }
+
+  /* Intro */
+  .intro { gap: 1.25rem; }
+  .intro header { display: flex; flex-direction: column; gap: 0.15rem; }
+  .intro p { max-width: 62ch; }
+
+  /* Product spec sheet for the current build */
+  .spec {
+    display: grid;
+    grid-template-columns: 7.5rem 1fr;
+    border-top: 1px solid var(--line);
+  }
+  .spec dt, .spec dd {
+    padding-block: 0.6rem;
+    border-bottom: 1px solid var(--line);
+  }
+  .spec dt {
+    font-family: var(--font-mono);
+    font-size: var(--tiny);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--muted);
+    padding-top: 0.85rem;
+  }
+  .spec dd { min-width: 0; }
+  @media (max-width: 480px) {
+    .spec { grid-template-columns: 1fr; }
+    .spec dt { border-bottom: 0; padding-bottom: 0; }
+    .spec dd { padding-top: 0.15rem; }
+  }
+
+  /* Project list */
+  .projects { list-style: none; padding: 0; display: flex; flex-direction: column; }
+  .project {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    padding-block: 1rem;
+    border-top: 1px solid var(--line);
+  }
+  .project:last-child { border-bottom: 1px solid var(--line); }
+  .project-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    column-gap: 1rem;
+    row-gap: 0.1rem;
+  }
+  .project-head h3 { margin: 0; font-size: var(--text); font-weight: 500; }
+  .project-head .mono { color: var(--muted); }
+  .project p { color: var(--muted); min-width: 0; }
+  .project .links { display: flex; flex-wrap: wrap; gap: 1rem; font-size: var(--small); color: var(--fg); }
+
+  /* Principles */
+  .principles { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 1rem; }
+  .principles li { display: flex; flex-direction: column; gap: 0.15rem; }
+  .principles span { color: var(--muted); }
+
+  footer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 0.75rem 1.5rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--line);
+    font-size: var(--small);
+  }
+  footer .elsewhere { display: flex; flex-wrap: wrap; gap: 1.25rem; }
+</style>
+</head>
+<body>
+<main>
+
+  <section class="intro" aria-label="About">
+    <header>
+      <h1>Basanti Nashine</h1>
+      <p class="muted">Product manager, AI products</p>
+    </header>
+    <p>I'm a product manager who works on AI products, and I learn by building. When I want to understand something, like agent loops, evals or AI safety review, I build a small product that depends on it and ship it.</p>
+    <p>Below is what I'm building now, the projects I've shipped this year, and the rules I keep coming back to.</p>
+  </section>
+
+  <section aria-labelledby="now">
+    <h2 id="now">Building now</h2>
+    <p><strong>Hey Mama</strong> sends a new mother one letter a day, written by a mother who has been there. Mothers write letters for each other, and the app matches each reader with the letter closest to what she's going through.</p>
+    <dl class="spec">
+      <dt>North star</dt>
+      <dd>Mothers feel less alone and more confident as mothers.</dd>
+      <dt>Metric</dt>
+      <dd>Mothers who open today's letter each day.</dd>
+      <dt>Matching</dt>
+      <dd>Claude picks the letter that best fits the topics she relates to. Fair rotation keeps any one letter from being overused.</dd>
+      <dt>Safety</dt>
+      <dd>AI screens every letter, then a moderator decides. Letters flagged as a crisis are never shared, and the writer is shown where to find help.</dd>
+    </dl>
+    <p><a href="https://lettersfornewmom.com">lettersfornewmom.com</a></p>
+  </section>
+
+  <section aria-labelledby="projects">
+    <h2 id="projects">Projects</h2>
+    <ul class="projects">
+      <li class="project">
+        <div class="project-head"><h3>Product Sense Mock</h3><span class="mono">Agent</span></div>
+        <p>Practice PM interviews against a Claude interviewer that scores each stage for the level you choose. The AI PM track includes a live prompt demo you narrate.</p>
+        <div class="links"><a href="https://github.com/basantinashine-dotcom/inspired-products/tree/main/agents/product-sense-mock">Source ↗</a></div>
+      </li>
+      <li class="project">
+        <div class="project-head"><h3>Decision Log</h3><span class="mono">Agent · Slack app</span></div>
+        <p>Reads meeting notes and answers "why did we decide this?" Every fact has to quote the note it came from, and private notes stay out of anything you share.</p>
+        <div class="links"><a href="https://github.com/basantinashine-dotcom/inspired-products/tree/main/agents/decision-log">Source ↗</a></div>
+      </li>
+      <li class="project">
+        <div class="project-head"><h3>Prompt Quest</h3><span class="mono">Web app</span></div>
+        <p>Helps first-time builders describe an app in five parts (goal, input, layout, features, output), then turns that into a ChatGPT prompt and a working HTML app.</p>
+        <div class="links"><a href="https://prompt-quest-first-app.basanti-nashine.chatgpt.site/">Try it ↗</a><a href="https://github.com/basantinashine-dotcom/prompt-quest">Source ↗</a></div>
+      </li>
+      <li class="project">
+        <div class="project-head"><h3>Campaign Lab</h3><span class="mono">Web app</span></div>
+        <p>A practice run for a small shop's first Instagram ads. Change one thing, rerun seven simulated days, and see exactly why the result moved.</p>
+        <div class="links"><a href="https://campaign-lab-instagram.basanti-nashine.chatgpt.site">Try it ↗</a><a href="https://github.com/basantinashine-dotcom/inspired-products/tree/main/apps/campaign-lab">Source ↗</a></div>
+      </li>
+      <li class="project">
+        <div class="project-head"><h3>AdCanvas Creative Studio</h3><span class="mono">Web app</span></div>
+        <p>Generates ad scenes from product photos, compares each one with the original, and exports only the images a person approved.</p>
+        <div class="links"><a href="https://github.com/basantinashine-dotcom/inspired-products/tree/main/apps/adcanvas-creative-studio">Source ↗</a></div>
+      </li>
+      <li class="project">
+        <div class="project-head"><h3>LinkedIn Post Coach</h3><span class="mono">Prompt pack</span></div>
+        <p>A reviewer that suggests up to three changes to a LinkedIn draft, keeps the writer's voice, and flags claims that need evidence.</p>
+        <div class="links"><a href="https://github.com/basantinashine-dotcom/inspired-products/tree/main/agents/linkedin-post-coach">Source ↗</a></div>
+      </li>
+    </ul>
+  </section>
+
+  <section aria-labelledby="how">
+    <h2 id="how">How I work</h2>
+    <ul class="principles">
+      <li><strong>AI advises, people decide.</strong><span>In Hey Mama the AI check is a note on the moderator's desk, never the final call. In AdCanvas nothing downloads until a person approves it.</span></li>
+      <li><strong>Every claim needs a source.</strong><span>Decision Log throws out any fact that can't quote its note. Post Coach asks the writer for proof instead of inventing it.</span></li>
+      <li><strong>Build it without the model first.</strong><span>Product Sense Mock and Decision Log both run on plain rules with no API key, so you can see exactly what the model adds.</span></li>
+      <li><strong>Write down the limits.</strong><span>Each project says what it doesn't do. Campaign Lab's numbers are teaching assumptions, and the app tells you so.</span></li>
+    </ul>
+  </section>
+
+  <footer>
+    <div class="elsewhere">
+      <a href="https://github.com/basantinashine-dotcom">GitHub ↗</a>
+    </div>
+    <span class="muted">© 2026 Basanti Nashine</span>
+  </footer>
+
+</main>
+</body>
+</html>
