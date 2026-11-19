@@ -6,7 +6,7 @@
   --muted: #6b655b;
   --line: #ebe4d4;
   --underline: #cdc3ae;
-  --panel: min(38vw, 560px);
+  --panel: min(26vw, 380px);
   --font-sans: "Geist", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   --font-mono: "Geist Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
   --text: 1rem;
