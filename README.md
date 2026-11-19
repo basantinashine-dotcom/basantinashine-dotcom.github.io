@@ -6,7 +6,7 @@ The site is three static pages with one shared stylesheet, no build step and no 
 
 | Page | File | What's on it |
 |---|---|---|
-| Home | `index.html` | Round photo, headline, the $975M proof line, intro, one-line lists of Selected work and Personal projects, Background, Get in touch |
+| Home | `index.html` | Round photo, headline, the CTR proof line, intro, one-line lists of Selected work and Personal projects, Background, Get in touch |
 | Work | `work/index.html` | The four Selected work stories, each with an anchor (`#search-ads`, `#personalization`, `#advertiser-agents`, `#next-best-engagement`) |
 | Projects | `projects/index.html` | Hey Mama with its spec sheet, then Tagalong, Decision Log, Campaign Lab and AdCanvas (`#hey-mama`, `#tagalong`, `#decision-log`, `#campaign-lab`, `#adcanvas`) |
 
