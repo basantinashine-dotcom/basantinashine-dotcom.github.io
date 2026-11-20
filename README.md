@@ -17,12 +17,12 @@ Home uses Geist for text and Newsreader, a serif, only for the name in the hero.
 
 ## Images
 
-- The sculpture artwork is a thin full-width band at the top of Home, above the name, on every screen size, as decoration (empty alt text). `band-2000.webp`, `band-1000.webp` and `band-1000.jpg` are a 5:1 slice of the original artwork centered on the crystal; the page shows it at 6:1 on wider screens and 4:1 on phones.
+- The sculpture artwork is a thin full-width band at the top of Home, above the name, on every screen size, as decoration (empty alt text). `band-2000.webp`, `band-1000.webp` and `band-1000.jpg` are a 5:1 slice of the original artwork centered on the crystal; the page shows it as a thin strip, 9:1 on wider screens and 11:2 on phones.
 - The Home project cards reuse the Projects page screenshots and the AdCanvas demo still.
-- `avatar-256.webp` and `avatar-256.jpg` are the round headshot next to the name on Home (a 256×256 square crop shown as a 64px circle).
+- `avatar-256.webp` and `avatar-256.jpg` are the round headshot next to the name on Home (a 256×256 square crop shown as a 96px circle, 88px on phones).
 - `shot-hey-mama-*`, `shot-tagalong-*` and `shot-campaign-lab-*` are screenshots of those three live apps on the Projects page. Each comes as 600px and 1200px WebP plus a 1200×750 JPEG fallback (16:10).
 - `threads-agent-demo.gif` is the looping three-step demo (Draft, Approve, Post) on the Agents page, 1152×720, built from illustrative slides with sample data. Visitors whose device asks for reduced motion see `threads-agent-demo-still.webp`, the first slide, instead.
-- `decision-log-demo.gif` (Read, Ask why, Share) and `adcanvas-demo.gif` (Generate, Check, Approve) are the same kind of three-step demo on the Projects page, each with a `-still.webp` for reduced motion. Decision Log uses the sample note from its README; AdCanvas uses the app's real theme names, sizes and review labels with drawn product images.
+- `decision-log-demo.gif` (Read, Ask why, Share) and `adcanvas-demo.gif` (Generate, Check, Approve) are the same kind of three-step demo, on the Agents and Projects pages respectively, each with a `-still.webp` for reduced motion. Decision Log uses the sample note from its README; AdCanvas uses the app's real theme names, sizes and review labels with drawn product images.
 - `photo-1200.jpg` is the 1200×800 image shown when the site is shared on social media or in messages.
 
 ## Publish with GitHub Pages
