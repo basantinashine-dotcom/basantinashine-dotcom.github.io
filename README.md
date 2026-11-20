@@ -2,15 +2,16 @@
 
 The personal website of Basanti Nashine, Head of Product at Orcana.AI and former Principal PM-T at Amazon.
 
-The site is three static pages with one shared stylesheet, no build step and no dependencies. It uses the Geist fonts from Google Fonts and a cream color scheme for every visitor (there is no dark mode).
+The site is four static pages with one shared stylesheet, no build step and no dependencies. It uses the Geist fonts from Google Fonts and a cream color scheme for every visitor (there is no dark mode).
 
 | Page | File | What's on it |
 |---|---|---|
 | Home | `index.html` | Round photo, headline, the CTR proof line, intro, one-line lists of Selected work and Personal projects, Background, Get in touch |
 | Work | `work/index.html` | The four Selected work stories, each with an anchor (`#search-ads`, `#personalization`, `#advertiser-agents`, `#next-best-engagement`) |
 | Projects | `projects/index.html` | Hey Mama with its spec sheet, then Tagalong, Decision Log, Campaign Lab and AdCanvas (`#hey-mama`, `#tagalong`, `#decision-log`, `#campaign-lab`, `#adcanvas`) |
+| Agents | `agents/index.html` | AI agents, starting with the Threads Agent (`#threads-agent`) |
 
-`style.css` holds every style. The colors are set once at the top. Each page links it as `style.css?v=…`: when you change `style.css`, change that version (for example, to today's date) in all three pages, so browsers fetch the new styles instead of reusing a saved copy.
+`style.css` holds every style. The colors are set once at the top. Each page links it as `style.css?v=…`: when you change `style.css`, change that version (for example, to today's date) in every page, so browsers fetch the new styles instead of reusing a saved copy.
 
 ## Images
 
