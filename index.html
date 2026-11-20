@@ -15,7 +15,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400&display=swap">
-<link rel="stylesheet" href="style.css?v=2026-11-20">
+<link rel="stylesheet" href="style.css?v=2026-11-20b">
 </head>
 <body>
 <main>
@@ -69,12 +69,32 @@
 
   <section aria-labelledby="projects">
     <h2 id="projects">Personal projects</h2>
-    <ul class="list">
-      <li><a href="projects/#hey-mama">Hey Mama</a><span class="muted">, one letter a day for new mothers, written by mothers</span><span class="mono">building now</span></li>
-      <li><a href="projects/#tagalong">Tagalong</a><span class="muted">, small vetted pods so women never walk into an event alone</span></li>
-      <li><a href="projects/#decision-log">Decision Log</a><span class="muted">, answers “why did we decide this?” from meeting notes</span></li>
-      <li><a href="projects/#campaign-lab">Campaign Lab</a><span class="muted">, a practice run for a small shop’s first Instagram ads</span></li>
-      <li><a href="projects/#adcanvas">AdCanvas Creative Studio</a><span class="muted">, ad scenes from product photos, exported only once a person approves</span></li>
+    <ul class="projlist">
+      <li>
+        <div class="proj-head"><a href="projects/#hey-mama">Hey Mama</a><span class="mono">building now</span></div>
+        <p><span class="tag">Problem</span>New mothers often feel alone and unsure of themselves. Hey Mama sends one letter a day, written by a mother who’s been there and matched to what the reader is going through.</p>
+        <p class="stack"><span class="tag">Stack</span>Claude (letter matching) · Vite web app</p>
+      </li>
+      <li>
+        <div class="proj-head"><a href="projects/#tagalong">Tagalong</a><span class="mono">hackathon</span></div>
+        <p><span class="tag">Problem</span>Women skip events because they don’t want to walk in alone. Tagalong matches them into small, vetted pods with an AI host that plans the meetup.</p>
+        <p class="stack"><span class="tag">Stack</span>Lovable · Vite web app</p>
+      </li>
+      <li>
+        <div class="proj-head"><a href="projects/#decision-log">Decision Log</a><span class="mono">agent</span></div>
+        <p><span class="tag">Problem</span>Teams forget why they made a decision, so they relitigate settled questions or quietly reverse them. Decision Log keeps each decision with its reason and the note it came from.</p>
+        <p class="stack"><span class="tag">Stack</span>Python · Claude API · Slack app: React, Express, Slack Socket Mode, PostgreSQL</p>
+      </li>
+      <li>
+        <div class="proj-head"><a href="projects/#campaign-lab">Campaign Lab</a><span class="mono">web app</span></div>
+        <p><span class="tag">Problem</span>Small-shop owners learn paid ads by spending real money. Campaign Lab lets them practice a first Instagram campaign on seven simulated days and see why results moved.</p>
+        <p class="stack"><span class="tag">Stack</span>HTML · CSS · JavaScript, no dependencies or server · Node tests</p>
+      </li>
+      <li>
+        <div class="proj-head"><a href="projects/#adcanvas">AdCanvas Creative Studio</a><span class="mono">web app</span></div>
+        <p><span class="tag">Problem</span>Product ads need fresh scenes, but AI image tools can quietly change the product itself. AdCanvas checks each scene against the original and exports only what a person approves.</p>
+        <p class="stack"><span class="tag">Stack</span>React · TypeScript · Vinext · Cloudflare D1 &amp; R2 · Drizzle · OpenAI image API</p>
+      </li>
     </ul>
   </section>
 

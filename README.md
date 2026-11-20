@@ -6,7 +6,7 @@ The site is four static pages with one shared stylesheet, no build step and no d
 
 | Page | File | What's on it |
 |---|---|---|
-| Home | `index.html` | Round photo, headline, the CTR proof line, intro, one-line lists of Selected work and Personal projects, Background, Get in touch |
+| Home | `index.html` | Round photo, headline, the CTR proof line, intro, a one-line list of Selected work, Personal projects (each with the customer problem it solves and its tech stack), Background, Get in touch |
 | Work | `work/index.html` | The four Selected work stories, each with an anchor (`#search-ads`, `#personalization`, `#advertiser-agents`, `#next-best-engagement`) |
 | Projects | `projects/index.html` | Hey Mama with its spec sheet, then Tagalong, Decision Log, Campaign Lab and AdCanvas (`#hey-mama`, `#tagalong`, `#decision-log`, `#campaign-lab`, `#adcanvas`) |
 | Agents | `agents/index.html` | AI agents, starting with the Threads Agent (`#threads-agent`) |
