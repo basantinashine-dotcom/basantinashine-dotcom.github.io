@@ -15,7 +15,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400&family=Newsreader:opsz,wght@6..72,500&display=swap">
-<link rel="stylesheet" href="style.css?v=2026-11-21d">
+<link rel="stylesheet" href="style.css?v=2026-11-21e">
 </head>
 <body>
 <main class="home">
@@ -29,6 +29,10 @@
   </nav>
 
   <section class="hero" aria-label="Introduction">
+    <picture class="band">
+      <source type="image/webp" srcset="band-1000.webp 1000w, band-2000.webp 2000w" sizes="(max-width: 1120px) calc(100vw - 32px), 1088px">
+      <img src="band-1000.jpg" width="1000" height="200" alt="">
+    </picture>
     <div class="hero-text">
       <header>
         <picture>
@@ -43,11 +47,6 @@
       <p class="lede">I build AI agents and platforms for advertising, personalization, and analytics.</p>
       <p class="proof">At Amazon, I led a generative AI ad platform that improved CTR by <strong>11.75%</strong> (the biggest improvement any one product had driven).</p>
     </div>
-    <picture class="hero-art">
-      <source media="(min-width: 900px)" type="image/webp" srcset="banner-tall.webp">
-      <source type="image/webp" srcset="banner-600.webp 600w, banner-1200.webp 1200w" sizes="(max-width: 608px) calc(100vw - 32px), 640px">
-      <img src="banner-1200.jpg" width="1200" height="670" alt="">
-    </picture>
   </section>
 
   <section class="bio measure" aria-label="About">

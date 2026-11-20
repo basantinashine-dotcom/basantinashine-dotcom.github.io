@@ -6,7 +6,7 @@ The site is four static pages with one shared stylesheet, no build step and no d
 
 | Page | File | What's on it |
 |---|---|---|
-| Home | `index.html` | A wider page with narrow text: the hero (name, headline, CTR proof line, a "View my work" button, LinkedIn, and the artwork), the bio, Selected work as rows with outcomes, Personal projects as screenshot cards, short Agents previews, Background, Get in touch |
+| Home | `index.html` | A wider page with narrow text: the hero (a thin artwork band, then name, headline and CTR proof line), the bio, Selected work as rows with outcomes, Personal projects as screenshot cards, short Agents previews, Background, Get in touch |
 | Work | `work/index.html` | The four Selected work stories, each with an anchor (`#search-ads`, `#personalization`, `#advertiser-agents`, `#next-best-engagement`) |
 | Projects | `projects/index.html` | Apps, each with Problem, Solution and Stack: AdCanvas, Hey Mama (with its spec sheet), Tagalong and Campaign Lab (`#adcanvas`, `#hey-mama`, `#tagalong`, `#campaign-lab`) |
 | Agents | `agents/index.html` | AI agents, each with Problem, Solution and Stack: the Threads Agent (`#threads-agent`), Decision Log (`#decision-log`) and the Eval Agent (`#eval-agent`, in planning) |
@@ -17,7 +17,7 @@ Home uses Geist for text and Newsreader, a serif, only for the name in the hero.
 
 ## Images
 
-- The sculpture artwork appears only in the Home hero, as decoration (empty alt text): beside the headline on screens 900px and wider (`banner-tall.webp`, a 1000×1116 crop centered on the crystal), and as a wide strip below the buttons on smaller screens (`banner-600.webp`, `banner-1200.webp` and `banner-1200.jpg`, 1200×670 at full size).
+- The sculpture artwork is a thin full-width band at the top of Home, above the name, on every screen size, as decoration (empty alt text). `band-2000.webp`, `band-1000.webp` and `band-1000.jpg` are a 5:1 slice of the original artwork centered on the crystal; the page shows it at 6:1 on wider screens and 4:1 on phones.
 - The Home project cards reuse the Projects page screenshots and the AdCanvas demo still.
 - `avatar-256.webp` and `avatar-256.jpg` are the round headshot next to the name on Home (a 256×256 square crop shown as a 64px circle).
 - `shot-hey-mama-*`, `shot-tagalong-*` and `shot-campaign-lab-*` are screenshots of those three live apps on the Projects page. Each comes as 600px and 1200px WebP plus a 1200×750 JPEG fallback (16:10).
