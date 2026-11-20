@@ -46,11 +46,11 @@ main {
 }
 
 /* Home: a wider page with comfortably narrow text */
-main.home { max-width: 68rem; gap: 5.5rem; }
-@media (max-width: 480px) { main.home { gap: 4rem; } }
+main.home { max-width: 68rem; gap: 3.5rem; }
+@media (max-width: 480px) { main.home { gap: 2.75rem; } }
 /* The bio continues the introduction, so it sits close to the hero */
-.hero + .bio { margin-top: -3.5rem; }
-@media (max-width: 480px) { .hero + .bio { margin-top: -2.25rem; } }
+.hero + .bio { margin-top: -1.5rem; }
+@media (max-width: 480px) { .hero + .bio { margin-top: -1rem; } }
 .measure { max-width: 40rem; }
 
 h1, h2, h3, p, ul, dl, dd { margin: 0; }
@@ -102,8 +102,8 @@ section { display: flex; flex-direction: column; gap: 1.1rem; }
 .site-nav .nav-ext { margin-left: auto; }
 @media (max-width: 600px) { .site-nav .nav-ext { display: none; } }
 
-.home .site-nav { margin-bottom: -3.5rem; }
-@media (max-width: 480px) { .home .site-nav { margin-bottom: -2rem; } }
+.home .site-nav { margin-bottom: -1.5rem; }
+@media (max-width: 480px) { .home .site-nav { margin-bottom: -0.75rem; } }
 
 /* Home hero: a thin artwork band across the top, then name, headline and proof */
 .hero { display: flex; flex-direction: column; gap: 2.5rem; }
