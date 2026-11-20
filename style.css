@@ -48,6 +48,9 @@ main {
 /* Home: a wider page with comfortably narrow text */
 main.home { max-width: 68rem; gap: 5.5rem; }
 @media (max-width: 480px) { main.home { gap: 4rem; } }
+/* The bio continues the introduction, so it sits close to the hero */
+.hero + .bio { margin-top: -3.5rem; }
+@media (max-width: 480px) { .hero + .bio { margin-top: -2.25rem; } }
 .measure { max-width: 40rem; }
 
 h1, h2, h3, p, ul, dl, dd { margin: 0; }
