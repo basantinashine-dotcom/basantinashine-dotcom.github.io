@@ -6,6 +6,7 @@
   --muted: #6b655b;
   --line: #ebe4d4;
   --underline: #cdc3ae;
+  --heading: #7b1e2e;
   --panel: min(26vw, 380px);
   --font-sans: "Geist", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   --font-mono: "Geist Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
@@ -45,6 +46,8 @@ main {
 h1, h2, h3, p, ul, dl, dd { margin: 0; }
 h1 { font-size: 1.125rem; font-weight: 600; letter-spacing: -0.01em; line-height: 1.3; }
 h2 { font-size: var(--text); font-weight: 600; letter-spacing: -0.005em; text-wrap: balance; }
+/* Section headings on Home and page titles on Work, Projects and Agents are maroon */
+section > h2, .page-head h1 { color: var(--heading); }
 h3 { font-size: var(--text); font-weight: 500; }
 strong { font-weight: 600; }
 p { text-wrap: pretty; }
