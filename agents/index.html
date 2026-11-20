@@ -15,7 +15,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400&display=swap">
-<link rel="stylesheet" href="../style.css?v=2026-11-20d">
+<link rel="stylesheet" href="../style.css?v=2026-11-20e">
 </head>
 <body>
 <main>
@@ -46,13 +46,35 @@
         <figcaption class="mono">Demo with sample data: draft, approve, post</figcaption>
       </figure>
       <div class="entry-head"><h2>Threads Agent</h2><span class="mono">Agent · Personal</span></div>
-      <p>Helps me grow conversations on Threads from my own account. Claude drafts short posts in my voice that invite people to reply, collects the comments on my recent posts, and drafts a warm reply to each one. Nothing is published until I approve it.</p>
+      <div class="facts">
+        <p><span class="tag">Problem</span>Keeping conversations going on Threads takes daily posts and replies that are hard to keep up with.</p>
+        <p><span class="tag">Solution</span>Helps me grow conversations on Threads from my own account. Claude drafts short posts in my voice that invite people to reply, collects the comments on my recent posts, and drafts a warm reply to each one. Nothing is published until I approve it.</p>
+        <p class="stack"><span class="tag">Stack</span>Python&nbsp;· Claude&nbsp;API&nbsp;· Threads&nbsp;API&nbsp;· SQLite</p>
+      </div>
       <p>The guardrails live in code, not just in the prompt:</p>
       <ul class="points">
         <li>At most 10 replies and 3 new posts a day, at least 5 minutes apart. Spam and bots are never answered.</li>
         <li>It only states facts about me that I’ve listed, and flags any personal claim for me to check.</li>
       </ul>
       <div class="links"><a href="https://github.com/basantinashine-dotcom/marketingagentthreads">Source ↗</a></div>
+    </article>
+
+    <article class="entry" id="eval-agent">
+      <div class="entry-head"><h2>Eval Agent</h2><span class="mono">Agent · Planning</span></div>
+      <div class="facts">
+        <p><span class="tag">Problem</span>People building tool-using agents know they need evals and rarely have good ones. Existing tools run test cases and draw dashboards, but leave the hard parts to you: what to measure, how to test safely when tools act in the real world, and whether the eval would catch a regression.</p>
+        <p><span class="tag">Solution</span>Give it your agent’s repo. It runs your agent, writes an eval plan anyone can understand, gets your approval, builds the eval, proves the eval works, and runs it.</p>
+        <p class="stack"><span class="tag">Stack</span>Python&nbsp;· Claude&nbsp;Agent&nbsp;SDK</p>
+      </div>
+      <p>How it works:</p>
+      <ul class="points">
+        <li>Builds first, then looks: runs the agent on realistic tasks with risky tools swapped for fakes, and reads every step of every trace.</li>
+        <li>Turns objective rules into code checks, and subjective ones into yes/no LLM judges calibrated to about 20 of your labels.</li>
+        <li>Tests the eval itself before running it, so you know it catches real problems.</li>
+        <li>Nothing is built until you approve the plan, written simply enough for a <span class="nowrap">15-year-old</span> to follow.</li>
+      </ul>
+      <p class="muted">Status: planning. The product requirements are written; nothing is built yet.</p>
+      <div class="links"><a href="https://github.com/basantinashine-dotcom/eval-agent/blob/main/docs/prd.md">PRD ↗</a><a href="https://github.com/basantinashine-dotcom/eval-agent">Source ↗</a></div>
     </article>
   </div>
 

@@ -9,7 +9,7 @@ The site is four static pages with one shared stylesheet, no build step and no d
 | Home | `index.html` | Round photo, headline, the CTR proof line, intro, a one-line list of Selected work, Personal projects and Agents (each with Problem, Solution and Stack), Background, Get in touch |
 | Work | `work/index.html` | The four Selected work stories, each with an anchor (`#search-ads`, `#personalization`, `#advertiser-agents`, `#next-best-engagement`) |
 | Projects | `projects/index.html` | Hey Mama with its spec sheet, then Tagalong, Decision Log, Campaign Lab and AdCanvas (`#hey-mama`, `#tagalong`, `#decision-log`, `#campaign-lab`, `#adcanvas`) |
-| Agents | `agents/index.html` | AI agents, starting with the Threads Agent (`#threads-agent`) |
+| Agents | `agents/index.html` | AI agents, each with Problem, Solution and Stack: the Threads Agent (`#threads-agent`) and the Eval Agent (`#eval-agent`, in planning) |
 
 `style.css` holds every style. The colors are set once at the top. Each page links it as `style.css?v=…`: when you change `style.css`, change that version (for example, to today's date) in every page, so browsers fetch the new styles instead of reusing a saved copy.
 
