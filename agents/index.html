@@ -15,7 +15,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400&display=swap">
-<link rel="stylesheet" href="../style.css?v=2026-11-19">
+<link rel="stylesheet" href="../style.css?v=2026-11-20">
 </head>
 <body>
 <main>
@@ -38,6 +38,13 @@
 
   <div class="entries">
     <article class="entry" id="threads-agent">
+      <figure class="demo">
+        <picture>
+          <source media="(prefers-reduced-motion: reduce)" srcset="../threads-agent-demo-still.webp">
+          <img src="../threads-agent-demo.gif" width="1152" height="720" alt="Three-step demo of the Threads Agent with sample data. 1, Draft: it collects comments on my posts, drafts a reply to each, skips spam and drafts a new post. 2, Approve: I review each draft and approve, edit or skip it. 3, Post: approved drafts go out at least 5 minutes apart, within the daily caps.">
+        </picture>
+        <figcaption class="mono">Demo with sample data: draft, approve, post</figcaption>
+      </figure>
       <div class="entry-head"><h2>Threads Agent</h2><span class="mono">Agent · Personal</span></div>
       <p>Helps me grow conversations on Threads from my own account. Claude drafts short posts in my voice that invite people to reply, collects the comments on my recent posts, and drafts a warm reply to each one. Nothing is published until I approve it.</p>
       <p>The guardrails live in code, not just in the prompt:</p>

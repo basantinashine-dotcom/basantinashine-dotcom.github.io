@@ -159,6 +159,11 @@ section { display: flex; flex-direction: column; gap: 1.1rem; }
 .shot img { display: block; width: 100%; height: auto; aspect-ratio: 16 / 10; object-fit: cover; object-position: top; }
 .shot:focus-visible { outline: 2px solid var(--fg); outline-offset: 3px; }
 
+/* Animated agent demos */
+.demo { margin: 0 0 0.35rem; display: flex; flex-direction: column; gap: 0.4rem; }
+.demo img { display: block; width: 100%; height: auto; aspect-ratio: 16 / 10; border-radius: 8px; background: var(--fg); }
+.demo figcaption { color: var(--muted); }
+
 /* Hey Mama spec sheet: the one place lines still help */
 .spec {
   display: grid;
