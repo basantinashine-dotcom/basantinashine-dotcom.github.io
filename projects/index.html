@@ -15,7 +15,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400&display=swap">
-<link rel="stylesheet" href="../style.css?v=2026-11-20e">
+<link rel="stylesheet" href="../style.css?v=2026-11-21b">
 </head>
 <body>
 <main>
@@ -28,16 +28,28 @@
   </nav>
 
   <section class="page-head" aria-labelledby="page-title">
-    <picture class="banner">
-      <source media="(min-width: 1024px)" type="image/webp" srcset="../banner-tall.webp">
-      <source type="image/webp" srcset="../banner-600.webp 600w, ../banner-1200.webp 1200w" sizes="(max-width: 608px) calc(100vw - 32px), 576px">
-      <img src="../banner-1200.jpg" width="1200" height="670" alt="Five sculptures, a blue ribbon, a glass sphere, a chrome ring, a folded paper star and a lavender branching form, linked by fine threads to a glowing amber crystal">
-    </picture>
     <h1 id="page-title">Personal projects</h1>
-    <p class="muted">Outside work, I learn by building. When I want to understand something new, like agent loops, evals or AI safety review, I build a small product that depends on it and ship it.</p>
+    <p class="muted">Outside work, I learn by building. When I want to understand something new, like agent loops, evals or AI safety review, I build a small product that depends on it and ship it. Apps live here; <a href="../agents/">agents</a>, which read, decide and act on their own, have their own page.</p>
   </section>
 
   <div class="entries">
+    <article class="entry" id="adcanvas">
+      <figure class="demo">
+        <picture>
+          <source media="(prefers-reduced-motion: reduce)" srcset="../adcanvas-demo-still.webp">
+          <img src="../adcanvas-demo.gif" width="1152" height="720" loading="lazy" alt="Three-step illustrated demo of AdCanvas Creative Studio with sample data. 1, Generate: a candle product photo with a theme such as Premium studio and a size such as Square 1:1. 2, Check: an automated review compares a generated scene with the original and marks it Needs review because the product label has changed. 3, Approve: two approved scenes can be downloaded; the rejected one stays locked.">
+        </picture>
+        <figcaption class="mono">Illustrated demo with sample data: generate, check, approve</figcaption>
+      </figure>
+      <div class="entry-head"><h2>AdCanvas Creative Studio</h2><span class="mono">Web app</span></div>
+      <div class="facts">
+        <p><span class="tag">Problem</span>Product ads need fresh scenes, but AI image tools can quietly change the product itself.</p>
+        <p><span class="tag">Solution</span>Generates ad scenes from product photos, compares each one with the original, and exports only the images a person approved.</p>
+        <p class="stack"><span class="tag">Stack</span>React&nbsp;· TypeScript&nbsp;· Cloudflare&nbsp;D1&nbsp;&amp;&nbsp;R2&nbsp;· OpenAI&nbsp;image&nbsp;API</p>
+      </div>
+      <div class="links"><a href="https://github.com/basantinashine-dotcom/inspired-products/tree/main/apps/adcanvas-creative-studio">Source ↗</a></div>
+    </article>
+
     <article class="entry" id="hey-mama">
       <a class="shot" href="https://lettersfornewmom.com">
         <picture>
@@ -46,7 +58,11 @@
         </picture>
       </a>
       <div class="entry-head"><h2>Hey Mama</h2><span class="mono">Building now</span></div>
-      <p>Hey Mama sends a new mother one letter a day, written by a mother who has been there. Mothers write letters for each other, and the app matches each reader with the letter closest to what she’s going through.</p>
+      <div class="facts">
+        <p><span class="tag">Problem</span>New mothers often feel alone and unsure of themselves.</p>
+        <p><span class="tag">Solution</span>Hey Mama sends a new mother one letter a day, written by a mother who has been there. Mothers write letters for each other, and the app matches each reader with the letter closest to what she’s going through.</p>
+        <p class="stack"><span class="tag">Stack</span>React&nbsp;· TanStack&nbsp;Start&nbsp;· TypeScript&nbsp;· Tailwind&nbsp;CSS&nbsp;· Lovable&nbsp;Cloud&nbsp;· Web&nbsp;push&nbsp;· PWA</p>
+      </div>
       <dl class="spec">
         <dt>North star</dt>
         <dd>Mothers feel less alone and more confident as mothers.</dd>
@@ -68,21 +84,12 @@
         </picture>
       </a>
       <div class="entry-head"><h2>Tagalong</h2><span class="mono">Web app · Hackathon</span></div>
-      <p>Matches women going to the same event in SF or NYC into small, vetted pods so nobody has to walk in alone. An AI host in the pod’s group text explains why they matched, sends the meetup plan, and checks that everyone got home. Built for the She Builds hackathon from a PRD I wrote.</p>
+      <div class="facts">
+        <p><span class="tag">Problem</span>Women skip events because they don’t want to walk in alone.</p>
+        <p><span class="tag">Solution</span>Matches women going to the same event in SF or NYC into small, vetted pods so nobody has to walk in alone. An AI host in the pod’s group text explains why they matched, sends the meetup plan, and checks that everyone got home. Built for the She Builds hackathon from a PRD I wrote.</p>
+        <p class="stack"><span class="tag">Stack</span>Lovable&nbsp;· Vite</p>
+      </div>
       <div class="links"><a href="https://tagalongwithmeapp.lovable.app/">Try it ↗</a></div>
-    </article>
-
-    <article class="entry" id="decision-log">
-      <figure class="demo">
-        <picture>
-          <source media="(prefers-reduced-motion: reduce)" srcset="../decision-log-demo-still.webp">
-          <img src="../decision-log-demo.gif" width="1152" height="720" loading="lazy" alt="Three-step demo of Decision Log with sample data. 1, Read: a meeting note becomes the decision “Keep guest checkout,” with its reason, owner and the decision it reversed, and the quote is checked against the note. 2, Ask why: asked “Why do we have guest checkout?”, it answers with the reason and cites its sources. 3, Share: it drafts an explanation for the team, holds back a private fact and checks the draft for leaks.">
-        </picture>
-        <figcaption class="mono">Demo with sample data: read, ask why, share</figcaption>
-      </figure>
-      <div class="entry-head"><h2>Decision Log</h2><span class="mono">Agent · Slack app</span></div>
-      <p>Reads meeting notes and answers “why did we decide this?” Every fact has to quote the note it came from, and private notes stay out of anything you share.</p>
-      <div class="links"><a href="https://github.com/basantinashine-dotcom/inspired-products/tree/main/agents/decision-log">Source ↗</a></div>
     </article>
 
     <article class="entry" id="campaign-lab">
@@ -93,21 +100,12 @@
         </picture>
       </a>
       <div class="entry-head"><h2>Campaign Lab</h2><span class="mono">Web app</span></div>
-      <p>A practice run for a small shop’s first Instagram ads. Change one thing, rerun seven simulated days, and see exactly why the result moved.</p>
+      <div class="facts">
+        <p><span class="tag">Problem</span>Small-shop owners learn paid ads by spending real money.</p>
+        <p><span class="tag">Solution</span>A practice run for a small shop’s first Instagram ads. Change one thing, rerun seven simulated days, and see exactly why the result moved.</p>
+        <p class="stack"><span class="tag">Stack</span>HTML&nbsp;· CSS&nbsp;· JavaScript</p>
+      </div>
       <div class="links"><a href="https://campaign-lab-instagram.basanti-nashine.chatgpt.site">Try it ↗</a><a href="https://github.com/basantinashine-dotcom/inspired-products/tree/main/apps/campaign-lab">Source ↗</a></div>
-    </article>
-
-    <article class="entry" id="adcanvas">
-      <figure class="demo">
-        <picture>
-          <source media="(prefers-reduced-motion: reduce)" srcset="../adcanvas-demo-still.webp">
-          <img src="../adcanvas-demo.gif" width="1152" height="720" loading="lazy" alt="Three-step illustrated demo of AdCanvas Creative Studio with sample data. 1, Generate: a candle product photo with a theme such as Premium studio and a size such as Square 1:1. 2, Check: an automated review compares a generated scene with the original and marks it Needs review because the product label has changed. 3, Approve: two approved scenes can be downloaded; the rejected one stays locked.">
-        </picture>
-        <figcaption class="mono">Illustrated demo with sample data: generate, check, approve</figcaption>
-      </figure>
-      <div class="entry-head"><h2>AdCanvas Creative Studio</h2><span class="mono">Web app</span></div>
-      <p>Generates ad scenes from product photos, compares each one with the original, and exports only the images a person approved.</p>
-      <div class="links"><a href="https://github.com/basantinashine-dotcom/inspired-products/tree/main/apps/adcanvas-creative-studio">Source ↗</a></div>
     </article>
   </div>
 

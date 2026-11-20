@@ -14,11 +14,11 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%231c1a16'/%3E%3Ctext x='16' y='22' font-family='system-ui,sans-serif' font-size='17' font-weight='600' fill='%23fcf9f0' text-anchor='middle'%3Eb%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400&display=swap">
-<link rel="stylesheet" href="style.css?v=2026-11-20e">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400&family=Newsreader:opsz,wght@6..72,500&display=swap">
+<link rel="stylesheet" href="style.css?v=2026-11-21b">
 </head>
 <body>
-<main>
+<main class="home">
 
   <nav class="site-nav" aria-label="Site">
     <a class="brand" href="./" aria-current="page">Basanti Nashine</a>
@@ -27,24 +27,30 @@
     <a href="agents/">Agents</a>
   </nav>
 
-  <section class="intro" aria-label="About">
-    <picture class="banner">
-      <source media="(min-width: 1024px)" type="image/webp" srcset="banner-tall.webp">
-      <source type="image/webp" srcset="banner-600.webp 600w, banner-1200.webp 1200w" sizes="(max-width: 608px) calc(100vw - 32px), 576px">
-      <img src="banner-1200.jpg" width="1200" height="670" fetchpriority="high" alt="Five sculptures, a blue ribbon, a glass sphere, a chrome ring, a folded paper star and a lavender branching form, linked by fine threads to a glowing amber crystal">
+  <section class="hero" aria-label="Introduction">
+    <div class="hero-text">
+      <header>
+        <picture>
+          <source type="image/webp" srcset="avatar-256.webp">
+          <img class="avatar" src="avatar-256.jpg" width="96" height="96" alt="Basanti Nashine">
+        </picture>
+        <div class="who">
+          <h1>Basanti Nashine</h1>
+          <p class="muted">Head of Product at Orcana.AI, previously Amazon</p>
+        </div>
+      </header>
+      <p class="lede">I build AI agents and platforms for advertising, personalization, and analytics.</p>
+      <p class="proof">At Amazon, I led a generative AI ad platform that improved CTR by <strong>11.75%</strong> (the biggest improvement any one product had driven).</p>
+      <p class="cta"><a class="btn" href="work/">View my work</a><a class="quiet" href="https://www.linkedin.com/in/basanti-nashine-b7751aa2/">Connect on LinkedIn ↗</a></p>
+    </div>
+    <picture class="hero-art">
+      <source media="(min-width: 900px)" type="image/webp" srcset="banner-tall.webp">
+      <source type="image/webp" srcset="banner-600.webp 600w, banner-1200.webp 1200w" sizes="(max-width: 608px) calc(100vw - 32px), 640px">
+      <img src="banner-1200.jpg" width="1200" height="670" alt="">
     </picture>
-    <header>
-      <picture>
-        <source type="image/webp" srcset="avatar-256.webp">
-        <img class="avatar" src="avatar-256.jpg" width="64" height="64" alt="Basanti Nashine">
-      </picture>
-      <div class="who">
-        <h1>Basanti Nashine</h1>
-        <p class="muted">Head of Product at Orcana.AI, previously Amazon</p>
-      </div>
-    </header>
-    <p>I build AI agents and platforms for advertising, personalization, and analytics.</p>
-    <p class="proof">At Amazon, I led a generative AI ad platform that improved CTR by <strong>11.75%</strong> (the biggest improvement any one product had driven).</p>
+  </section>
+
+  <section class="bio measure" aria-label="About">
     <p>I started my career as a data scientist, and it still shapes how I lead product: make the customer problem clear, test the assumptions, and decide up front how we’ll know the product works. As a Principal Product Manager at Amazon, my work connected customer problems with platforms that could solve them at scale:</p>
     <ul class="points">
       <li><strong>More relevant advertising:</strong> I led a generative AI platform to tailor ad creative to shoppers’ searches, pairing generation with automated evaluation across millions of ad variants.</li>
@@ -59,69 +65,50 @@
 
   <section aria-labelledby="work">
     <h2 id="work">Selected work</h2>
-    <ul class="list">
-      <li><a href="work/#search-ads">Search ads written for every keyword</a><span class="mono">Amazon</span></li>
-      <li><a href="work/#personalization">Remembering why a shopper came</a><span class="mono">Amazon</span></li>
-      <li><a href="work/#advertiser-agents">Agents that do the busywork for advertisers</a><span class="mono">Amazon</span></li>
-      <li><a href="work/#next-best-engagement">What should a marketer do next?</a><span class="mono">Orcana.AI</span></li>
+    <ul class="work-rows">
+      <li><a href="work/#search-ads"><span><span class="row-title">Search ads written for every keyword</span><span class="mono row-org">Amazon</span></span><span class="row-outcome">+11.75% click-through<span class="row-note">US A/B test</span></span></a></li>
+      <li><a href="work/#personalization"><span><span class="row-title">Remembering why a shopper came</span><span class="mono row-org">Amazon</span></span><span class="row-outcome">$430M incremental revenue<span class="row-note">+16% conversion, A/B tests</span></span></a></li>
+      <li><a href="work/#advertiser-agents"><span><span class="row-title">Agents that do the busywork for advertisers</span><span class="mono row-org">Amazon</span></span><span class="row-outcome">+34% setup completion<span class="row-note">framework adopted by 22 teams</span></span></a></li>
+      <li><a href="work/#next-best-engagement"><span><span class="row-title">What should a marketer do next?</span><span class="mono row-org">Orcana.AI</span></span><span class="row-outcome">2× revenue lift<span class="row-note">vs. rule-based systems, in a pilot</span></span></a></li>
     </ul>
   </section>
 
   <section aria-labelledby="projects">
     <h2 id="projects">Personal projects</h2>
-    <ul class="projlist">
-      <li>
-        <div class="proj-head"><a href="projects/#adcanvas">AdCanvas Creative Studio</a><span class="mono">web app</span></div>
-        <p><span class="tag">Problem</span>Product ads need fresh scenes, but AI image tools can quietly change the product itself.</p>
-        <p><span class="tag">Solution</span>Generates ad scenes from product photos, checks each one against the original, and exports only what a person approves.</p>
-        <p class="stack"><span class="tag">Stack</span>React&nbsp;· TypeScript&nbsp;· Cloudflare&nbsp;D1&nbsp;&amp;&nbsp;R2&nbsp;· OpenAI&nbsp;image&nbsp;API</p>
-      </li>
-      <li>
-        <div class="proj-head"><a href="projects/#hey-mama">Hey Mama</a><span class="mono">building now</span></div>
-        <p><span class="tag">Problem</span>New mothers often feel alone and unsure of themselves.</p>
-        <p><span class="tag">Solution</span>Sends one letter a day from a mother who’s been there, matched to what the reader is going through.</p>
-        <p class="stack"><span class="tag">Stack</span>React&nbsp;· TanStack&nbsp;Start&nbsp;· TypeScript&nbsp;· Tailwind&nbsp;CSS&nbsp;· Lovable&nbsp;Cloud&nbsp;· Web&nbsp;push&nbsp;· PWA</p>
-      </li>
-      <li>
-        <div class="proj-head"><a href="projects/#tagalong">Tagalong</a><span class="mono">hackathon</span></div>
-        <p><span class="tag">Problem</span>Women skip events because they don’t want to walk in alone.</p>
-        <p><span class="tag">Solution</span>Matches women going to the same event into small, vetted pods, with an AI host in the group text that plans the meetup.</p>
-        <p class="stack"><span class="tag">Stack</span>Lovable&nbsp;· Vite</p>
-      </li>
-      <li>
-        <div class="proj-head"><a href="projects/#decision-log">Decision Log</a><span class="mono">agent</span></div>
-        <p><span class="tag">Problem</span>Teams forget why they made a decision, so they relitigate settled questions or quietly reverse them.</p>
-        <p><span class="tag">Solution</span>Reads meeting notes, keeps each decision with its reason and source, and answers “why did we decide this?”</p>
-        <p class="stack"><span class="tag">Stack</span>Python&nbsp;· Claude&nbsp;API&nbsp;· Slack&nbsp;· React&nbsp;· Express&nbsp;· PostgreSQL</p>
-      </li>
-      <li>
-        <div class="proj-head"><a href="projects/#campaign-lab">Campaign Lab</a><span class="mono">web app</span></div>
-        <p><span class="tag">Problem</span>Small-shop owners learn paid ads by spending real money.</p>
-        <p><span class="tag">Solution</span>A practice run of a first Instagram campaign: change one thing, rerun seven simulated days, and see why the result moved.</p>
-        <p class="stack"><span class="tag">Stack</span>HTML&nbsp;· CSS&nbsp;· JavaScript</p>
-      </li>
+    <ul class="proj-grid">
+      <li><a class="card" href="projects/#adcanvas">
+        <picture><source type="image/webp" srcset="adcanvas-demo-still.webp 1152w" sizes="(max-width: 700px) calc(100vw - 32px), 520px"><img src="adcanvas-demo-still.webp" width="1200" height="750" loading="lazy" alt=""></picture>
+        <span class="card-head"><span class="card-title">AdCanvas Creative Studio</span><span class="mono">web app</span></span>
+        <span class="card-desc">Generates ad scenes from product photos and exports only what a person approves.</span>
+      </a></li>
+      <li><a class="card" href="projects/#hey-mama">
+        <picture><source type="image/webp" srcset="shot-hey-mama-600.webp 600w, shot-hey-mama-1200.webp 1200w" sizes="(max-width: 700px) calc(100vw - 32px), 520px"><img src="shot-hey-mama-1200.jpg" width="1200" height="750" loading="lazy" alt=""></picture>
+        <span class="card-head"><span class="card-title">Hey Mama</span><span class="mono">building now</span></span>
+        <span class="card-desc">Sends new mothers one letter a day from a mother who’s been there.</span>
+      </a></li>
+      <li><a class="card" href="projects/#tagalong">
+        <picture><source type="image/webp" srcset="shot-tagalong-600.webp 600w, shot-tagalong-1200.webp 1200w" sizes="(max-width: 700px) calc(100vw - 32px), 520px"><img src="shot-tagalong-1200.jpg" width="1200" height="750" loading="lazy" alt=""></picture>
+        <span class="card-head"><span class="card-title">Tagalong</span><span class="mono">hackathon</span></span>
+        <span class="card-desc">Matches women going to the same event into small, vetted pods, so nobody walks in alone.</span>
+      </a></li>
+      <li><a class="card" href="projects/#campaign-lab">
+        <picture><source type="image/webp" srcset="shot-campaign-lab-600.webp 600w, shot-campaign-lab-1200.webp 1200w" sizes="(max-width: 700px) calc(100vw - 32px), 520px"><img src="shot-campaign-lab-1200.jpg" width="1200" height="750" loading="lazy" alt=""></picture>
+        <span class="card-head"><span class="card-title">Campaign Lab</span><span class="mono">web app</span></span>
+        <span class="card-desc">A practice run for a small shop’s first Instagram ads, on seven simulated days.</span>
+      </a></li>
     </ul>
   </section>
 
-  <section aria-labelledby="agents">
+  <section class="measure" aria-labelledby="agents">
     <h2 id="agents">Agents</h2>
-    <ul class="projlist">
-      <li>
-        <div class="proj-head"><a href="agents/#threads-agent">Threads Agent</a><span class="mono">agent</span></div>
-        <p><span class="tag">Problem</span>Keeping conversations going on Threads takes daily posts and replies that are hard to keep up with.</p>
-        <p><span class="tag">Solution</span>Claude drafts posts and warm replies in my voice. Nothing is published until I approve it, and posting is paced and capped.</p>
-        <p class="stack"><span class="tag">Stack</span>Python&nbsp;· Claude&nbsp;API&nbsp;· Threads&nbsp;API&nbsp;· SQLite</p>
-      </li>
-      <li>
-        <div class="proj-head"><a href="agents/#eval-agent">Eval Agent</a><span class="mono">planning</span></div>
-        <p><span class="tag">Problem</span>Teams building tool-using agents know they need evals but rarely have good ones.</p>
-        <p><span class="tag">Solution</span>Give it your agent’s repo: it runs the agent safely, writes a <span class="nowrap">plain-language</span> eval plan for your approval, then builds, tests and runs the eval.</p>
-        <p class="stack"><span class="tag">Stack</span>Python&nbsp;· Claude&nbsp;Agent&nbsp;SDK</p>
-      </li>
+    <ul class="previews">
+      <li><div class="proj-head"><a href="agents/#threads-agent">Threads Agent</a><span class="mono">agent</span></div><p class="muted">Drafts Threads posts and replies in my voice; nothing posts until I approve it.</p></li>
+      <li><div class="proj-head"><a href="agents/#decision-log">Decision Log</a><span class="mono">agent</span></div><p class="muted">Answers “why did we decide this?” from meeting notes, quoting its sources.</p></li>
+      <li><div class="proj-head"><a href="agents/#eval-agent">Eval Agent</a><span class="mono">planning</span></div><p class="muted">Turns an agent’s repo into a tested eval, with a <span class="nowrap">plain-language</span> plan you approve first.</p></li>
     </ul>
   </section>
 
-  <section aria-labelledby="background">
+  <section class="measure" aria-labelledby="background">
     <h2 id="background">Background</h2>
     <ul class="career">
       <li>Orcana.AI <span class="muted">· Head of Product</span></li>
@@ -132,7 +119,7 @@
     </ul>
   </section>
 
-  <section aria-labelledby="contact">
+  <section class="measure" aria-labelledby="contact">
     <h2 id="contact">Get in touch</h2>
     <p>If you’re building AI agents, evaluation platforms, or the future of marketing and advertising, I’d love to connect.</p>
     <p>The best way to reach me is on <a href="https://www.linkedin.com/in/basanti-nashine-b7751aa2/">LinkedIn</a>.</p>

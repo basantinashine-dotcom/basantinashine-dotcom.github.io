@@ -15,7 +15,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400&display=swap">
-<link rel="stylesheet" href="../style.css?v=2026-11-20e">
+<link rel="stylesheet" href="../style.css?v=2026-11-21b">
 </head>
 <body>
 <main>
@@ -28,12 +28,8 @@
   </nav>
 
   <section class="page-head" aria-labelledby="page-title">
-    <picture class="banner">
-      <source media="(min-width: 1024px)" type="image/webp" srcset="../banner-tall.webp">
-      <source type="image/webp" srcset="../banner-600.webp 600w, ../banner-1200.webp 1200w" sizes="(max-width: 608px) calc(100vw - 32px), 576px">
-      <img src="../banner-1200.jpg" width="1200" height="670" alt="Five sculptures, a blue ribbon, a glass sphere, a chrome ring, a folded paper star and a lavender branching form, linked by fine threads to a glowing amber crystal">
-    </picture>
     <h1 id="page-title">Agents</h1>
+    <p class="muted">AI agents I’ve built: software that reads, decides and takes actions, with the guardrails written in code. Apps live on the <a href="../projects/">Projects</a> page.</p>
   </section>
 
   <div class="entries">
@@ -57,6 +53,23 @@
         <li>It only states facts about me that I’ve listed, and flags any personal claim for me to check.</li>
       </ul>
       <div class="links"><a href="https://github.com/basantinashine-dotcom/marketingagentthreads">Source ↗</a></div>
+    </article>
+
+    <article class="entry" id="decision-log">
+      <figure class="demo">
+        <picture>
+          <source media="(prefers-reduced-motion: reduce)" srcset="../decision-log-demo-still.webp">
+          <img src="../decision-log-demo.gif" width="1152" height="720" loading="lazy" alt="Three-step demo of Decision Log with sample data. 1, Read: a meeting note becomes the decision “Keep guest checkout,” with its reason, owner and the decision it reversed, and the quote is checked against the note. 2, Ask why: asked “Why do we have guest checkout?”, it answers with the reason and cites its sources. 3, Share: it drafts an explanation for the team, holds back a private fact and checks the draft for leaks.">
+        </picture>
+        <figcaption class="mono">Demo with sample data: read, ask why, share</figcaption>
+      </figure>
+      <div class="entry-head"><h2>Decision Log</h2><span class="mono">Agent · Slack app</span></div>
+      <div class="facts">
+        <p><span class="tag">Problem</span>Teams forget why they made a decision, so they relitigate settled questions or quietly reverse them.</p>
+        <p><span class="tag">Solution</span>Reads meeting notes and answers “why did we decide this?” Every fact has to quote the note it came from, and private notes stay out of anything you share.</p>
+        <p class="stack"><span class="tag">Stack</span>Python&nbsp;· Claude&nbsp;API&nbsp;· Slack&nbsp;· React&nbsp;· Express&nbsp;· PostgreSQL</p>
+      </div>
+      <div class="links"><a href="https://github.com/basantinashine-dotcom/inspired-products/tree/main/agents/decision-log">Source ↗</a></div>
     </article>
 
     <article class="entry" id="eval-agent">

@@ -6,16 +6,19 @@ The site is four static pages with one shared stylesheet, no build step and no d
 
 | Page | File | What's on it |
 |---|---|---|
-| Home | `index.html` | Round photo, headline, the CTR proof line, intro, a one-line list of Selected work, Personal projects and Agents (each with Problem, Solution and Stack), Background, Get in touch |
+| Home | `index.html` | A wider page with narrow text: the hero (name, headline, CTR proof line, a "View my work" button, LinkedIn, and the artwork), the bio, Selected work as rows with outcomes, Personal projects as screenshot cards, short Agents previews, Background, Get in touch |
 | Work | `work/index.html` | The four Selected work stories, each with an anchor (`#search-ads`, `#personalization`, `#advertiser-agents`, `#next-best-engagement`) |
-| Projects | `projects/index.html` | Hey Mama with its spec sheet, then Tagalong, Decision Log, Campaign Lab and AdCanvas (`#hey-mama`, `#tagalong`, `#decision-log`, `#campaign-lab`, `#adcanvas`) |
-| Agents | `agents/index.html` | AI agents, each with Problem, Solution and Stack: the Threads Agent (`#threads-agent`) and the Eval Agent (`#eval-agent`, in planning) |
+| Projects | `projects/index.html` | Apps, each with Problem, Solution and Stack: AdCanvas, Hey Mama (with its spec sheet), Tagalong and Campaign Lab (`#adcanvas`, `#hey-mama`, `#tagalong`, `#campaign-lab`) |
+| Agents | `agents/index.html` | AI agents, each with Problem, Solution and Stack: the Threads Agent (`#threads-agent`), Decision Log (`#decision-log`) and the Eval Agent (`#eval-agent`, in planning) |
+
+Home uses Geist for text and Newsreader, a serif, only for the name in the hero.
 
 `style.css` holds every style. The colors are set once at the top. Each page links it as `style.css?v=…`: when you change `style.css`, change that version (for example, to today's date) in every page, so browsers fetch the new styles instead of reusing a saved copy.
 
 ## Images
 
-- The sculpture artwork is a fixed, full-height panel on the right on screens 1024px and wider (`banner-tall.webp`, a 1000×1116 crop centered on the crystal), and a slim strip above the content on smaller screens (`banner-600.webp`, `banner-1200.webp` and `banner-1200.jpg`, 1200×670 at full size).
+- The sculpture artwork appears only in the Home hero, as decoration (empty alt text): beside the headline on screens 900px and wider (`banner-tall.webp`, a 1000×1116 crop centered on the crystal), and as a wide strip below the buttons on smaller screens (`banner-600.webp`, `banner-1200.webp` and `banner-1200.jpg`, 1200×670 at full size).
+- The Home project cards reuse the Projects page screenshots and the AdCanvas demo still.
 - `avatar-256.webp` and `avatar-256.jpg` are the round headshot next to the name on Home (a 256×256 square crop shown as a 64px circle).
 - `shot-hey-mama-*`, `shot-tagalong-*` and `shot-campaign-lab-*` are screenshots of those three live apps on the Projects page. Each comes as 600px and 1200px WebP plus a 1200×750 JPEG fallback (16:10).
 - `threads-agent-demo.gif` is the looping three-step demo (Draft, Approve, Post) on the Agents page, 1152×720, built from illustrative slides with sample data. Visitors whose device asks for reduced motion see `threads-agent-demo-still.webp`, the first slide, instead.
