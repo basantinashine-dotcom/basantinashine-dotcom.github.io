@@ -7,7 +7,7 @@ The site is four static pages with one shared stylesheet, no build step and no d
 | Page | File | What's on it |
 |---|---|---|
 | Home | `index.html` | A wider page with narrow text: the hero (a thin artwork band, then name, headline and CTR proof line), the bio, Selected work as rows with outcomes, Personal projects as screenshot cards, short Agents previews, Background, Get in touch |
-| Work | `work/index.html` | The four Selected work stories, each with an anchor (`#search-ads`, `#personalization`, `#advertiser-agents`, `#next-best-engagement`) |
+| Work | `work/index.html` | The five Selected work stories, each with an anchor (`#search-ads`, `#personalization`, `#advertiser-agents`, `#marketing-mix`, `#next-best-engagement`) |
 | Projects | `projects/index.html` | Apps, each with Problem, Solution and Stack: AdCanvas, Hey Mama (with its spec sheet), Tagalong and Campaign Lab (`#adcanvas`, `#hey-mama`, `#tagalong`, `#campaign-lab`) |
 | Agents | `agents/index.html` | AI agents, each with Problem, Solution and Stack: the Threads Agent (`#threads-agent`), Decision Log (`#decision-log`) and the Eval Agent (`#eval-agent`) |
 
