@@ -397,3 +397,27 @@ footer .elsewhere { display: flex; flex-wrap: wrap; gap: 1.25rem; }
 .ideas dt { font-weight: 600; margin-top: 0.6rem; }
 .ideas dt:first-child { margin-top: 0; }
 .ideas dd { margin: 0; color: var(--muted); }
+/* System design diagram: wider than the text column on desktop, its own layout on phones */
+.sysdesign { margin: 0.25rem 0; align-self: center; width: min(50rem, calc(100vw - 2rem)); display: flex; flex-direction: column; gap: 0.75rem; }
+.sysdesign svg { display: block; width: 100%; height: auto; }
+.sysdesign .sd-narrow { display: none; }
+.sysdesign figcaption { max-width: 36rem; font-size: var(--small); color: var(--muted); }
+@media (max-width: 759px) {
+  .sysdesign { width: 100%; }
+  .sysdesign .sd-wide { display: none; }
+  .sysdesign .sd-narrow { display: block; max-width: 26rem; }
+}
+.sd text { font-family: var(--font-sans); fill: var(--fg); }
+.sd .t-tag { font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.04em; fill: var(--muted); }
+.sd .t-name { font-size: 14.5px; font-weight: 600; }
+.sd .t-det { font-size: 12px; fill: var(--muted); }
+.sd .t-code { font-family: var(--font-mono); font-size: 10.5px; fill: var(--muted); }
+.sd .t-lab { font-size: 11.5px; }
+.sd .t-claude { fill: #96552f; }
+.sd .t-you { fill: var(--heading); }
+.sd .sd-out, .sd .sd-mod { fill: #fffdf8; stroke: #d6ccb8; }
+.sd .sd-claude { fill: #f6eadf; stroke: #dcb293; }
+.sd .sd-you { fill: #f4e9e6; stroke: rgba(123, 30, 46, 0.4); }
+.sd .sd-zone { fill: rgba(235, 228, 212, 0.35); stroke: #b9ae98; stroke-dasharray: 5 4; }
+.sd .ln { fill: none; stroke: var(--muted); stroke-width: 1.5; }
+.sd marker path { fill: var(--muted); }

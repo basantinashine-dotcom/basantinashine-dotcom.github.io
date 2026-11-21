@@ -15,8 +15,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400&display=swap">
-<link rel="stylesheet" href="../../style.css?v=2026-11-23d">
-<script src="../../copy.js?v=2026-11-23d" defer></script>
+<link rel="stylesheet" href="../../style.css?v=2026-11-23e">
+<script src="../../copy.js?v=2026-11-23e" defer></script>
 </head>
 <body>
 <main class="guide">
@@ -100,6 +100,189 @@
 
   <section aria-labelledby="build">
     <h2 id="build"><span class="num">4</span>Build it with Claude, step by step</h2>
+    <p>Here’s the whole system you’ll build. Everything inside the dashed box runs on your computer, and each part is tagged with the step below that builds it.</p>
+    <figure class="sysdesign" aria-labelledby="sd-cap">
+      <svg class="sd sd-wide" viewBox="0 0 800 516" width="800" height="516" role="img" aria-labelledby="sd-t sd-d">
+      <title id="sd-t">System design of the Threads Agent</title>
+      <desc id="sd-d">Your computer runs a Python program with five parts, in order. Collect reads new comments from the Threads API. Draft sends your post and the comment to the Claude API and gets back a filled-in Draft form. Check tests each draft against the rules. Review shows it to you to approve, edit or skip. Post publishes approved replies to the Threads API, at most 10 a day and 5 minutes apart. Every step saves its status in a SQLite file, and the API keys are kept in environment variables. Claude and Threads never talk to each other.</desc>
+      <defs><marker id="sd-ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z"/></marker></defs>
+      <g>
+        <rect class="sd-out" x="8" y="8" width="784" height="72" rx="10"/>
+        <text class="t-tag" x="24" y="29">META · OUTSIDE SERVICE</text>
+        <text class="t-name" x="24" y="49">Threads API</text>
+        <text class="t-code" x="776" y="49" text-anchor="end">graph.threads.net</text>
+        <text class="t-det" x="24" y="68">Read: GET /me/threads, GET /{id}/conversation</text>
+        <text class="t-det" x="776" y="68" text-anchor="end">Publish: POST /me/threads, then POST /me/threads_publish</text>
+      </g>
+      <g>
+        <rect class="sd-claude" x="178" y="118" width="268" height="82" rx="10"/>
+        <text class="t-tag t-claude" x="194" y="139">ANTHROPIC · OUTSIDE SERVICE</text>
+        <text class="t-name" x="194" y="158">Claude API</text>
+        <text class="t-det" x="194" y="176">claude-opus-5-5 · structured output</text>
+        <text class="t-det" x="194" y="192">Backup model if Claude declines</text>
+      </g>
+      <g>
+        <rect class="sd-you" x="488" y="118" width="140" height="82" rx="10"/>
+        <text class="t-tag t-you" x="504" y="139">PERSON</text>
+        <text class="t-name" x="504" y="158">You</text>
+        <text class="t-det" x="504" y="176">At the terminal</text>
+      </g>
+      <rect class="sd-zone" x="8" y="216" width="784" height="292" rx="14"/>
+      <text class="t-tag" x="24" y="237">YOUR COMPUTER</text>
+      <line class="ln" x1="140" y1="81" x2="140" y2="250" marker-end="url(#sd-ah)"/>
+      <text class="t-lab" x="130" y="150" text-anchor="end">comments</text>
+      <text class="t-lab" x="130" y="166" text-anchor="end">(untrusted)</text>
+      <line class="ln" x1="244" y1="202" x2="244" y2="250" marker-start="url(#sd-ah)" marker-end="url(#sd-ah)"/>
+      <line class="ln" x1="556" y1="202" x2="556" y2="250" marker-start="url(#sd-ah)" marker-end="url(#sd-ah)"/>
+      <line class="ln" x1="712" y1="250" x2="712" y2="81" marker-end="url(#sd-ah)"/>
+      <text class="t-lab" x="702" y="150" text-anchor="end">approved</text>
+      <text class="t-lab" x="702" y="166" text-anchor="end">replies</text>
+      <g>
+        <rect class="sd-mod" x="20" y="252" width="136" height="92" rx="8"/>
+        <text class="t-tag" x="34" y="273">STEP 7</text>
+        <text class="t-name" x="34" y="293">Collect</text>
+        <text class="t-det" x="34" y="312">New comments on</text>
+        <text class="t-det" x="34" y="328">your recent posts</text>
+      </g>
+      <line class="ln" x1="157" y1="298" x2="175" y2="298" marker-end="url(#sd-ah)"/>
+      <g>
+        <rect class="sd-mod" x="176" y="252" width="136" height="92" rx="8"/>
+        <text class="t-tag" x="190" y="273">STEPS 3–4</text>
+        <text class="t-name" x="190" y="293">Draft</text>
+        <text class="t-det" x="190" y="312">Asks Claude to fill</text>
+        <text class="t-det" x="190" y="328">in the Draft form</text>
+      </g>
+      <line class="ln" x1="313" y1="298" x2="331" y2="298" marker-end="url(#sd-ah)"/>
+      <g>
+        <rect class="sd-mod" x="332" y="252" width="136" height="92" rx="8"/>
+        <text class="t-tag" x="346" y="273">STEP 5</text>
+        <text class="t-name" x="346" y="293">Check</text>
+        <text class="t-det" x="346" y="312">Length, links,</text>
+        <text class="t-det" x="346" y="328">@mentions</text>
+      </g>
+      <line class="ln" x1="469" y1="298" x2="487" y2="298" marker-end="url(#sd-ah)"/>
+      <g>
+        <rect class="sd-mod" x="488" y="252" width="136" height="92" rx="8"/>
+        <text class="t-tag" x="502" y="273">STEP 6</text>
+        <text class="t-name" x="502" y="293">Review</text>
+        <text class="t-det" x="502" y="312">You approve, edit</text>
+        <text class="t-det" x="502" y="328">or skip</text>
+      </g>
+      <line class="ln" x1="625" y1="298" x2="643" y2="298" marker-end="url(#sd-ah)"/>
+      <g>
+        <rect class="sd-mod" x="644" y="252" width="136" height="92" rx="8"/>
+        <text class="t-tag" x="658" y="273">STEPS 7–8</text>
+        <text class="t-name" x="658" y="293">Post</text>
+        <text class="t-det" x="658" y="312">Max 10 a day,</text>
+        <text class="t-det" x="658" y="328">5 minutes apart</text>
+      </g>
+      <line class="ln" x1="244" y1="346" x2="244" y2="390" marker-start="url(#sd-ah)" marker-end="url(#sd-ah)"/>
+      <text class="t-lab" x="254" y="372">every step saves its status</text>
+      <g>
+        <rect class="sd-mod" x="20" y="392" width="446" height="100" rx="8"/>
+        <text class="t-tag" x="34" y="413">MEMORY</text>
+        <text class="t-name" x="34" y="433">SQLite (agent.db)</text>
+        <text class="t-det" x="34" y="452">Every comment and draft, with its status:</text>
+        <text class="t-det" x="34" y="470">new → drafted → approved → posted</text>
+      </g>
+      <g>
+        <rect class="sd-mod" x="488" y="392" width="292" height="100" rx="8"/>
+        <text class="t-tag" x="502" y="413">SECRETS · STEPS 2 AND 7</text>
+        <text class="t-name" x="502" y="433">Environment variables</text>
+        <text class="t-code" x="502" y="452">ANTHROPIC_API_KEY</text>
+        <text class="t-code" x="502" y="470">THREADS_ACCESS_TOKEN</text>
+      </g>
+      </svg>
+      <svg class="sd sd-narrow" viewBox="0 0 360 908" width="360" height="908" role="img" aria-labelledby="sdn-t sdn-d">
+      <title id="sdn-t">System design of the Threads Agent</title>
+      <desc id="sdn-d">Your computer runs a Python program with five parts, in order. Collect reads new comments from the Threads API. Draft sends your post and the comment to the Claude API and gets back a filled-in Draft form. Check tests each draft against the rules. Review shows it to you to approve, edit or skip. Post publishes approved replies to the Threads API, at most 10 a day and 5 minutes apart. Every step saves its status in a SQLite file, and the API keys are kept in environment variables. Claude and Threads never talk to each other.</desc>
+      <defs><marker id="sdn-ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z"/></marker></defs>
+      <g>
+        <rect class="sd-out" x="8" y="8" width="344" height="92" rx="10"/>
+        <text class="t-tag" x="22" y="28">META · OUTSIDE SERVICE</text>
+        <text class="t-name" x="22" y="48">Threads API</text>
+        <text class="t-det" x="22" y="67">Read: GET /me/threads, /{id}/conversation</text>
+        <text class="t-det" x="22" y="84">Publish: POST /me/threads, /me/threads_publish</text>
+      </g>
+      <rect class="sd-zone" x="8" y="132" width="184" height="768" rx="14"/>
+      <text class="t-tag" x="20" y="152">YOUR COMPUTER</text>
+      <line class="ln" x1="140" y1="101" x2="140" y2="166" marker-end="url(#sdn-ah)"/>
+      <text class="t-lab" x="130" y="121" text-anchor="end">comments (untrusted)</text>
+      <g>
+        <rect class="sd-mod" x="20" y="168" width="156" height="78" rx="8"/>
+        <text class="t-tag" x="32" y="187">STEP 7</text>
+        <text class="t-name" x="32" y="207">Collect</text>
+        <text class="t-det" x="32" y="224">New comments on</text>
+        <text class="t-det" x="32" y="239">your recent posts</text>
+      </g>
+      <line class="ln" x1="98" y1="247" x2="98" y2="271" marker-end="url(#sdn-ah)"/>
+      <g>
+        <rect class="sd-mod" x="20" y="272" width="156" height="78" rx="8"/>
+        <text class="t-tag" x="32" y="291">STEPS 3–4</text>
+        <text class="t-name" x="32" y="311">Draft</text>
+        <text class="t-det" x="32" y="328">Asks Claude to fill</text>
+        <text class="t-det" x="32" y="343">in the Draft form</text>
+      </g>
+      <line class="ln" x1="98" y1="351" x2="98" y2="375" marker-end="url(#sdn-ah)"/>
+      <g>
+        <rect class="sd-mod" x="20" y="376" width="156" height="78" rx="8"/>
+        <text class="t-tag" x="32" y="395">STEP 5</text>
+        <text class="t-name" x="32" y="415">Check</text>
+        <text class="t-det" x="32" y="432">Length, links,</text>
+        <text class="t-det" x="32" y="447">@mentions</text>
+      </g>
+      <line class="ln" x1="98" y1="455" x2="98" y2="479" marker-end="url(#sdn-ah)"/>
+      <g>
+        <rect class="sd-mod" x="20" y="480" width="156" height="78" rx="8"/>
+        <text class="t-tag" x="32" y="499">STEP 6</text>
+        <text class="t-name" x="32" y="519">Review</text>
+        <text class="t-det" x="32" y="536">You approve, edit</text>
+        <text class="t-det" x="32" y="551">or skip</text>
+      </g>
+      <line class="ln" x1="98" y1="559" x2="98" y2="583" marker-end="url(#sdn-ah)"/>
+      <g>
+        <rect class="sd-mod" x="20" y="584" width="156" height="78" rx="8"/>
+        <text class="t-tag" x="32" y="603">STEPS 7–8</text>
+        <text class="t-name" x="32" y="623">Post</text>
+        <text class="t-det" x="32" y="640">Max 10 a day,</text>
+        <text class="t-det" x="32" y="655">5 minutes apart</text>
+      </g>
+      <g>
+        <rect class="sd-claude" x="208" y="262" width="124" height="98" rx="10"/>
+        <text class="t-tag t-claude" x="218" y="281">ANTHROPIC</text>
+        <text class="t-name" x="218" y="301">Claude API</text>
+        <text class="t-det" x="218" y="318">claude-opus-5-5</text>
+        <text class="t-det" x="218" y="333">structured output</text>
+        <text class="t-det" x="218" y="348">+ backup model</text>
+      </g>
+      <line class="ln" x1="177" y1="311" x2="207" y2="311" marker-start="url(#sdn-ah)" marker-end="url(#sdn-ah)"/>
+      <g>
+        <rect class="sd-you" x="208" y="484" width="124" height="70" rx="10"/>
+        <text class="t-tag t-you" x="218" y="503">PERSON</text>
+        <text class="t-name" x="218" y="523">You</text>
+        <text class="t-det" x="218" y="540">At the terminal</text>
+      </g>
+      <line class="ln" x1="177" y1="519" x2="207" y2="519" marker-start="url(#sdn-ah)" marker-end="url(#sdn-ah)"/>
+      <path class="ln" d="M177 623H344V101" marker-end="url(#sdn-ah)"/>
+      <text class="t-lab" x="204" y="615">approved replies</text>
+      <line class="ln" x1="98" y1="663" x2="98" y2="689" marker-start="url(#sdn-ah)" marker-end="url(#sdn-ah)"/>
+      <g>
+        <rect class="sd-mod" x="20" y="690" width="156" height="92" rx="8"/>
+        <text class="t-tag" x="32" y="709">MEMORY</text>
+        <text class="t-name" x="32" y="729">SQLite (agent.db)</text>
+        <text class="t-det" x="32" y="746">Every draft and its</text>
+        <text class="t-det" x="32" y="761">status, from each step</text>
+      </g>
+      <g>
+        <rect class="sd-mod" x="20" y="800" width="156" height="86" rx="8"/>
+        <text class="t-tag" x="32" y="819">SECRETS</text>
+        <text class="t-name" x="32" y="839">Your keys</text>
+        <text class="t-code" x="32" y="857">ANTHROPIC_API_KEY</text>
+        <text class="t-code" x="32" y="873">THREADS_ACCESS_TOKEN</text>
+      </g>
+      </svg>
+      <figcaption id="sd-cap">Claude and Threads never talk to each other. Every request goes through your program, which is the only part that holds the keys.</figcaption>
+    </figure>
     <p class="callout"><strong>Before you start.</strong> You’ll need a Claude API key and a Meta developer account. An <em>API</em> is a way for your program to talk to another company’s service, and an <em>API key</em> is the password that proves the requests are yours. A Meta developer account is what Meta, the company behind Threads, requires before your program can use Threads. Some of these accounts are only for adults, so ask a parent, guardian or teacher to set them up with you. Each draft costs a few cents.</p>
 
     <h3>Step 1. Set up your computer</h3>
