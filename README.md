@@ -6,13 +6,15 @@ The site is four static pages, plus build guides for the agents, with one shared
 
 | Page | File | What's on it |
 |---|---|---|
-| Home | `index.html` | A wider page with narrow text: the hero (a thin artwork band, then name, headline and CTR proof line), the bio, Selected work as rows with outcomes, Personal projects as screenshot cards, short Agents previews, Background, Get in touch |
+| Home | `index.html` | A wider page: the hero (a thin artwork band, then name and headline), three stat cards and a 12 weeks → 2 hours before/after bar that each link to their Work story, the bio with Background beside it, Selected work as rows with outcomes, Personal projects as screenshot cards, Agents previews in three columns, Get in touch |
 | Work | `work/index.html` | The five Selected work stories, each with an anchor (`#search-ads`, `#personalization`, `#advertiser-agents`, `#marketing-mix`, `#next-best-engagement`) |
 | Projects | `projects/index.html` | Apps, each with Problem, Solution and Stack: AdCanvas, Hey Mama (with its spec sheet), Tagalong and Campaign Lab (`#adcanvas`, `#hey-mama`, `#tagalong`, `#campaign-lab`) |
 | Agents | `agents/index.html` | AI agents, each with Problem, Solution and Stack: the Threads Agent (`#threads-agent`), Decision Log (`#decision-log`) and the Eval Agent (`#eval-agent`) |
 | Build guides | `agents/threads-agent/index.html` | A step-by-step guide to building the agent yourself, linked from its entry on Agents ("How to create this on your own") |
 
 Home uses Geist for text and Newsreader, a serif, only for the name in the hero.
+
+`home.js` counts the Home stat numbers up from zero and shrinks the “2 hours” bar once each is on screen. It does nothing for visitors who prefer reduced motion, and without it the final numbers still show.
 
 `copy.js` adds a label and a Copy button to each code block on the build guides; without it the code still shows, just without the button.
 

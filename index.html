@@ -15,7 +15,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400&family=Newsreader:opsz,wght@6..72,500&display=swap">
-<link rel="stylesheet" href="style.css?v=2026-11-23e">
+<link rel="stylesheet" href="style.css?v=2026-11-23f">
+<script src="home.js?v=2026-11-23f" defer></script>
 </head>
 <body>
 <main class="home">
@@ -45,17 +46,56 @@
         </div>
       </header>
       <p class="lede">I build AI agents and platforms for advertising, personalization, and analytics.</p>
-      <p class="proof">At Amazon, I led a generative AI ad platform that improved CTR by <strong>11.75%</strong> (the biggest improvement any one product had driven).</p>
     </div>
+    <div class="stats">
+      <a class="stat" href="work/#search-ads">
+        <span class="sr-only">11.75%</span><span class="stat-num" aria-hidden="true" data-to="11.75" data-decimals="2" data-suffix="%">11.75%</span>
+        <span class="stat-label">CTR lift from a generative AI ad platform I led at Amazon, the biggest improvement any one product had driven</span>
+        <span class="stat-more">Amazon · Read the story →</span>
+      </a>
+      <a class="stat" href="work/#advertiser-agents">
+        <span class="sr-only">22 teams</span><span class="stat-num" aria-hidden="true" data-to="22" data-suffix=" teams">22 teams</span>
+        <span class="stat-label">adopted the agent framework I defined at Amazon, saving <strong>260 engineering weeks</strong></span>
+        <span class="stat-more">Amazon · Read the story →</span>
+      </a>
+      <a class="stat" href="work/#personalization">
+        <span class="sr-only">$430M</span><span class="stat-num" aria-hidden="true" data-to="430" data-prefix="$" data-suffix="M">$430M</span>
+        <span class="stat-label">in incremental revenue from a personalization platform I launched at Amazon, with conversion up 16%</span>
+        <span class="stat-more">Amazon · Read the story →</span>
+      </a>
+    </div>
+    <a class="bigstat" href="work/#marketing-mix">
+      <span class="bigstat-head">
+        <span class="stat-num"><span class="nowrap">12 weeks →</span> <span class="nowrap">2 hours</span></span>
+        <span class="stat-label">Analysis time for marketing teams, with the Marketing Mix agent I launched at Orcana.AI</span>
+      </span>
+      <span class="bars" aria-hidden="true">
+        <span class="bar-name">Before</span><span class="bar"><span class="bar-fill"></span></span><span class="bar-val">12 weeks</span>
+        <span class="bar-name">With the agent</span><span class="bar"><span class="bar-fill after"></span></span><span class="bar-val after-val">2 hours</span>
+      </span>
+      <span class="stat-more">Orcana.AI · Read the story →</span>
+    </a>
   </section>
 
-  <section class="bio measure" aria-label="About">
-    <p>I started my career as a data scientist, and it still shapes how I lead product: make the customer problem clear, test the assumptions, and decide up front how we’ll know the product works.</p>
-    <p>I really enjoy working with people who see a problem differently. The best conversations are the ones where we can stay curious, challenge assumptions, and keep the customer in view. I make space for those conversations, bring clarity when things get fuzzy, and help the team turn what we learn into something useful.</p>
-    <p>I studied engineering at BITS Pilani and earned my MBA at Kellogg. I’ve worked across the U.S., India, and Japan, and I’m based in the Bay Area.</p>
-    <p>Outside work, I love traveling and exploring architecture. Understanding a place means looking closely at how people live. I bring that same curiosity to understanding the people I build products for.</p>
-    <p>To see my professional projects, go to <a href="work/">Work</a>. To see my personal projects, go to <a href="projects/">Projects</a> and <a href="agents/">Agents</a>.</p>
-  </section>
+  <div class="about">
+    <section class="bio" aria-label="About">
+      <p>I started my career as a data scientist, and it still shapes how I lead product: make the customer problem clear, test the assumptions, and decide up front how we’ll know the product works.</p>
+      <p>I really enjoy working with people who see a problem differently. The best conversations are the ones where we can stay curious, challenge assumptions, and keep the customer in view. I make space for those conversations, bring clarity when things get fuzzy, and help the team turn what we learn into something useful.</p>
+      <p>I studied engineering at BITS Pilani and earned my MBA at Kellogg. I’ve worked across the U.S., India, and Japan, and I’m based in the Bay Area.</p>
+      <p>Outside work, I love traveling and exploring architecture. Understanding a place means looking closely at how people live. I bring that same curiosity to understanding the people I build products for.</p>
+      <p>To see my professional projects, go to <a href="work/">Work</a>. To see my personal projects, go to <a href="projects/">Projects</a> and <a href="agents/">Agents</a>.</p>
+    </section>
+    <section class="career-aside" aria-labelledby="background">
+      <h2 id="background">Background</h2>
+      <ul class="career">
+        <li>Orcana.AI <span class="muted">· Head of Product</span></li>
+        <li>Amazon <span class="muted">· <span class="nowrap">Principal PM-T</span>, before that <span class="nowrap">Senior PM-T</span></span></li>
+        <li>Kellogg School of Management <span class="muted">· MBA</span></li>
+        <li>ZS Associates <span class="muted">· Data scientist, then consultant</span></li>
+        <li>BITS Pilani <span class="muted">· B.E. (Honors), Electronics and Instrumentation</span></li>
+      </ul>
+    </section>
+  </div>
 
   <section aria-labelledby="work">
     <h2 id="work">Selected work</h2>
@@ -94,23 +134,12 @@
     </ul>
   </section>
 
-  <section class="measure" aria-labelledby="agents">
+  <section aria-labelledby="agents">
     <h2 id="agents">Agents</h2>
     <ul class="previews">
       <li><div class="proj-head"><a href="agents/#threads-agent">Threads Agent</a><span class="mono">agent</span></div><p class="muted">Drafts Threads posts and replies in my voice; nothing posts until I approve it.</p></li>
       <li><div class="proj-head"><a href="agents/#decision-log">Decision Log</a><span class="mono">agent</span></div><p class="muted">Answers “why did we decide this?” from meeting notes, quoting its sources.</p></li>
       <li><div class="proj-head"><a href="agents/#eval-agent">Eval Agent</a><span class="mono">agent</span></div><p class="muted">Turns an agent’s repo into a tested eval, with a <span class="nowrap">plain-language</span> plan you approve first.</p></li>
-    </ul>
-  </section>
-
-  <section class="measure" aria-labelledby="background">
-    <h2 id="background">Background</h2>
-    <ul class="career">
-      <li>Orcana.AI <span class="muted">· Head of Product</span></li>
-      <li>Amazon <span class="muted">· Principal PM-T, before that Senior PM-T</span></li>
-      <li>Kellogg School of Management <span class="muted">· MBA</span></li>
-      <li>ZS Associates <span class="muted">· Data scientist, then consultant</span></li>
-      <li>BITS Pilani <span class="muted">· B.E. (Honors), Electronics and Instrumentation</span></li>
     </ul>
   </section>
 
