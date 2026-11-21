@@ -2,7 +2,7 @@
 
 The personal website of Basanti Nashine, Head of Product at Orcana.AI and former Principal PM-T at Amazon.
 
-The site is four static pages with one shared stylesheet, no build step and no dependencies. It uses the Geist fonts from Google Fonts and a cream color scheme for every visitor (there is no dark mode).
+The site is four static pages, plus build guides for the agents, with one shared stylesheet, no build step and no dependencies. It uses the Geist fonts from Google Fonts and a cream color scheme for every visitor (there is no dark mode).
 
 | Page | File | What's on it |
 |---|---|---|
@@ -10,8 +10,11 @@ The site is four static pages with one shared stylesheet, no build step and no d
 | Work | `work/index.html` | The five Selected work stories, each with an anchor (`#search-ads`, `#personalization`, `#advertiser-agents`, `#marketing-mix`, `#next-best-engagement`) |
 | Projects | `projects/index.html` | Apps, each with Problem, Solution and Stack: AdCanvas, Hey Mama (with its spec sheet), Tagalong and Campaign Lab (`#adcanvas`, `#hey-mama`, `#tagalong`, `#campaign-lab`) |
 | Agents | `agents/index.html` | AI agents, each with Problem, Solution and Stack: the Threads Agent (`#threads-agent`), Decision Log (`#decision-log`) and the Eval Agent (`#eval-agent`) |
+| Build guides | `agents/threads-agent/index.html` | A step-by-step guide to building the agent yourself, linked from its entry on Agents ("How to create this on your own") |
 
 Home uses Geist for text and Newsreader, a serif, only for the name in the hero.
+
+`copy.js` adds a label and a Copy button to each code block on the build guides; without it the code still shows, just without the button.
 
 `style.css` holds every style. The colors are set once at the top. Each page links it as `style.css?v=…`: when you change `style.css`, change that version (for example, to today's date) in every page, so browsers fetch the new styles instead of reusing a saved copy.
 
