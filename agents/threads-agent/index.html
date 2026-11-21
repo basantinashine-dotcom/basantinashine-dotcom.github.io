@@ -15,8 +15,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400&display=swap">
-<link rel="stylesheet" href="../../style.css?v=2026-11-23b">
-<script src="../../copy.js?v=2026-11-23b" defer></script>
+<link rel="stylesheet" href="../../style.css?v=2026-11-23c">
+<script src="../../copy.js?v=2026-11-23c" defer></script>
 </head>
 <body>
 <main class="guide">
@@ -56,7 +56,65 @@
 
   <section aria-labelledby="solution">
     <h2 id="solution"><span class="num">2</span>How the agent solves it</h2>
-    <p>The agent splits the job in three. Claude does the writing, you do the deciding, and plain code does the posting.</p>
+    <p>The agent splits the job in three. Claude does the writing, you do the deciding, and plain code does the posting. Here’s how the parts connect. The numbers on the arrows match the steps below.</p>
+    <figure class="flow" aria-labelledby="flow-cap">
+      <div class="flow-grid">
+        <div class="fl-box fl-threads">
+          <strong>Threads API</strong>
+          <span class="fl-tag">Outside service</span>
+          <p>Your account. Comments come in, replies go out.</p>
+        </div>
+        <div class="fl-link fl-l-threads">
+          <span class="fl-line" aria-hidden="true"></span>
+          <ul aria-label="Between Threads and your program">
+            <li><span class="fl-dir" aria-hidden="true">↓</span><b class="fl-n">1</b><span>New comments</span></li>
+            <li><span class="fl-dir" aria-hidden="true">↑</span><b class="fl-n">5</b><span>Approved replies, 5 minutes apart</span></li>
+          </ul>
+        </div>
+        <div class="fl-box fl-you">
+          <strong>You</strong>
+          <span class="fl-tag">Decide</span>
+          <p>Read every draft in the terminal.</p>
+        </div>
+        <div class="fl-link fl-l-you">
+          <span class="fl-line" aria-hidden="true"></span>
+          <ul aria-label="Between you and your program">
+            <li><span class="fl-dir" aria-hidden="true">↑</span><b class="fl-n">4</b><span>Each draft, with problems flagged</span></li>
+            <li><span class="fl-dir" aria-hidden="true">↓</span><b class="fl-n">4</b><span>Approve, edit or skip</span></li>
+          </ul>
+        </div>
+        <div class="fl-box fl-agent">
+          <strong>Your Python program</strong>
+          <span class="fl-tag">The agent · checks and acts</span>
+          <p>Runs every step. <b class="fl-n">3</b> Checks each draft against your rules and the daily caps. It’s the only part that holds your keys.</p>
+        </div>
+        <div class="fl-link fl-l-claude">
+          <span class="fl-line" aria-hidden="true"></span>
+          <ul aria-label="Between your program and Claude">
+            <li><span class="fl-dir" aria-hidden="true">↓</span><b class="fl-n">2</b><span>Your post and the comment</span></li>
+            <li><span class="fl-dir" aria-hidden="true">↑</span><b class="fl-n">2</b><span>A filled-in draft form</span></li>
+          </ul>
+        </div>
+        <div class="fl-box fl-claude">
+          <strong>Claude API</strong>
+          <span class="fl-tag">Thinks</span>
+          <p>Sorts each comment and writes the reply. Can’t post anything.</p>
+        </div>
+        <div class="fl-link fl-l-db">
+          <span class="fl-line" aria-hidden="true"></span>
+          <ul aria-label="Between your program and SQLite">
+            <li><span class="fl-dir" aria-hidden="true">↓</span><span>Each draft and its status</span></li>
+            <li><span class="fl-dir" aria-hidden="true">↑</span><span>What’s already answered</span></li>
+          </ul>
+        </div>
+        <div class="fl-box fl-db">
+          <strong>SQLite</strong>
+          <span class="fl-tag">Remembers</span>
+          <p>One file on your computer: new, drafted, approved, posted.</p>
+        </div>
+      </div>
+      <figcaption id="flow-cap">Everything goes through your program. Claude never talks to Threads, and nothing is posted until you approve it.</figcaption>
+    </figure>
     <ol class="steps">
       <li><strong>Collect.</strong> It reads the new comments on your recent posts.</li>
       <li><strong>Draft.</strong> For each comment, Claude decides whether a reply would be welcome. If yes, it writes a short, warm reply in your voice. Spam and bots get no reply.</li>
