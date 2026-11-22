@@ -15,7 +15,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400&display=swap">
-<link rel="stylesheet" href="../style.css?v=2026-11-24">
+<link rel="stylesheet" href="../style.css?v=2026-11-25">
 </head>
 <body>
 <main>
@@ -40,18 +40,19 @@
           <source media="(prefers-reduced-motion: reduce)" srcset="../threads-agent-demo-still.webp">
           <img src="../threads-agent-demo.gif" width="1152" height="720" alt="Three-step demo of the Threads Agent with sample data. 1, Draft: it collects comments on my posts, drafts a reply to each, skips spam and drafts a new post. 2, Approve: I review each draft and approve, edit or skip it. 3, Post: approved drafts go out at least 5 minutes apart, within the daily caps.">
         </picture>
-        <figcaption class="mono">Demo with sample data: draft, approve, post</figcaption>
+        <figcaption class="mono">Demo with sample data: drafts it queued, your approval, paced posting</figcaption>
       </figure>
       <div class="entry-head"><h2>Threads Agent</h2><span class="mono">Agent · Personal</span></div>
       <div class="facts">
-        <p><span class="tag">Problem</span>Keeping conversations going on Threads takes daily posts and replies that are hard to keep up with.</p>
-        <p><span class="tag">Solution</span>Helps me grow conversations on Threads from my own account. Claude drafts short posts in my voice that invite people to reply, collects the comments on my recent posts, and drafts a warm reply to each one. Nothing is published until I approve it.</p>
-        <p class="stack"><span class="tag">Stack</span>Python&nbsp;· Claude&nbsp;API&nbsp;· Threads&nbsp;API&nbsp;· SQLite</p>
+        <p><span class="tag">Problem</span>Growing an account takes daily posts and replies, and knowing which ones actually start conversations.</p>
+        <p><span class="tag">Solution</span>An agent with one goal: grow my following by starting genuine conversations. Each run, Claude reads its notes and my numbers, decides which comments to answer and what to post, and queues a few drafts. Nothing is published until I approve it.</p>
+        <p class="stack"><span class="tag">Stack</span>Python&nbsp;· Claude&nbsp;API (tool&nbsp;use)&nbsp;· Threads&nbsp;API&nbsp;· SQLite</p>
       </div>
-      <p>The guardrails live in code, not just in the prompt:</p>
+      <p>The limits live in code, not just in the prompt:</p>
       <ul class="points">
-        <li>At most 10 replies and 3 new posts a day, at least 5 minutes apart. Spam and bots are never answered.</li>
-        <li>It only states facts about me that I’ve listed, and flags any personal claim for me to check.</li>
+        <li>No tool can publish. At most 5 drafts a run, and 10 replies and 3 new posts a day, at least 5 minutes apart.</li>
+        <li>Engagement bait, follow requests, links and @mentions are rejected, and spam is never answered.</li>
+        <li>It saves notes on what works, with the numbers, and reads them at the start of the next run.</li>
       </ul>
       <div class="links"><a href="threads-agent/">How to create this on your own →</a><a href="https://github.com/basantinashine-dotcom/marketingagentthreads">Source ↗</a></div>
     </article>

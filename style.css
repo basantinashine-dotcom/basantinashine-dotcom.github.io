@@ -418,6 +418,10 @@ footer .elsewhere { display: flex; flex-wrap: wrap; gap: 1.25rem; }
 .sd .sd-zone { fill: rgba(235, 228, 212, 0.35); stroke: #b9ae98; stroke-dasharray: 5 4; }
 .sd .ln { fill: none; stroke: var(--muted); stroke-width: 1.5; }
 .sd marker path { fill: var(--muted); }
+.sd .sd-chip { fill: #f4efe2; stroke: #ddd3bf; }
+.sd .sd-chip-no { fill: none; stroke: #b9ae98; stroke-dasharray: 3 3; }
+.sd .t-chip { font-family: var(--font-mono); font-size: 10.5px; fill: var(--fg); }
+.sd .t-chip.t-no { font-family: var(--font-sans); font-size: 11px; font-style: italic; fill: var(--muted); }
 
 /* Home: four compact stat cards under the headline; the last has a small before/after bar */
 .stats { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.75rem; }
