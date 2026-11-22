@@ -1,0 +1,394 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Agentic Evals 101 · Basanti Nashine</title>
+<meta name="description" content="A visual introduction to evaluating AI agents, from a product leader's point of view: why agents break, pass@k vs. pass^k, outcome vs. path, graders, LLM-judge bias, error analysis, and an interview prep deck.">
+<meta property="og:title" content="Agentic Evals 101">
+<meta property="og:description" content="How to evaluate AI agents, one idea at a time, with an interview prep deck for AI PMs.">
+<meta property="og:type" content="article">
+<meta property="og:image" content="https://basantinashine-dotcom.github.io/photo-1200.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#fcf9f0">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%231c1a16'/%3E%3Ctext x='16' y='22' font-family='system-ui,sans-serif' font-size='17' font-weight='600' fill='%23fcf9f0' text-anchor='middle'%3Eb%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400&display=swap">
+<link rel="stylesheet" href="../style.css?v=2026-11-28">
+<script>
+  // Hide the animations' starting frames only when the page script can play them.
+  // If it hasn't started within 3 seconds, show every end frame instead.
+  document.documentElement.classList.add('js-ev');
+  setTimeout(function () {
+    if (!document.documentElement.classList.contains('ev-ready')) document.documentElement.classList.remove('js-ev');
+  }, 3000);
+</script>
+<script src="../nav.js?v=2026-11-28" defer></script>
+<script src="../agentic-evals.js?v=2026-11-28" defer></script>
+</head>
+<body>
+<main class="ev">
+
+  <nav class="site-nav" aria-label="Site">
+    <a class="brand" href="../">Basanti Nashine</a>
+    <a href="../work/">Work</a>
+    <a href="../projects/">Projects</a>
+    <a href="../agents/">Agents</a>
+    <details class="nav-menu current">
+      <summary>AI Cheat Sheet</summary>
+      <div class="nav-pop">
+        <a href="../agentic-evals-101/" aria-current="page">Evals</a>
+      </div>
+    </details>
+    <a class="nav-ext" href="https://www.linkedin.com/in/basanti-nashine-b7751aa2/">LinkedIn ↗</a>
+  </nav>
+
+  <!-- 1. Hero -->
+  <section class="ev-sec ev-hero" aria-labelledby="page-title">
+    <div class="ev-copy">
+      <span class="mono ev-kicker">AI Cheat Sheet · Evals</span>
+      <h1 id="page-title">Agentic Evals 101</h1>
+      <p>Agents don’t just answer. They plan, call tools, change things and adapt. That makes them powerful, and much harder to test. This page walks through how to evaluate them, one idea at a time.</p>
+    </div>
+    <div class="ev-vis">
+      <figure class="ev-panel ev-trace ev-anim" aria-label="An agent trace: a user asks for a refund, the agent looks up the order, gets the result, issues the refund and replies. Then graders stamp it: a code check passes the refund, a model judge passes the reply, and a human review is pending.">
+        <div class="ev-bar"><span>Trace · refund request</span><span>5 steps</span></div>
+        <ol class="ev-log">
+          <li class="ev-step" style="--i:0"><span class="ev-kind">User task</span><span class="ev-text">“My order arrived broken. Can I get a refund?”</span></li>
+          <li class="ev-step" style="--i:1"><span class="ev-kind">Tool call</span><code>lookup_order(customer="4821")</code></li>
+          <li class="ev-step" style="--i:2"><span class="ev-kind">Tool result</span><code>order 1193 · $42.00 · delivered</code></li>
+          <li class="ev-step" style="--i:3"><span class="ev-kind">Tool call</span><code>issue_refund(order="1193", amount=42.00)</code><span class="ev-stamp ok" style="--s:0">✓ code</span></li>
+          <li class="ev-step" style="--i:4"><span class="ev-kind">Final answer</span><span class="ev-text">“Done. $42.00 is on its way back to your card.”</span><span class="ev-stamp ok" style="--s:1">✓ judge</span></li>
+        </ol>
+        <div class="ev-trace-foot"><span class="ev-stamp ask" style="--s:2">? human</span><span>Whole trace: spot-checked by a person</span></div>
+      </figure>
+    </div>
+  </section>
+
+  <!-- 2. What is an agent eval? -->
+  <section class="ev-sec" aria-labelledby="what">
+    <div class="ev-copy">
+      <span class="mono ev-kicker">What is an agent eval?</span>
+      <h2 id="what">A test for a whole process, not one reply</h2>
+      <p>An eval gives an AI system a task, then applies grading logic to what it did. For a chatbot, that means grading one answer. For an agent, it means grading a chain of decisions, tool calls and the final state of the world.</p>
+      <p class="ev-src">Sources: <a href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents">Anthropic, Demystifying evals for AI agents ↗</a> · <a href="https://developers.openai.com/api/docs/guides/trace-grading">OpenAI, Agent evals and trace grading ↗</a></p>
+    </div>
+    <div class="ev-vis">
+      <figure class="ev-panel ev-trace" aria-label="The same trace, fully graded.">
+        <div class="ev-bar"><span>Trace · refund request</span><span>graded</span></div>
+        <ol class="ev-log">
+          <li class="ev-step"><span class="ev-kind">User task</span><span class="ev-text">“My order arrived broken. Can I get a refund?”</span></li>
+          <li class="ev-step"><span class="ev-kind">Tool call</span><code>lookup_order(customer="4821")</code></li>
+          <li class="ev-step"><span class="ev-kind">Tool result</span><code>order 1193 · $42.00 · delivered</code></li>
+          <li class="ev-step"><span class="ev-kind">Tool call</span><code>issue_refund(order="1193", amount=42.00)</code><span class="ev-stamp ok">✓ code</span></li>
+          <li class="ev-step"><span class="ev-kind">Final answer</span><span class="ev-text">“Done. $42.00 is on its way back to your card.”</span><span class="ev-stamp ok">✓ judge</span></li>
+        </ol>
+        <div class="ev-trace-foot"><span class="ev-stamp ask">? human</span><span>Whole trace: spot-checked by a person</span></div>
+      </figure>
+      <ul class="ev-legend">
+        <li><span class="ev-stamp ok">✓ code</span>The refund matches the order: right account, right amount.</li>
+        <li><span class="ev-stamp ok">✓ judge</span>The reply is clear and kind.</li>
+        <li><span class="ev-stamp ask">? human</span>A person reviews a sample of whole traces.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 3. Why agents break -->
+  <section class="ev-sec" aria-labelledby="break">
+    <div class="ev-copy">
+      <span class="mono ev-kicker">Why agents break</span>
+      <h2 id="break">Small errors compound</h2>
+      <p>If each step works 95% of the time, a 10-step task succeeds only about 60% of the time, and a 20-step task about 36%. Reliability per step matters more than you’d think.</p>
+    </div>
+    <div class="ev-vis">
+      <figure class="ev-panel ev-compound" aria-label="Interactive: choose how many steps a task has. Each step succeeds 95% of the time; the big number shows the chance the whole task succeeds.">
+        <div class="ev-blocks" aria-hidden="true"></div>
+        <div class="ev-readout">
+          <span class="ev-big" aria-live="polite">60%</span>
+          <span class="ev-cap">chance a <b class="ev-n">10</b>-step task succeeds, at 95% per step</span>
+        </div>
+        <label class="ev-slider">
+          <span>Steps</span>
+          <input type="range" min="1" max="20" value="10" step="1">
+          <output>10</output>
+        </label>
+      </figure>
+    </div>
+  </section>
+
+  <!-- 4. Reliability -->
+  <section class="ev-sec" aria-labelledby="reliable">
+    <div class="ev-copy">
+      <span class="mono ev-kicker">Reliability</span>
+      <h2 id="reliable">Lucky once vs. right every time</h2>
+      <p><code>pass@k</code> asks: did the agent succeed at least once in k tries? <code>pass^k</code> asks: did it succeed every time? Users experience the second. In tau-bench, even strong agents succeeded on under half the tasks, and far fewer succeeded every time.</p>
+      <p class="ev-src">Source: <a href="https://arxiv.org/abs/2406.12045">Yao et al., tau-bench (Sierra; ICLR 2025) ↗</a></p>
+    </div>
+    <div class="ev-vis">
+      <figure class="ev-panel ev-runs" aria-label="Interactive: eight runs of the same task. Switch between counting success at least once and every time, or replay with new random runs.">
+        <ol class="ev-dots" aria-label="Eight runs of the same task"></ol>
+        <div class="ev-toggle" role="group" aria-label="Count success">
+          <button type="button" data-mode="once" aria-pressed="true">At least once</button>
+          <button type="button" data-mode="every" aria-pressed="false">Every time</button>
+        </div>
+        <p class="ev-verdict" aria-live="polite"></p>
+        <button type="button" class="ev-replay">↻ Replay with new runs</button>
+      </figure>
+    </div>
+  </section>
+
+  <!-- 5. Outcome vs. path -->
+  <section class="ev-sec" aria-labelledby="outcome">
+    <div class="ev-copy">
+      <span class="mono ev-kicker">Outcome vs. path</span>
+      <h2 id="outcome">Grade what happened, not the exact route</h2>
+      <p>Agents often find valid solutions you didn’t anticipate. Grade the end result, and only check the path where rules truly matter, such as verifying identity before a refund.</p>
+      <p class="ev-src">Sources: <a href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents">Anthropic ↗</a> · <a href="https://developers.openai.com/api/docs/guides/trace-grading">OpenAI, trace grading ↗</a> · <a href="https://docs.cloud.google.com/vertex-ai/generative-ai/docs/models/evaluation-agents">Google Cloud, Evaluate Gen AI agents ↗</a></p>
+    </div>
+    <div class="ev-vis">
+      <figure class="ev-panel ev-routes ev-anim" aria-label="Agent A takes the expected four-step path to a refund. Agent B takes a shorter, different path to the same refund. A strict path checker fails B; an outcome grader passes both.">
+        <div class="ev-route">
+          <span class="ev-agent">Agent A</span>
+          <ol class="ev-path">
+            <li class="ev-pstep" style="--i:0">Look up order</li>
+            <li class="ev-pstep" style="--i:1">Verify identity</li>
+            <li class="ev-pstep" style="--i:2">Check policy</li>
+            <li class="ev-pstep" style="--i:3">Issue refund</li>
+          </ol>
+          <span class="ev-end" style="--i:4"><span class="ev-dot-s ok"></span>Refunded $42</span>
+        </div>
+        <div class="ev-route">
+          <span class="ev-agent">Agent B</span>
+          <ol class="ev-path">
+            <li class="ev-pstep" style="--i:0">Verify identity</li>
+            <li class="ev-pstep" style="--i:1">Issue refund</li>
+          </ol>
+          <span class="ev-end" style="--i:2"><span class="ev-dot-s ok"></span>Refunded $42</span>
+        </div>
+        <div class="ev-verdicts">
+          <div class="ev-vrow"><span class="ev-grader">Strict path checker</span><span class="ev-stamp ok" style="--s:0">A ✓</span><span class="ev-stamp bad" style="--s:1">B ✗</span></div>
+          <div class="ev-vrow"><span class="ev-grader">Outcome grader</span><span class="ev-stamp ok" style="--s:2">A ✓</span><span class="ev-stamp ok" style="--s:3">B ✓</span></div>
+        </div>
+      </figure>
+    </div>
+  </section>
+
+  <!-- 6. Three kinds of graders -->
+  <section class="ev-sec" aria-labelledby="graders">
+    <div class="ev-copy">
+      <span class="mono ev-kicker">Three kinds of graders</span>
+      <h2 id="graders">Code, models and humans</h2>
+      <p>Code checks are fast and exact but rigid. LLM judges scale to subjective quality but carry biases. Humans are the most accurate and the slowest. Strong eval systems layer all three.</p>
+      <p class="ev-src">Source: <a href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents">Anthropic, Demystifying evals for AI agents ↗</a></p>
+    </div>
+    <div class="ev-vis">
+      <figure class="ev-panel ev-conveyor ev-anim" aria-label="Outputs move along a conveyor through three grader stations: code check, fast and exact; LLM judge, scalable but biased; human review, accurate but slow.">
+        <div class="ev-stations">
+          <div class="ev-station"><span class="ev-icon" aria-hidden="true">{ }</span><b>Code check</b><span>fast and exact</span></div>
+          <div class="ev-station"><span class="ev-icon" aria-hidden="true">✓?</span><b>LLM judge</b><span>scalable but biased</span></div>
+          <div class="ev-station"><span class="ev-icon" aria-hidden="true">◉</span><b>Human review</b><span>accurate but slow</span></div>
+        </div>
+        <div class="ev-belt" aria-hidden="true">
+          <span class="ev-item" style="--k:0"></span>
+          <span class="ev-item" style="--k:1"></span>
+          <span class="ev-item" style="--k:2"></span>
+        </div>
+        <p class="ev-belt-cap">Cheap checks first, judges on what’s left, people to calibrate</p>
+      </figure>
+    </div>
+  </section>
+
+  <!-- 7. The judge has blind spots -->
+  <section class="ev-sec" aria-labelledby="bias">
+    <div class="ev-copy">
+      <span class="mono ev-kicker">The judge has blind spots</span>
+      <h2 id="bias">Trust, but verify your LLM judge</h2>
+      <p>LLM judges can favor the first answer they see, longer answers, or answers that sound like themselves. Always measure how often your judge agrees with expert humans before you rely on it.</p>
+      <p class="ev-src">Source: <a href="https://arxiv.org/abs/2306.05685">Zheng et al., Judging LLM-as-a-Judge (NeurIPS 2023) ↗</a></p>
+    </div>
+    <div class="ev-vis">
+      <figure class="ev-panel ev-bias ev-anim" aria-label="Two answers side by side. The judge picks the one on the left. The answers swap places, and the judge picks the one on the left again, which is now the other answer. Same answers, different verdict.">
+        <div class="ev-pair">
+          <div class="ev-answer ev-x"><span class="ev-alabel">Answer X</span>“Your refund is on its way. It should arrive in 3 to 5 days.”</div>
+          <div class="ev-answer ev-y"><span class="ev-alabel">Answer Y</span>“Refund issued. Expect it within 3 to 5 business days.”</div>
+        </div>
+        <ol class="ev-rounds">
+          <li class="ev-round r1"><span class="ev-stamp judge">Judge</span><span>Round 1: picks <b>X</b>, shown first</span></li>
+          <li class="ev-round r2"><span class="ev-stamp judge">Judge</span><span>Round 2, swapped: picks <b>Y</b>, shown first</span></li>
+        </ol>
+        <p class="ev-bias-cap">Same answers, different verdict.</p>
+      </figure>
+    </div>
+  </section>
+
+  <!-- 8. Where good evals come from -->
+  <section class="ev-sec" aria-labelledby="failures">
+    <div class="ev-copy">
+      <span class="mono ev-kicker">Where good evals come from</span>
+      <h2 id="failures">Start with real failures</h2>
+      <p>The best eval suites aren’t invented in a meeting. They come from reading real traces, labeling what went wrong, grouping failures, and turning the most important ones into tests. Then fix, rerun and repeat.</p>
+      <p class="ev-src">Source: <a href="https://hamel.dev/blog/posts/evals-faq/">Hamel Husain and Shreya Shankar, AI Evals FAQ ↗</a></p>
+    </div>
+    <div class="ev-vis">
+      <figure class="ev-panel ev-wheel" aria-label="A loop of six steps: read traces, label failures, group them, write evals, fix, rerun.">
+        <div class="ev-ring">
+          <span class="ev-node" style="--n:0"><b>1</b>Read traces</span>
+          <span class="ev-node" style="--n:1"><b>2</b>Label failures</span>
+          <span class="ev-node" style="--n:2"><b>3</b>Group them</span>
+          <span class="ev-node" style="--n:3"><b>4</b>Write evals</span>
+          <span class="ev-node" style="--n:4"><b>5</b>Fix</span>
+          <span class="ev-node" style="--n:5"><b>6</b>Rerun</span>
+          <span class="ev-hub" aria-hidden="true">↻</span>
+        </div>
+      </figure>
+    </div>
+  </section>
+
+  <!-- 9. Beyond accuracy -->
+  <section class="ev-sec" aria-labelledby="beyond">
+    <div class="ev-copy">
+      <span class="mono ev-kicker">Beyond accuracy</span>
+      <h2 id="beyond">Cost, consistency and honest benchmarks</h2>
+      <p>A slightly more accurate agent that costs 10 times more may not be better. Benchmarks need holdout sets, or agents learn shortcuts. Track accuracy, cost, latency and consistency together.</p>
+      <p class="ev-src">Sources: <a href="https://arxiv.org/abs/2407.01502">Kapoor et al., AI Agents That Matter ↗</a> · <a href="https://openai.com/index/introducing-swe-bench-verified/">OpenAI, SWE-bench Verified ↗</a> · <a href="https://metr.org/blog/2025-03-19-measuring-ai-ability-to-complete-long-tasks/">METR, long tasks ↗</a></p>
+    </div>
+    <div class="ev-vis">
+      <figure class="ev-panel ev-scatter">
+        <svg viewBox="0 0 420 260" role="img" aria-labelledby="sc-t sc-d">
+          <title id="sc-t">Accuracy versus cost per task</title>
+          <desc id="sc-d">An illustration with five agents. The most accurate one costs about ten times more than an agent that is only two points less accurate.</desc>
+          <line class="ev-axis" x1="48" y1="214" x2="404" y2="214"/>
+          <line class="ev-axis" x1="48" y1="20" x2="48" y2="214"/>
+          <text class="ev-ax" x="226" y="246" text-anchor="middle">Cost per task →</text>
+          <text class="ev-ax" x="16" y="117" text-anchor="middle" transform="rotate(-90 16 117)">Accuracy →</text>
+          <path class="ev-front" d="M84 150 L150 76 L372 62"/>
+          <circle class="ev-pt" cx="84" cy="150" r="6"/>
+          <circle class="ev-pt" cx="150" cy="76" r="7"/>
+          <circle class="ev-pt dim" cx="210" cy="120" r="6"/>
+          <circle class="ev-pt dim" cx="290" cy="104" r="6"/>
+          <circle class="ev-pt hot" cx="372" cy="62" r="7"/>
+          <text class="ev-lab" x="160" y="68">82% · $0.10</text>
+          <text class="ev-lab" x="362" y="46" text-anchor="end">84% · $1.00</text>
+          <text class="ev-lab muted" x="362" y="88" text-anchor="end">+2 points for 10× the cost</text>
+        </svg>
+        <figcaption class="ev-figcap">Illustration with sample numbers. The line joins the agents nothing else beats on both cost and accuracy.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- 10. From my work. PLACEHOLDER COPY from the brief: Basanti to supply final copy before publishing. -->
+  <section class="ev-sec" aria-labelledby="mywork">
+    <div class="ev-copy">
+      <span class="mono ev-kicker">From my work</span>
+      <h2 id="mywork">How I validated a critic LLM at scale</h2>
+      <p>At Amazon, I led the evaluation strategy for GenAI ad content, using a critic LLM checked against a human-labeled golden dataset. Getting the judge to 99% agreement with human reviewers is what let us trust automated evals at scale.</p>
+      <p class="ev-src"><a href="../work/#search-ads">Read the full story on my Work page →</a></p>
+    </div>
+    <div class="ev-vis">
+      <figure class="ev-panel ev-meter ev-anim" aria-label="A meter filled to 99%: critic LLM agreement with a human-labeled golden dataset.">
+        <div class="ev-meter-num"><span class="ev-count" data-to="99">99</span>%</div>
+        <div class="ev-meter-bar"><span></span></div>
+        <p class="ev-cap">Critic LLM agreement with human-labeled golden dataset</p>
+      </figure>
+    </div>
+  </section>
+
+  <!-- 11. Interview prep deck -->
+  <section class="ev-sec ev-wide" aria-labelledby="deck">
+    <div class="ev-copy">
+      <span class="mono ev-kicker">Interview prep deck</span>
+      <h2 id="deck">Practice: evals questions for AI PM interviews</h2>
+      <p>Ten questions interviewers ask about evals. Tap a card to see what a strong answer covers.</p>
+    </div>
+    <div class="ev-deck" data-deck>
+      <ol class="ev-qa">
+        <li><p class="ev-q">How would you evaluate a customer-support agent that can issue refunds?</p><ul>
+          <li>Define success as the right end state: correct refund amount, correct account, policy followed.</li>
+          <li>Grade the outcome by checking the database state, plus hard rule checks on the path (identity verified before any refund).</li>
+          <li>Build test cases from real tickets, including edge cases and users trying to bend the policy.</li>
+          <li>Run each task several times and report consistency. A refund agent that’s right 80% of the time isn’t shippable.</li>
+          <li>Weight errors by cost: a wrong refund matters more than an awkward reply.</li></ul></li>
+        <li><p class="ev-q">Your LLM judge says quality went up, but users complain more. What do you do?</p><ul>
+          <li>Trust the users first. The judge is a proxy, and it has drifted from what users value.</li>
+          <li>Read the complaint traces and label what’s actually going wrong.</li>
+          <li>Check the judge against human labels on those cases (agreement, false positives).</li>
+          <li>Look for judge biases, like preferring longer or more confident answers.</li>
+          <li>Fix the rubric, recalibrate on fresh human labels, and add the new failures to the test set.</li></ul></li>
+        <li><p class="ev-q">How do you build a golden dataset, and how do you keep it from going stale?</p><ul>
+          <li>Start from real traffic and real failures, not made-up examples.</li>
+          <li>Have domain experts label it with a written rubric, and measure how often labelers agree.</li>
+          <li>Cover common cases, edge cases and high-risk cases on purpose.</li>
+          <li>Refresh it on a schedule and whenever production behavior shifts.</li>
+          <li>Keep a holdout slice no one tunes against.</li></ul></li>
+        <li><p class="ev-q">When would you use code-based grading instead of an LLM judge?</p><ul>
+          <li>Use code whenever the answer is checkable: exact values, schema, tool called with the right arguments, tests passing, final state.</li>
+          <li>Code is fast, cheap, repeatable and has no bias.</li>
+          <li>Use an LLM judge for subjective qualities like tone, helpfulness and faithfulness to sources.</li>
+          <li>Best practice is layering: cheap code checks first, judges on what’s left, humans to calibrate.</li></ul></li>
+        <li><p class="ev-q">The agent scores 85% but fails on the same customer every third time. Is it ready to ship?</p><ul>
+          <li>Not yet. An average hides inconsistency, and users feel the bad runs.</li>
+          <li>Measure pass^k: does it succeed on every one of k repeated tries?</li>
+          <li>Find the cause: ambiguous instructions, a flaky tool, randomness in the model.</li>
+          <li>Set the launch bar by the cost of failure, and add fallbacks or human handoff for risky paths.</li></ul></li>
+        <li><p class="ev-q">How would you know if your agent is gaming your eval?</p><ul>
+          <li>Read transcripts, not just scores. Look for shortcuts like hard-coding outputs or editing the tests.</li>
+          <li>Watch for scores that jump without a matching change in real-world metrics.</li>
+          <li>Keep a holdout set the team never tunes against.</li>
+          <li>Grade real outcomes, and check that graders can’t be fooled by output that only looks right.</li></ul></li>
+        <li><p class="ev-q">A new model is 5% more accurate and 3x more expensive. How do you decide?</p><ul>
+          <li>Translate both into business terms: what 5% fewer errors is worth versus the added cost per task.</li>
+          <li>Check where the gains land. Gains on high-stakes tasks matter more than gains on easy ones.</li>
+          <li>Consider latency and reliability, not just average accuracy.</li>
+          <li>Look for a middle path: route only hard cases to the expensive model.</li></ul></li>
+        <li><p class="ev-q">What’s your launch bar for an agent that writes to production systems?</p><ul>
+          <li>Hard guardrails first: permissions, confirmation for irreversible actions, rate limits.</li>
+          <li>High consistency (pass^k) on the risky tasks, not just high average accuracy.</li>
+          <li>Red-team testing for prompt injection and misuse.</li>
+          <li>Staged rollout with monitoring, an audit trail and a kill switch.</li></ul></li>
+        <li><p class="ev-q">How do you evaluate an agent whose correct answer can come in many forms?</p><ul>
+          <li>Grade the outcome, not exact wording or a fixed sequence of steps.</li>
+          <li>Use a rubric of required elements, scored by an LLM judge that’s been checked against humans.</li>
+          <li>Compare against reference answers for meaning, not word-for-word.</li>
+          <li>Accept different valid paths, but still enforce hard rules on the path.</li></ul></li>
+        <li><p class="ev-q">Tell me about an eval you designed. What did it catch, and what did it miss?</p><ul>
+          <li>Situation: the product, and what was at stake if quality slipped.</li>
+          <li>Design: what you graded, how you built the dataset, and which graders you used.</li>
+          <li>Validation: how you showed the grader agreed with human judgment.</li>
+          <li>Impact: a failure it caught before launch, and the business result.</li>
+          <li>Honest gap: what it missed and how you changed the eval afterward.</li></ul></li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- 12. Sources -->
+  <section class="ev-sec ev-wide" aria-labelledby="sources">
+    <div class="ev-copy">
+      <span class="mono ev-kicker">Sources</span>
+      <h2 id="sources">Further reading</h2>
+    </div>
+    <ol class="ev-sources">
+      <li><a href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents">Anthropic, Demystifying evals for AI agents</a> <span class="muted">(Jan 2026)</span></li>
+      <li><a href="https://developers.openai.com/api/docs/guides/trace-grading">OpenAI, Agent evals and trace grading docs</a></li>
+      <li><a href="https://docs.cloud.google.com/vertex-ai/generative-ai/docs/models/evaluation-agents">Google Cloud, Evaluate Gen AI agents (trajectory metrics)</a></li>
+      <li><a href="https://hamel.dev/blog/posts/evals-faq/">Hamel Husain and Shreya Shankar, AI Evals FAQ</a></li>
+      <li><a href="https://arxiv.org/abs/2406.12045">Yao et al., tau-bench</a> <span class="muted">(Sierra; ICLR 2025)</span></li>
+      <li><a href="https://arxiv.org/abs/2407.01502">Kapoor et al., AI Agents That Matter</a> <span class="muted">(Princeton; TMLR 2025)</span></li>
+      <li><a href="https://arxiv.org/abs/2306.05685">Zheng et al., Judging LLM-as-a-Judge</a> <span class="muted">(NeurIPS 2023)</span></li>
+      <li><a href="https://openai.com/index/introducing-swe-bench-verified/">OpenAI, Introducing SWE-bench Verified</a></li>
+      <li><a href="https://metr.org/blog/2025-03-19-measuring-ai-ability-to-complete-long-tasks/">METR, Measuring AI Ability to Complete Long Tasks</a></li>
+      <li><a href="https://arxiv.org/abs/2503.16416">Yehudai et al., A Survey on Evaluation of LLM-based Agents</a> <span class="muted">(ACL Findings 2026)</span></li>
+    </ol>
+  </section>
+
+  <footer>
+    <div class="elsewhere">
+      <a href="https://www.linkedin.com/in/basanti-nashine-b7751aa2/">LinkedIn ↗</a>
+      <a href="https://github.com/basantinashine-dotcom">GitHub ↗</a>
+    </div>
+    <span class="muted">© 2026 Basanti Nashine</span>
+  </footer>
+
+</main>
+</body>
+</html>

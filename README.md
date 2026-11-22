@@ -11,7 +11,7 @@ The site is four static pages, plus build guides for the agents and AI cheat she
 | Projects | `projects/index.html` | Apps, each with Problem, Solution and Stack: AdCanvas, Hey Mama (with its spec sheet), Tagalong and Campaign Lab (`#adcanvas`, `#hey-mama`, `#tagalong`, `#campaign-lab`) |
 | Agents | `agents/index.html` | AI agents, each with Problem, Solution and Stack: the Threads Agent (`#threads-agent`), Decision Log (`#decision-log`) and the Eval Agent (`#eval-agent`) |
 | Build guides | `agents/threads-agent/index.html` | A step-by-step guide to building the agent yourself, linked from its entry on Agents ("How to create this on your own") |
-| Cheat sheets | `cheat-sheet/evals/index.html` | One-page references, reached from the **AI Cheat Sheet** menu at the top of every page (a `<details>` dropdown; `nav.js` closes it on Escape or an outside click). The first is Evals. To add one, create `cheat-sheet/<topic>/index.html` and add a link to the menu on every page. |
+| Cheat sheets | `agentic-evals-101/index.html` | Reached from the **AI Cheat Sheet** menu at the top of every page (a `<details>` dropdown; `nav.js` closes it on Escape or an outside click). The first is **Evals**: Agentic Evals 101, with scroll-triggered animations, two interactive figures and an interview flashcard deck, all driven by `agentic-evals.js`. Without that script, or with reduced motion, every figure shows its end frame and the deck is a plain list. To add a cheat sheet, create its page and add a link to the menu on every page. |
 
 Home uses Geist for text and Newsreader, a serif, only for the name in the hero.
 
