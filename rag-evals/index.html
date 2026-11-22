@@ -72,6 +72,7 @@
         <p><b>RAG</b> stands for <b>retrieval-augmented generation</b>. It’s how an AI assistant answers from your own documents instead of only from what it learned in training. When a question comes in, it first searches your documents for the most relevant passages, then hands them to a large language model (LLM), which writes the answer from them. Help-center bots and company-wiki assistants usually work this way.</p>
       </div>
       <p>So a RAG system has two jobs: find the right passages, then write an answer from them. When an answer is wrong, you need to know which job failed. Grade the retrieved passages and the written answer separately, and you fix the half that broke instead of guessing.</p>
+      <p class="ev-src"><a href="#terms">New to these terms? Jump to the vocabulary ↓</a></p>
     </div>
     <div class="ev-vis">
       <figure class="ev-panel ev-trace ev-anim" aria-label="A RAG run: a question, three retrieved chunks graded for relevance, two relevant and one noise, and an answer graded as grounded in the relevant chunks.">
@@ -86,36 +87,6 @@
         <div class="ev-trace-foot rg-foot"><span><b>Retrieval</b> is graded on the chunks.</span><span><b>Generation</b> is graded on the answer.</span></div>
       </figure>
     </div>
-  </section>
-
-  <!-- Terms -->
-  <section class="ev-sec ev-wide" aria-labelledby="terms">
-    <div class="ev-copy">
-      <span class="mono ev-kicker">Terms you’ll see</span>
-      <h2 id="terms">The vocabulary, in plain English</h2>
-    </div>
-    <dl class="rg-terms">
-      <div><dt>RAG <span>retrieval-augmented generation</span></dt><dd>Answering from your own documents: retrieve relevant passages first, then generate an answer from them.</dd></div>
-      <div><dt>LLM <span>large language model</span></dt><dd>The AI model that writes the answer, like Claude.</dd></div>
-      <div><dt>Chunk</dt><dd>A short passage your documents are split into, so the system can fetch just the part that matters.</dd></div>
-      <div><dt>Retriever</dt><dd>The search step that finds the chunks most related to the question.</dd></div>
-      <div><dt>Embedding</dt><dd>A list of numbers that captures what a text means, so texts with similar meanings can be found by comparing numbers. Searching this way is called semantic search.</dd></div>
-      <div><dt>Re-ranker</dt><dd>A second model that reorders the retrieved chunks so the most useful ones come first.</dd></div>
-      <div><dt>Top K, or @K</dt><dd>The first K chunks the retriever returns. A metric “@K” only looks at those, for example @5 means the top 5.</dd></div>
-      <div><dt>Precision@K</dt><dd>The share of the top K chunks that are relevant.</dd></div>
-      <div><dt>Recall@K</dt><dd>The share of all the relevant chunks that made it into the top K.</dd></div>
-      <div><dt>MRR <span>mean reciprocal rank</span></dt><dd>For each question, 1 divided by the position of the first relevant chunk (1 if it’s first, ½ if second, ⅓ if third), averaged over all questions.</dd></div>
-      <div><dt>NDCG <span>normalized discounted cumulative gain</span></dt><dd>Scores the whole ranking. Each relevant chunk earns credit (cumulative gain), less the lower it sits (discounted), divided by the best possible score (normalized), so 1.0 is a perfect order.</dd></div>
-      <div><dt>Faithfulness <span>also called groundedness</span></dt><dd>The answer only says what the retrieved chunks support.</dd></div>
-      <div><dt>Hallucination</dt><dd>A claim the model made up that the sources don’t support.</dd></div>
-      <div><dt>LLM judge</dt><dd>A model that grades another model’s output against a written rubric.</dd></div>
-      <div><dt>Synthetic test set</dt><dd>Test questions an LLM writes from your documents, used before you have real user questions.</dd></div>
-      <div><dt>CI/CD <span>continuous integration and continuous delivery</span></dt><dd>Testing and shipping every code change automatically. A quality gate stops a change whose tests fail.</dd></div>
-      <div><dt>Regression</dt><dd>Something that used to work gets worse after a change.</dd></div>
-      <div><dt>Baseline</dt><dd>The current version’s scores, which a change is compared against.</dd></div>
-      <div><dt>p95 latency <span>95th percentile</span></dt><dd>The response time 95% of requests beat; the slowest 5% take longer.</dd></div>
-      <div><dt>Holdout set</dt><dd>Test questions nobody tunes against, so the scores stay honest.</dd></div>
-    </dl>
   </section>
 
   <!-- Which half failed -->
@@ -310,6 +281,36 @@
       <li><a href="https://nlp.stanford.edu/IR-book/html/htmledition/evaluation-in-information-retrieval-1.html">Manning, Raghavan and Schütze, Introduction to Information Retrieval: Evaluation</a></li>
       <li><a href="https://doi.org/10.1145/582415.582418">Järvelin and Kekäläinen, Cumulated Gain-Based Evaluation of IR Techniques</a> <span class="muted">(2002)</span></li>
     </ol>
+  </section>
+
+  <!-- Terms -->
+  <section class="ev-sec ev-wide" aria-labelledby="terms">
+    <div class="ev-copy">
+      <span class="mono ev-kicker">Terms you’ll see</span>
+      <h2 id="terms">The vocabulary, in plain English</h2>
+    </div>
+    <dl class="rg-terms">
+      <div><dt>RAG <span>retrieval-augmented generation</span></dt><dd>Answering from your own documents: retrieve relevant passages first, then generate an answer from them.</dd></div>
+      <div><dt>LLM <span>large language model</span></dt><dd>The AI model that writes the answer, like Claude.</dd></div>
+      <div><dt>Chunk</dt><dd>A short passage your documents are split into, so the system can fetch just the part that matters.</dd></div>
+      <div><dt>Retriever</dt><dd>The search step that finds the chunks most related to the question.</dd></div>
+      <div><dt>Embedding</dt><dd>A list of numbers that captures what a text means, so texts with similar meanings can be found by comparing numbers. Searching this way is called semantic search.</dd></div>
+      <div><dt>Re-ranker</dt><dd>A second model that reorders the retrieved chunks so the most useful ones come first.</dd></div>
+      <div><dt>Top K, or @K</dt><dd>The first K chunks the retriever returns. A metric “@K” only looks at those, for example @5 means the top 5.</dd></div>
+      <div><dt>Precision@K</dt><dd>The share of the top K chunks that are relevant.</dd></div>
+      <div><dt>Recall@K</dt><dd>The share of all the relevant chunks that made it into the top K.</dd></div>
+      <div><dt>MRR <span>mean reciprocal rank</span></dt><dd>For each question, 1 divided by the position of the first relevant chunk (1 if it’s first, ½ if second, ⅓ if third), averaged over all questions.</dd></div>
+      <div><dt>NDCG <span>normalized discounted cumulative gain</span></dt><dd>Scores the whole ranking. Each relevant chunk earns credit (cumulative gain), less the lower it sits (discounted), divided by the best possible score (normalized), so 1.0 is a perfect order.</dd></div>
+      <div><dt>Faithfulness <span>also called groundedness</span></dt><dd>The answer only says what the retrieved chunks support.</dd></div>
+      <div><dt>Hallucination</dt><dd>A claim the model made up that the sources don’t support.</dd></div>
+      <div><dt>LLM judge</dt><dd>A model that grades another model’s output against a written rubric.</dd></div>
+      <div><dt>Synthetic test set</dt><dd>Test questions an LLM writes from your documents, used before you have real user questions.</dd></div>
+      <div><dt>CI/CD <span>continuous integration and continuous delivery</span></dt><dd>Testing and shipping every code change automatically. A quality gate stops a change whose tests fail.</dd></div>
+      <div><dt>Regression</dt><dd>Something that used to work gets worse after a change.</dd></div>
+      <div><dt>Baseline</dt><dd>The current version’s scores, which a change is compared against.</dd></div>
+      <div><dt>p95 latency <span>95th percentile</span></dt><dd>The response time 95% of requests beat; the slowest 5% take longer.</dd></div>
+      <div><dt>Holdout set</dt><dd>Test questions nobody tunes against, so the scores stay honest.</dd></div>
+    </dl>
   </section>
 
   <footer>
