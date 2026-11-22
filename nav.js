@@ -1,4 +1,4 @@
-// Closes the "AI Cheat Sheet" menu on Escape or a click outside it.
+// Closes "The PM Playbook" menu on Escape or a click outside it.
 // The menu itself is a <details> element, so it opens and closes without this.
 (function () {
   function closeAll(except) {

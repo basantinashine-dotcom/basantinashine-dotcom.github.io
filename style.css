@@ -590,6 +590,8 @@ main.ev {
 .ev-kind { font-family: var(--font-mono); font-size: 0.6875rem; letter-spacing: 0.04em; text-transform: uppercase; color: var(--muted); }
 .ev-step code { background: none; padding: 0; font-size: 0.75rem; overflow-wrap: anywhere; }
 .ev-step .ev-stamp { grid-column: 3; }
+.ev-trace { overflow: hidden; }  /* stamps pop in at 1.8x; keep them inside the panel on phones */
+.ev-step .ev-stamp { transform-origin: right center; }
 @media (max-width: 520px) {
   .ev-step { grid-template-columns: minmax(0, 1fr) auto; }
   .ev-kind { grid-column: 1 / -1; }
@@ -954,4 +956,70 @@ main.ev {
 @media (min-width: 760px) { .jg-check { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 .jg-check li { position: relative; padding: 0.55rem 0 0.55rem 1.9rem; border-top: 1px solid var(--line); }
 .jg-check li::before { content: "✓"; position: absolute; left: 0.2rem; top: 0.5rem; display: grid; place-items: center; width: 1.2rem; height: 1.2rem; border-radius: 50%; background: var(--ok-bg); color: var(--ok); font-size: 0.75rem; }
+
+/* RAG Evals (rag-evals/): reuses the Agentic Evals 101 and LLM-as-a-Judge pieces, plus these */
+.ev-trace-foot.rg-foot { justify-content: space-between; flex-wrap: wrap; gap: 0.3rem 1rem; }
+.rg-foot b { font-weight: 600; color: var(--fg); }
+
+/* Which half failed: a 2 x 2 */
+.rg-axis-top, .rg-row { display: grid; grid-template-columns: 5.5rem repeat(2, minmax(0, 1fr)); gap: 0.5rem; }
+.rg-axis-top { font-size: 0.75rem; line-height: 1.35; text-align: center; color: var(--muted); }
+.rg-axis-side { align-self: center; font-size: 0.75rem; line-height: 1.35; color: var(--muted); }
+.rg-cell { display: flex; flex-direction: column; gap: 0.2rem; padding: 0.7rem 0.75rem; border: 1px solid; border-radius: 8px; font-size: 0.8125rem; line-height: 1.45; color: var(--muted); }
+.rg-cell b { font-weight: 600; color: var(--fg); }
+.rg-cell.ok { border-color: var(--ok); background: var(--ok-bg); }
+.rg-cell.warn { border-color: var(--ask); background: var(--ask-bg); }
+.rg-cell.bad { border-color: var(--bad); background: var(--bad-bg); }
+.rg-tag { display: none; font-family: var(--font-mono); font-size: 0.6875rem; letter-spacing: 0.02em; text-transform: uppercase; }
+@media (max-width: 520px) {
+  .rg-axis-top, .rg-axis-side { display: none; }
+  .rg-row { grid-template-columns: minmax(0, 1fr); }
+  .rg-tag { display: block; }
+}
+
+/* Retrieval metrics calculator */
+.rg-q { margin: 0; display: flex; flex-direction: column; gap: 0.15rem; font-weight: 500; }
+.rg-chunks { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0.35rem; }
+.rg-chunks li { transition: opacity 0.2s ease; }
+.rg-chunks li.out-k { opacity: 0.4; }
+.rg-chunks button {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1.4rem minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.5rem 0.65rem;
+  text-align: left;
+  font-size: 0.8125rem;
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  cursor: pointer;
+}
+.rg-chunks button[aria-pressed="true"] { background: var(--ok-bg); border-color: var(--ok); }
+.rg-rank { font-family: var(--font-mono); color: var(--muted); }
+.rg-mark::after { content: "not relevant"; font-family: var(--font-mono); font-size: 0.6875rem; color: var(--muted); white-space: nowrap; }
+.rg-chunks button[aria-pressed="true"] .rg-mark::after { content: "✓ relevant"; color: var(--ok); }
+.rg-missed { margin: 0; font-size: 0.8125rem; color: var(--muted); }
+.rg-missed b { font-weight: 500; color: var(--fg); }
+.jg-results.rg-results { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+@media (max-width: 520px) { .jg-results.rg-results { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+
+/* The RAG triad */
+.rg-triad svg { display: block; width: 100%; max-width: 26rem; height: auto; margin: 0 auto; }
+.rg-edge { fill: none; stroke: var(--underline); stroke-width: 1.5; stroke-dasharray: 5 5; }
+.rg-node rect { fill: var(--bg); stroke: var(--line); }
+.rg-node text { font-family: var(--font-sans); font-size: 15px; font-weight: 600; fill: var(--fg); }
+.rg-elab { font-family: var(--font-mono); font-size: 12.5px; fill: var(--heading); }
+
+/* Faithfulness score, synthetic triplet, CI gates */
+.rg-score { font-weight: 600; color: var(--heading); }
+.flow figcaption.rg-triplet { display: flex; flex-direction: column; gap: 0.3rem; color: var(--fg); font-size: var(--small); }
+.rg-triplet > span:not(.ev-alabel) { display: grid; grid-template-columns: 4.2rem minmax(0, 1fr); gap: 0.5rem; align-items: baseline; }
+.rg-triplet b { display: inline-block; min-width: 4.2rem; font-family: var(--font-mono); font-size: 0.6875rem; font-weight: 400; letter-spacing: 0.04em; text-transform: uppercase; color: var(--muted); }
+.rg-gates { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
+.rg-gates li { display: grid; grid-template-columns: minmax(0, 1fr) auto auto 4.6rem; align-items: center; gap: 0.9rem; padding: 0.5rem 0; border-bottom: 1px solid var(--line); }
+.rg-gates .mono { color: var(--muted); }
+.rg-gates .mono + .mono { color: var(--fg); }
+.rg-blocked { font-weight: 600; color: var(--bad); }
 

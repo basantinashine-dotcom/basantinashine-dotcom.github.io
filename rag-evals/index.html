@@ -1,0 +1,291 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Deconstructing RAG — Evaluating Retrieval and Generation Separately · Basanti Nashine</title>
+<meta name="description" content="How to evaluate RAG by separating retrieval from generation: Precision@K, Recall@K, MRR and NDCG; the RAG triad of faithfulness, answer relevance and context relevance; synthetic test sets; and CI quality gates.">
+<link rel="canonical" href="https://basantinashine-dotcom.github.io/rag-evals/">
+<meta property="og:title" content="Deconstructing RAG: Retrieval vs. Generation">
+<meta property="og:description" content="Measure retrieval and generation separately, so you fix the half that failed.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://basantinashine-dotcom.github.io/rag-evals/">
+<meta property="og:image" content="https://basantinashine-dotcom.github.io/photo-1200.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#fcf9f0">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%231c1a16'/%3E%3Ctext x='16' y='22' font-family='system-ui,sans-serif' font-size='17' font-weight='600' fill='%23fcf9f0' text-anchor='middle'%3Eb%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400&display=swap">
+<link rel="stylesheet" href="../style.css?v=2026-12-02">
+<script>
+  // Hide the animations' starting frames only when the page script can play them.
+  // If it hasn't started within 3 seconds, show every end frame instead.
+  document.documentElement.classList.add('js-ev');
+  setTimeout(function () {
+    if (!document.documentElement.classList.contains('ev-ready')) document.documentElement.classList.remove('js-ev');
+  }, 3000);
+</script>
+<script src="../nav.js?v=2026-12-02" defer></script>
+<script src="../agentic-evals.js?v=2026-12-02" defer></script>
+<script src="../rag.js?v=2026-12-02" defer></script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Deconstructing RAG: Decoupling Retrieval Performance from Synthesis Quality",
+  "description": "Retrieval metrics (Precision@K, Recall@K, MRR, NDCG), the RAG triad, synthetic test sets and CI quality gates for RAG systems.",
+  "url": "https://basantinashine-dotcom.github.io/rag-evals/",
+  "image": "https://basantinashine-dotcom.github.io/photo-1200.jpg",
+  "datePublished": "2026-11-22",
+  "author": { "@type": "Person", "name": "Basanti Nashine", "url": "https://basantinashine-dotcom.github.io/" }
+}
+</script>
+</head>
+<body>
+<main class="ev">
+
+  <nav class="site-nav" aria-label="Site">
+    <a class="brand" href="../">Basanti Nashine</a>
+    <a href="../work/">Work</a>
+    <a href="../projects/">Projects</a>
+    <a href="../agents/">Agents</a>
+    <details class="nav-menu current">
+      <summary>The PM Playbook</summary>
+      <div class="nav-pop">
+        <a href="../agentic-evals-101/">Evals</a>
+        <a href="../llm-as-a-judge/">LLM-as-a-Judge</a>
+        <a href="../rag-evals/" aria-current="page">RAG Evals</a>
+      </div>
+    </details>
+    <a class="nav-ext" href="https://www.linkedin.com/in/basanti-nashine-b7751aa2/">LinkedIn ↗</a>
+  </nav>
+
+  <!-- Hero -->
+  <section class="ev-sec ev-hero" aria-labelledby="page-title">
+    <div class="ev-copy">
+      <span class="mono ev-kicker">The PM Playbook · RAG</span>
+      <h1 id="page-title">Deconstructing RAG</h1>
+      <p class="jg-sub">Decoupling retrieval performance from synthesis quality</p>
+      <p>A RAG system has two jobs: find the right passages, then write an answer from them. When an answer is wrong, you need to know which job failed. Grade the retrieved chunks and the written answer separately, and you fix the half that broke instead of guessing.</p>
+    </div>
+    <div class="ev-vis">
+      <figure class="ev-panel ev-trace ev-anim" aria-label="A RAG run: a question, three retrieved chunks graded for relevance, two relevant and one noise, and an answer graded as grounded in the relevant chunks.">
+        <div class="ev-bar"><span>RAG run · returns question</span><span>top 3 chunks</span></div>
+        <ol class="ev-log">
+          <li class="ev-step" style="--i:0"><span class="ev-kind">Question</span><span class="ev-text">“Can I return an opened blender?”</span></li>
+          <li class="ev-step" style="--i:1"><span class="ev-kind">Chunk 1</span><span class="ev-text">Opened items can be returned within 15 days.</span><span class="ev-stamp ok" style="--s:0">✓ relevant</span></li>
+          <li class="ev-step" style="--i:2"><span class="ev-kind">Chunk 2</span><span class="ev-text">Store hours are 9 to 9, every day.</span><span class="ev-stamp bad" style="--s:1">✗ noise</span></li>
+          <li class="ev-step" style="--i:3"><span class="ev-kind">Chunk 3</span><span class="ev-text">Small appliances follow the standard return policy.</span><span class="ev-stamp ok" style="--s:2">✓ relevant</span></li>
+          <li class="ev-step" style="--i:4"><span class="ev-kind">Answer</span><span class="ev-text">“Yes, within 15 days, like other small appliances.”</span><span class="ev-stamp ok" style="--s:3">✓ grounded</span></li>
+        </ol>
+        <div class="ev-trace-foot rg-foot"><span><b>Retrieval</b> is graded on the chunks.</span><span><b>Generation</b> is graded on the answer.</span></div>
+      </figure>
+    </div>
+  </section>
+
+  <!-- Which half failed -->
+  <section class="ev-sec" aria-labelledby="diagnose">
+    <div class="ev-copy">
+      <span class="mono ev-kicker">Decouple the two halves</span>
+      <h2 id="diagnose">Which half failed?</h2>
+      <p>One end-to-end score can’t tell you whether to fix the retriever or the prompt. Score them separately and every bad answer lands in one box, and each box has a different fix.</p>
+    </div>
+    <div class="ev-vis">
+      <figure class="ev-panel rg-grid" aria-label="Two by two: retrieval good or bad, against the answer good or bad, with the fix for each.">
+        <div class="rg-axis rg-axis-top"><span></span><span>Retrieval found the right chunks</span><span>Retrieval missed</span></div>
+        <div class="rg-row">
+          <span class="rg-axis-side">Answer is good</span>
+          <div class="rg-cell ok"><span class="rg-tag">Right chunks · good answer</span><b>Working</b>Keep it, and keep testing it.</div>
+          <div class="rg-cell warn"><span class="rg-tag">Missed chunks · good answer</span><b>Lucky</b>The model answered from memory. It will fail where memory is wrong; fix retrieval.</div>
+        </div>
+        <div class="rg-row">
+          <span class="rg-axis-side">Answer is bad</span>
+          <div class="rg-cell warn"><span class="rg-tag">Right chunks · bad answer</span><b>Generation failed</b>The facts were there. Fix the prompt, the model, or how chunks are presented.</div>
+          <div class="rg-cell bad"><span class="rg-tag">Missed chunks · bad answer</span><b>Retrieval failed</b>Fix retrieval first: chunking, embeddings, re-ranking.</div>
+        </div>
+      </figure>
+    </div>
+  </section>
+
+  <!-- Retrieval metrics -->
+  <section class="ev-sec" aria-labelledby="retrieval">
+    <div class="ev-copy">
+      <span class="mono ev-kicker">Retrieval metrics</span>
+      <h2 id="retrieval">Did we find the right chunks, near the top?</h2>
+      <p>For each test question, mark which chunks are relevant, then score the ranked list the retriever returned. Tap a chunk to change its label, or move K.</p>
+      <ul class="points jg-fixes">
+        <li><b>Precision@K:</b> of the top K chunks, how many are relevant?</li>
+        <li><b>Recall@K:</b> of all the relevant chunks, how many made the top K?</li>
+        <li><b>MRR:</b> 1 ÷ the rank of the first relevant chunk, averaged over questions. Rewards a good first hit.</li>
+        <li><b>NDCG@K:</b> rewards relevant chunks more the higher they rank, compared with the best possible order.</li>
+      </ul>
+      <p class="ev-src">Sources: <a href="https://nlp.stanford.edu/IR-book/html/htmledition/evaluation-in-information-retrieval-1.html">Manning et al., Introduction to Information Retrieval ↗</a> · <a href="https://doi.org/10.1145/582415.582418">Järvelin &amp; Kekäläinen, Cumulated gain ↗</a></p>
+    </div>
+    <div class="ev-vis">
+      <figure class="ev-panel rg-calc" aria-label="Interactive: five retrieved chunks in ranked order. Mark each as relevant or not and choose K to see Precision@K, Recall@K, reciprocal rank and NDCG@K.">
+        <p class="rg-q"><span class="ev-alabel">Question</span>“What’s the refund window for opened items?”</p>
+        <ol class="rg-chunks">
+          <li><button type="button" aria-pressed="false"><span class="rg-rank">1</span><span class="rg-text">Shipping times by region</span><span class="rg-mark"></span></button></li>
+          <li><button type="button" aria-pressed="true"><span class="rg-rank">2</span><span class="rg-text">Refunds: opened items within 15 days</span><span class="rg-mark"></span></button></li>
+          <li><button type="button" aria-pressed="false"><span class="rg-rank">3</span><span class="rg-text">Gift card terms</span><span class="rg-mark"></span></button></li>
+          <li><button type="button" aria-pressed="true"><span class="rg-rank">4</span><span class="rg-text">Exceptions for opened electronics</span><span class="rg-mark"></span></button></li>
+          <li><button type="button" aria-pressed="false"><span class="rg-rank">5</span><span class="rg-text">Store hours</span><span class="rg-mark"></span></button></li>
+        </ol>
+        <p class="rg-missed">Not retrieved: <b>Holiday return extension</b>, also relevant</p>
+        <label class="ev-slider"><span>K</span><input type="range" min="1" max="5" value="3" step="1" aria-label="K, how many top chunks to score"><output>3</output></label>
+        <div class="jg-results rg-results" aria-live="polite">
+          <div><span class="jg-num" data-out="p">33%</span><span class="ev-cap">Precision@<span data-k>3</span></span></div>
+          <div><span class="jg-num" data-out="r">33%</span><span class="ev-cap">Recall@<span data-k>3</span></span></div>
+          <div><span class="jg-num" data-out="rr">0.50</span><span class="ev-cap">Reciprocal rank</span></div>
+          <div><span class="jg-num" data-out="ndcg">0.30</span><span class="ev-cap">NDCG@<span data-k>3</span></span></div>
+        </div>
+      </figure>
+    </div>
+  </section>
+
+  <!-- RAG triad -->
+  <section class="ev-sec" aria-labelledby="triad">
+    <div class="ev-copy">
+      <span class="mono ev-kicker">Generation metrics · the RAG triad</span>
+      <h2 id="triad">Three checks between question, context and answer</h2>
+      <ul class="points jg-fixes">
+        <li><b>Faithfulness (groundedness):</b> did the answer stay strictly within the retrieved context? Every claim should be supported by a chunk.</li>
+        <li><b>Answer relevance:</b> did the answer directly address the question, rather than something near it?</li>
+        <li><b>Context relevance:</b> was what we retrieved relevant and free of noise? Noise dilutes the prompt and invites wrong answers.</li>
+      </ul>
+      <p>Each is usually scored by an LLM judge, so check those judges against human labels first.</p>
+      <p class="ev-src">Source: <a href="https://arxiv.org/abs/2309.15217">Es et al., RAGAS ↗</a></p>
+    </div>
+    <div class="ev-vis">
+      <figure class="ev-panel rg-triad">
+        <svg viewBox="0 0 420 330" role="img" aria-labelledby="tri-t tri-d">
+          <title id="tri-t">The RAG triad</title>
+          <desc id="tri-d">A triangle with the question, the retrieved context and the answer at its corners. Context relevance joins question and context, faithfulness joins context and answer, and answer relevance joins question and answer.</desc>
+          <path class="rg-edge" d="M210 46 L68 262 L352 262 Z"/>
+          <g class="rg-node"><rect x="150" y="20" width="120" height="44" rx="10"/><text x="210" y="47" text-anchor="middle">Question</text></g>
+          <g class="rg-node"><rect x="10" y="244" width="130" height="44" rx="10"/><text x="75" y="271" text-anchor="middle">Context</text></g>
+          <g class="rg-node"><rect x="285" y="244" width="125" height="44" rx="10"/><text x="347" y="271" text-anchor="middle">Answer</text></g>
+          <text class="rg-elab" x="104" y="150" text-anchor="middle" transform="rotate(-57 104 150)">Context relevance</text>
+          <text class="rg-elab" x="316" y="150" text-anchor="middle" transform="rotate(57 316 150)">Answer relevance</text>
+          <text class="rg-elab" x="210" y="306" text-anchor="middle">Faithfulness</text>
+        </svg>
+      </figure>
+    </div>
+  </section>
+
+  <!-- Faithfulness up close -->
+  <section class="ev-sec" aria-labelledby="faithful">
+    <div class="ev-copy">
+      <span class="mono ev-kicker">Faithfulness, up close</span>
+      <h2 id="faithful">Check the answer claim by claim</h2>
+      <p>Split the answer into individual claims and check each one against the retrieved chunks. The score is the share of claims the context supports. One unsupported claim is a hallucination, even when it happens to be true.</p>
+    </div>
+    <div class="ev-vis">
+      <figure class="ev-panel ev-trace ev-anim" aria-label="An answer split into three claims. Two are supported by the retrieved context and one is not, for a faithfulness score of two out of three.">
+        <div class="ev-bar"><span>Answer, split into claims</span><span>3 claims</span></div>
+        <ol class="ev-log">
+          <li class="ev-step" style="--i:0"><span class="ev-kind">Claim 1</span><span class="ev-text">Opened items can be returned.</span><span class="ev-stamp ok" style="--s:0">✓ chunk 1</span></li>
+          <li class="ev-step" style="--i:1"><span class="ev-kind">Claim 2</span><span class="ev-text">You have 15 days to return them.</span><span class="ev-stamp ok" style="--s:1">✓ chunk 1</span></li>
+          <li class="ev-step" style="--i:2"><span class="ev-kind">Claim 3</span><span class="ev-text">Return shipping is free.</span><span class="ev-stamp bad" style="--s:2">✗ not in context</span></li>
+        </ol>
+        <div class="ev-trace-foot"><span class="rg-score">Faithfulness 2 / 3 = 0.67</span></div>
+      </figure>
+    </div>
+  </section>
+
+  <!-- Synthetic test sets -->
+  <section class="ev-sec" aria-labelledby="synthetic">
+    <div class="ev-copy">
+      <span class="mono ev-kicker">Synthetic test sets</span>
+      <h2 id="synthetic">Bootstrap a test suite from your own documents</h2>
+      <p>Before you have real traffic, have an LLM read a chunk and write a question it answers, plus the answer. Each query-chunk-answer triplet becomes a test: retrieval should find that chunk, and generation should match that answer.</p>
+      <p>Then make it honest: filter out questions that copy the chunk’s wording, read a sample by hand, and replace synthetic questions with real ones as users arrive.</p>
+      <p class="ev-src">Source: <a href="https://arxiv.org/abs/2311.09476">Saad-Falcon et al., ARES ↗</a></p>
+    </div>
+    <div class="ev-vis">
+      <figure class="flow" aria-labelledby="syn-cap">
+        <ol class="flow-line">
+          <li class="fl-code"><span class="fl-who">Code</span><strong>Sample</strong><span class="fl-what">chunks</span></li>
+          <li class="fl-claude"><span class="fl-who">LLM</span><strong>Write</strong><span class="fl-what">question and answer</span></li>
+          <li class="fl-claude"><span class="fl-who">LLM</span><strong>Filter</strong><span class="fl-what">answerable, realistic</span></li>
+          <li class="fl-you"><span class="fl-who">You</span><strong>Review</strong><span class="fl-what">a sample</span></li>
+          <li class="fl-code"><span class="fl-who">Code</span><strong>Save</strong><span class="fl-what">the test set</span></li>
+        </ol>
+        <figcaption id="syn-cap" class="ev-panel rg-triplet">
+          <span class="ev-alabel">One triplet</span>
+          <span><b>Query</b> Can I return an opened blender?</span>
+          <span><b>Chunk</b> Opened items can be returned within 15 days.</span>
+          <span><b>Answer</b> Yes, within 15 days.</span>
+        </figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- CI/CD gates -->
+  <section class="ev-sec" aria-labelledby="ci">
+    <div class="ev-copy">
+      <span class="mono ev-kicker">CI/CD regression testing</span>
+      <h2 id="ci">Gate every retrieval change</h2>
+      <p>Chunk size, the embedding model and the re-ranker all change answers in ways nobody predicts. Run the eval suite on every change, compare against the current baseline, and block the merge when a gate fails.</p>
+      <p>Gate both halves, plus cost and latency, and keep a holdout set nobody tunes against.</p>
+    </div>
+    <div class="ev-vis">
+      <figure class="ev-panel rg-ci" aria-label="An example check run for a change of chunk size from 512 to 256 tokens: recall at 5, faithfulness and latency pass, NDCG at 5 falls below its gate, so the merge is blocked.">
+        <div class="ev-bar"><span>Eval gate · chunk size 512 → 256</span><span>vs. baseline</span></div>
+        <ol class="rg-gates">
+          <li><span>Recall@5</span><span class="mono">≥ 0.85</span><span class="mono">0.88</span><span class="ev-stamp ok">✓ pass</span></li>
+          <li><span>NDCG@5</span><span class="mono">≥ 0.70</span><span class="mono">0.66</span><span class="ev-stamp bad">✗ fail</span></li>
+          <li><span>Faithfulness</span><span class="mono">≥ 0.95</span><span class="mono">0.96</span><span class="ev-stamp ok">✓ pass</span></li>
+          <li><span>Latency p95</span><span class="mono">≤ 1.2 s</span><span class="mono">1.1 s</span><span class="ev-stamp ok">✓ pass</span></li>
+        </ol>
+        <div class="ev-trace-foot"><span class="rg-blocked">Merge blocked: relevant chunks now rank lower.</span></div>
+        <figcaption class="ev-figcap">Illustration with sample numbers.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- Checklist -->
+  <section class="ev-sec ev-wide" aria-labelledby="checklist">
+    <div class="ev-copy">
+      <span class="mono ev-kicker">Before you ship RAG</span>
+      <h2 id="checklist">A checklist</h2>
+    </div>
+    <ul class="jg-check">
+      <li>Retrieval and generation are scored separately</li>
+      <li>Relevant chunks are labeled for every test question</li>
+      <li>Recall@K where you need coverage, MRR or NDCG where order matters</li>
+      <li>Faithfulness checked claim by claim</li>
+      <li>LLM judges checked against human labels</li>
+      <li>Synthetic questions filtered and replaced by real ones over time</li>
+      <li>Every chunking, embedding and re-ranking change runs the gates</li>
+      <li>A holdout set nobody tunes against</li>
+    </ul>
+  </section>
+
+  <!-- Sources -->
+  <section class="ev-sec ev-wide" aria-labelledby="sources">
+    <div class="ev-copy">
+      <span class="mono ev-kicker">Sources</span>
+      <h2 id="sources">Further reading</h2>
+    </div>
+    <ol class="ev-sources">
+      <li><a href="https://arxiv.org/abs/2005.11401">Lewis et al., Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks</a> <span class="muted">(NeurIPS 2020)</span></li>
+      <li><a href="https://arxiv.org/abs/2309.15217">Es et al., RAGAS: Automated Evaluation of Retrieval Augmented Generation</a></li>
+      <li><a href="https://arxiv.org/abs/2311.09476">Saad-Falcon et al., ARES: An Automated Evaluation Framework for RAG Systems</a></li>
+      <li><a href="https://nlp.stanford.edu/IR-book/html/htmledition/evaluation-in-information-retrieval-1.html">Manning, Raghavan and Schütze, Introduction to Information Retrieval: Evaluation</a></li>
+      <li><a href="https://doi.org/10.1145/582415.582418">Järvelin and Kekäläinen, Cumulated Gain-Based Evaluation of IR Techniques</a> <span class="muted">(2002)</span></li>
+    </ol>
+  </section>
+
+  <footer>
+    <div class="elsewhere">
+      <a href="https://www.linkedin.com/in/basanti-nashine-b7751aa2/">LinkedIn ↗</a>
+      <a href="https://github.com/basantinashine-dotcom">GitHub ↗</a>
+    </div>
+    <span class="muted">© 2026 Basanti Nashine</span>
+  </footer>
+
+</main>
+</body>
+</html>

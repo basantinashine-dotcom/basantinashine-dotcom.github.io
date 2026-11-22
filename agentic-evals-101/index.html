@@ -17,7 +17,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400&display=swap">
-<link rel="stylesheet" href="../style.css?v=2026-12-01">
+<link rel="stylesheet" href="../style.css?v=2026-12-02">
 <script>
   // Hide the animations' starting frames only when the page script can play them.
   // If it hasn't started within 3 seconds, show every end frame instead.
@@ -26,8 +26,8 @@
     if (!document.documentElement.classList.contains('ev-ready')) document.documentElement.classList.remove('js-ev');
   }, 3000);
 </script>
-<script src="../nav.js?v=2026-12-01" defer></script>
-<script src="../agentic-evals.js?v=2026-12-01" defer></script>
+<script src="../nav.js?v=2026-12-02" defer></script>
+<script src="../agentic-evals.js?v=2026-12-02" defer></script>
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -54,10 +54,11 @@
     <a href="../projects/">Projects</a>
     <a href="../agents/">Agents</a>
     <details class="nav-menu current">
-      <summary>AI Cheat Sheet</summary>
+      <summary>The PM Playbook</summary>
       <div class="nav-pop">
         <a href="../agentic-evals-101/" aria-current="page">Evals</a>
         <a href="../llm-as-a-judge/">LLM-as-a-Judge</a>
+        <a href="../rag-evals/">RAG Evals</a>
       </div>
     </details>
     <a class="nav-ext" href="https://www.linkedin.com/in/basanti-nashine-b7751aa2/">LinkedIn ↗</a>
@@ -66,7 +67,7 @@
   <!-- 1. Hero -->
   <section class="ev-sec ev-hero" aria-labelledby="page-title">
     <div class="ev-copy">
-      <span class="mono ev-kicker">AI Cheat Sheet · Evals</span>
+      <span class="mono ev-kicker">The PM Playbook · Evals</span>
       <h1 id="page-title">Agentic Evals 101</h1>
       <p>Agents don’t just answer. They plan, call tools, change things and adapt. That makes them powerful, and much harder to test. This page walks through how to evaluate them, one idea at a time.</p>
     </div>
