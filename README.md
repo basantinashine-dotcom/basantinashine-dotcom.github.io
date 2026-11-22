@@ -2,7 +2,7 @@
 
 The personal website of Basanti Nashine, Head of Product at Orcana.AI and former Principal PM-T at Amazon.
 
-The site is four static pages, plus build guides for the agents and The PM Playbook guides, with one shared stylesheet, no build step and no dependencies. It uses the Geist fonts from Google Fonts and a cream color scheme for every visitor (there is no dark mode).
+The site is four static pages, plus build guides for the agents and Evals Playbook guides, with one shared stylesheet, no build step and no dependencies. It uses the Geist fonts from Google Fonts and a cream color scheme for every visitor (there is no dark mode).
 
 | Page | File | What's on it |
 |---|---|---|
@@ -11,7 +11,7 @@ The site is four static pages, plus build guides for the agents and The PM Playb
 | Projects | `projects/index.html` | Apps, each with Problem, Solution and Stack: AdCanvas, Hey Mama (with its spec sheet), Tagalong and Campaign Lab (`#adcanvas`, `#hey-mama`, `#tagalong`, `#campaign-lab`) |
 | Agents | `agents/index.html` | AI agents, each with Problem, Solution and Stack: the Threads Agent (`#threads-agent`), Decision Log (`#decision-log`) and the Eval Agent (`#eval-agent`) |
 | Build guides | `agents/threads-agent/index.html` | A step-by-step guide to building the agent yourself, linked from its entry on Agents ("How to create this on your own") |
-| The PM Playbook | `agentic-evals-101/index.html`, `llm-as-a-judge/index.html`, `rag-evals/index.html` | Guides reached from **The PM Playbook** menu at the top of every page (a `<details>` dropdown; `nav.js` closes it on Escape or an outside click). **Evals** is Agentic Evals 101, with scroll-triggered animations, two interactive figures and an interview flashcard deck. **LLM-as-a-Judge** covers judge biases and fixes, with a verbosity toggle and a Cohen’s kappa calculator (`llm-judge.js`). **RAG Evals** separates retrieval from generation, with a retrieval-metrics calculator (`rag.js`). Both use `agentic-evals.js` for their animations; without it, or with reduced motion, every figure shows its end frame. To add a guide, create its page, add it to the menu on every page and to `sitemap.xml`. |
+| Evals Playbook | `agentic-evals-101/index.html`, `llm-as-a-judge/index.html`, `rag-evals/index.html` | Guides reached from **Evals Playbook** menu at the top of every page (a `<details>` dropdown; `nav.js` closes it on Escape or an outside click). **Agentic Evals** is Agentic Evals 101, with scroll-triggered animations, two interactive figures and an interview flashcard deck. **LLM-as-a-Judge** covers judge biases and fixes, with a verbosity toggle and a Cohen’s kappa calculator (`llm-judge.js`). **RAG Evals** separates retrieval from generation, with a retrieval-metrics calculator (`rag.js`). Both use `agentic-evals.js` for their animations; without it, or with reduced motion, every figure shows its end frame. To add a guide, create its page, add it to the menu on every page and to `sitemap.xml`. |
 
 Home uses Geist for text and Newsreader, a serif, only for the name in the hero.
 
