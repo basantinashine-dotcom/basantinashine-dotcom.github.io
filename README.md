@@ -2,7 +2,7 @@
 
 The personal website of Basanti Nashine, Head of Product at Orcana.AI and former Principal PM-T at Amazon.
 
-The site is four static pages, plus build guides for the agents, with one shared stylesheet, no build step and no dependencies. It uses the Geist fonts from Google Fonts and a cream color scheme for every visitor (there is no dark mode).
+The site is four static pages, plus build guides for the agents and AI cheat sheets, with one shared stylesheet, no build step and no dependencies. It uses the Geist fonts from Google Fonts and a cream color scheme for every visitor (there is no dark mode).
 
 | Page | File | What's on it |
 |---|---|---|
@@ -11,6 +11,7 @@ The site is four static pages, plus build guides for the agents, with one shared
 | Projects | `projects/index.html` | Apps, each with Problem, Solution and Stack: AdCanvas, Hey Mama (with its spec sheet), Tagalong and Campaign Lab (`#adcanvas`, `#hey-mama`, `#tagalong`, `#campaign-lab`) |
 | Agents | `agents/index.html` | AI agents, each with Problem, Solution and Stack: the Threads Agent (`#threads-agent`), Decision Log (`#decision-log`) and the Eval Agent (`#eval-agent`) |
 | Build guides | `agents/threads-agent/index.html` | A step-by-step guide to building the agent yourself, linked from its entry on Agents ("How to create this on your own") |
+| Cheat sheets | `cheat-sheet/evals/index.html` | One-page references, reached from the **AI Cheat Sheet** menu at the top of every page (a `<details>` dropdown; `nav.js` closes it on Escape or an outside click). The first is Evals. To add one, create `cheat-sheet/<topic>/index.html` and add a link to the menu on every page. |
 
 Home uses Geist for text and Newsreader, a serif, only for the name in the hero.
 
