@@ -15,7 +15,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400&display=swap">
-<link rel="stylesheet" href="../style.css?v=2026-11-25">
+<link rel="stylesheet" href="../style.css?v=2026-11-26">
 </head>
 <body>
 <main>
@@ -37,10 +37,10 @@
     <article class="entry" id="threads-agent">
       <figure class="demo">
         <picture>
-          <source media="(prefers-reduced-motion: reduce)" srcset="../threads-agent-demo-still.webp">
-          <img src="../threads-agent-demo.gif" width="1152" height="720" alt="Three-step demo of the Threads Agent with sample data. 1, Draft: it collects comments on my posts, drafts a reply to each, skips spam and drafts a new post. 2, Approve: I review each draft and approve, edit or skip it. 3, Post: approved drafts go out at least 5 minutes apart, within the daily caps.">
+          <source media="(prefers-reduced-motion: reduce)" srcset="../threads-agent-loop-still.webp">
+          <img src="../threads-agent-loop.gif" width="1152" height="720" alt="Three-step demo of the Threads Agent with sample data. 1, Look: Claude reads its notes, my follower count and recent numbers, how each recent post did, and new comments. 2, Queue: it queues a reply and a question post, doesn't answer spam, and code rejects an engagement-bait post. 3, Approve: I review each draft and approve it, and posts go out 5 minutes apart within the daily caps.">
         </picture>
-        <figcaption class="mono">Demo with sample data: drafts it queued, your approval, paced posting</figcaption>
+        <figcaption class="mono">Demo with sample data: look, queue, approve</figcaption>
       </figure>
       <div class="entry-head"><h2>Threads Agent</h2><span class="mono">Agent · Personal</span></div>
       <div class="facts">
@@ -75,6 +75,10 @@
     </article>
 
     <article class="entry" id="eval-agent">
+      <figure class="demo">
+        <img src="../eval-agent-still.webp" width="1152" height="720" loading="lazy" alt="Illustration of the Eval Agent's plan step with sample data. After running an agent on 12 realistic tasks with risky tools faked, it shows a plan to approve: code checks, yes/no judges, calibration against 20 of your labels, and bugs planted on purpose that the eval must catch.">
+        <figcaption class="mono">Illustration with sample data: the plan you approve first</figcaption>
+      </figure>
       <div class="entry-head"><h2>Eval Agent</h2><span class="mono">Agent</span></div>
       <div class="facts">
         <p><span class="tag">Problem</span>People building tool-using agents know they need evals and rarely have good ones. Existing tools run test cases and draw dashboards, but leave the hard parts to you: what to measure, how to test safely when tools act in the real world, and whether the eval would catch a regression.</p>

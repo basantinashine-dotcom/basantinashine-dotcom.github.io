@@ -6,7 +6,7 @@ The site is four static pages, plus build guides for the agents, with one shared
 
 | Page | File | What's on it |
 |---|---|---|
-| Home | `index.html` | A wider page: the hero (a thin artwork band, then name and headline), four compact stat cards that each link to their Work story (the 12 wks → 2 hrs card has a small before/after bar), the bio with Background beside it, Selected work as rows with outcomes, Personal projects as screenshot cards, Agents previews in three columns, Get in touch |
+| Home | `index.html` | A wider page: the hero (a thin artwork band, then name and headline), four compact stat cards that each link to their Work story (the 12 wks → 2 hrs card has a small before/after bar), the bio with Background beside it, Selected work as rows with outcomes, Personal projects as screenshot cards, Agents as image cards (three across on wide screens), with a link to the Threads build guide, Get in touch |
 | Work | `work/index.html` | The five Selected work stories, each with an anchor (`#search-ads`, `#personalization`, `#advertiser-agents`, `#marketing-mix`, `#next-best-engagement`) |
 | Projects | `projects/index.html` | Apps, each with Problem, Solution and Stack: AdCanvas, Hey Mama (with its spec sheet), Tagalong and Campaign Lab (`#adcanvas`, `#hey-mama`, `#tagalong`, `#campaign-lab`) |
 | Agents | `agents/index.html` | AI agents, each with Problem, Solution and Stack: the Threads Agent (`#threads-agent`), Decision Log (`#decision-log`) and the Eval Agent (`#eval-agent`) |
@@ -26,7 +26,8 @@ Home uses Geist for text and Newsreader, a serif, only for the name in the hero.
 - The Home project cards reuse the Projects page screenshots and the AdCanvas demo still.
 - `avatar-256.webp` and `avatar-256.jpg` are the round headshot next to the name on Home (a 256×256 square crop shown as a 96px circle, 88px on phones).
 - `shot-hey-mama-*`, `shot-tagalong-*` and `shot-campaign-lab-*` are screenshots of those three live apps on the Projects page. Each comes as 600px and 1200px WebP plus a 1200×750 JPEG fallback (16:10).
-- `threads-agent-demo.gif` is the looping three-step demo (Draft, Approve, Post) on the Agents page, 1152×720, built from illustrative slides with sample data. Visitors whose device asks for reduced motion see `threads-agent-demo-still.webp`, the first slide, instead.
+- `threads-agent-loop.gif` is the looping three-step demo of the growth agent (Look, Queue, Approve) on the Agents page, 1152×720, built from illustrative slides with sample data. Visitors whose device asks for reduced motion see `threads-agent-loop-still.webp`, the first slide, instead. `threads-agent-queue.webp`, the Queue slide, is the Threads Agent's card image on Home.
+- `eval-agent-still.webp` is an illustration of the Eval Agent's plan step, with sample data, on the Agents page and as its card on Home.
 - `decision-log-demo.gif` (Read, Ask why, Share) and `adcanvas-demo.gif` (Generate, Check, Approve) are the same kind of three-step demo, on the Agents and Projects pages respectively, each with a `-still.webp` for reduced motion. Decision Log uses the sample note from its README; AdCanvas uses the app's real theme names, sizes and review labels with drawn product images.
 - `photo-1200.jpg` is the 1200×800 image shown when the site is shared on social media or in messages.
 

@@ -15,8 +15,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400&family=Newsreader:opsz,wght@6..72,500&display=swap">
-<link rel="stylesheet" href="style.css?v=2026-11-25">
-<script src="home.js?v=2026-11-25" defer></script>
+<link rel="stylesheet" href="style.css?v=2026-11-26">
+<script src="home.js?v=2026-11-26" defer></script>
 </head>
 <body>
 <main class="home">
@@ -127,10 +127,29 @@
 
   <section aria-labelledby="agents">
     <h2 id="agents">Agents</h2>
-    <ul class="previews">
-      <li><div class="proj-head"><a href="agents/#threads-agent">Threads Agent</a><span class="mono">agent</span></div><p class="muted">Works toward growing my Threads following: picks what to answer and post, and queues drafts. Nothing posts until I approve it.</p></li>
-      <li><div class="proj-head"><a href="agents/#decision-log">Decision Log</a><span class="mono">agent</span></div><p class="muted">Answers “why did we decide this?” from meeting notes, quoting its sources.</p></li>
-      <li><div class="proj-head"><a href="agents/#eval-agent">Eval Agent</a><span class="mono">agent</span></div><p class="muted">Turns an agent’s repo into a tested eval, with a <span class="nowrap">plain-language</span> plan you approve first.</p></li>
+    <ul class="proj-grid agent-grid">
+      <li>
+        <a class="card" href="agents/#threads-agent">
+          <img src="threads-agent-queue.webp" width="1152" height="720" loading="lazy" alt="">
+          <span class="card-head"><span class="card-title">Threads Agent</span><span class="mono">agent</span></span>
+          <span class="card-desc">Works toward growing my Threads following: picks what to answer and post, and queues drafts. Nothing posts until I approve it.</span>
+        </a>
+        <a class="card-more" href="agents/threads-agent/">How to build it →</a>
+      </li>
+      <li>
+        <a class="card" href="agents/#decision-log">
+          <img src="decision-log-demo-still.webp" width="1152" height="720" loading="lazy" alt="">
+          <span class="card-head"><span class="card-title">Decision Log</span><span class="mono">agent</span></span>
+          <span class="card-desc">Answers “why did we decide this?” from meeting notes, quoting its sources.</span>
+        </a>
+      </li>
+      <li>
+        <a class="card" href="agents/#eval-agent">
+          <img src="eval-agent-still.webp" width="1152" height="720" loading="lazy" alt="">
+          <span class="card-head"><span class="card-title">Eval Agent</span><span class="mono">agent</span></span>
+          <span class="card-desc">Turns an agent’s repo into a tested eval, with a <span class="nowrap">plain-language</span> plan you approve first.</span>
+        </a>
+      </li>
     </ul>
   </section>
 
