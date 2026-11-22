@@ -1022,4 +1022,15 @@ main.ev {
 .rg-gates .mono { color: var(--muted); }
 .rg-gates .mono + .mono { color: var(--fg); }
 .rg-blocked { font-weight: 600; color: var(--bad); }
-
+/* RAG Evals: "What is RAG?" and the glossary */
+.rg-what { display: flex; flex-direction: column; gap: 0.35rem; padding: 0.85rem 1rem; border-left: 2px solid var(--heading); background: #f4e9e6; border-radius: 0 10px 10px 0; }
+.ev-copy h2.rg-what-h { font-size: var(--text); line-height: 1.3; letter-spacing: 0; color: var(--heading); }
+.rg-what p { font-size: var(--small); line-height: 1.6; }
+.rg-what b { font-weight: 600; }
+.rg-terms { margin: 0; display: grid; grid-template-columns: minmax(0, 1fr); gap: 0 2.5rem; }
+@media (min-width: 760px) { .rg-terms { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.rg-terms div { padding-block: 0.7rem; border-top: 1px solid var(--line); }
+.rg-terms dt { font-weight: 600; }
+.rg-terms dt span { font-weight: 400; font-style: italic; color: var(--muted); }
+.rg-terms dd { margin: 0.15rem 0 0; font-size: var(--small); line-height: 1.55; color: var(--muted); }
+.rg-top .ev-vis { order: 0; }  /* phones: the title and "What is RAG?" come before the figure */
