@@ -282,7 +282,7 @@
     <div class="ev-copy">
       <span class="mono ev-kicker">From my work</span>
       <h2 id="mywork">How I validated a critic LLM at scale</h2>
-      <p>At Amazon, my team generated search ads for millions of keyword and product pairs, far more than people could ever review. So nothing ran until a critic LLM passed it, and we trusted that critic only once it agreed with human-labeled examples 99% of the time.</p>
+      <p>At Amazon, my team generated millions of search ad variants from keywords and product details, far more than people could ever review. So every ad had to pass rule checks and a critic LLM before it was stored, and that critic agreed with human-labeled examples 99% of the time.</p>
       <p class="ev-src"><a href="../work/#search-ads">Read the full story on my Work page →</a></p>
     </div>
     <div class="ev-vis">
@@ -295,11 +295,11 @@
     <div class="ev-plan">
       <h3>How we got there</h3>
       <ol>
-        <li><b>Ground both sides</b>The writer and the critic saw the same product details, so the critic checked each claim against the source, not its own memory.</li>
-        <li><b>Layer the checks</b>Rules caught what code can check, like length limits and repeated text. The critic judged relevance, accuracy and policy, each with its own pass mark.</li>
+        <li><b>Ground both sides</b>The writer and the critic were given the same product details, so the critic could check each claim against the source.</li>
+        <li><b>Layer the checks</b>Rules caught what code can check, like headline and description length and too much overlap between them. The critic scored the rest, each score with its own pass mark.</li>
         <li><b>Close the loop</b>An ad that failed went back to be rewritten. Only ads that passed every check were stored and served.</li>
-        <li><b>Calibrate against people</b>Reviewers labeled a sample of ads, and we compared the critic’s verdicts with theirs until the two agreed 99% of the time.</li>
-        <li><b>Tune without a release</b>The critic’s prompts and pass marks lived in configuration, not code, so scientists could retune them quickly, then confirm with offline benchmarks and an A/B test.</li>
+        <li><b>Check against people</b>People labeled a sample of the ads, using a defined sampling plan and annotation tools. The critic agreed with their labels 99% of the time.</li>
+        <li><b>Tune in configuration</b>The critic’s model, prompts and pass marks lived in configuration, so scientists could adjust them without changing code. Changes were measured on offline benchmark datasets, and new markets and use cases launched through online experiments.</li>
       </ol>
     </div>
   </section>
