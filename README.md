@@ -32,6 +32,14 @@ Home uses Geist for text and Newsreader, a serif, only for the name in the hero.
 - `decision-log-demo.gif` (Read, Ask why, Share) and `adcanvas-demo.gif` (Generate, Check, Approve) are the same kind of three-step demo, on the Agents and Projects pages respectively, each with a `-still.webp` for reduced motion. Decision Log uses the sample note from its README; AdCanvas uses the app's real theme names, sizes and review labels with drawn product images.
 - `photo-1200.jpg` is the 1200×800 image shown when the site is shared on social media or in messages.
 
+## Search engines
+
+- `robots.txt` lets every crawler in and points to `sitemap.xml`, which lists each page's address.
+- Every page has a `<link rel="canonical">` and a matching `og:url` with its main address.
+- Home carries a schema.org `Person` block (job, employer, schools, LinkedIn and GitHub); Agentic Evals 101 carries an `Article` block.
+- When you add a page, add its address to `sitemap.xml` and give it a canonical link and `og:url`.
+- After a change goes live, resubmit `sitemap.xml` in Google Search Console.
+
 ## Publish with GitHub Pages
 
 1. Open **Settings → Pages** in this repository.
