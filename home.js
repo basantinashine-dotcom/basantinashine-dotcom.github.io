@@ -1,4 +1,4 @@
-// Counts the Home stat numbers up from zero, and shrinks the "2 hours" bar,
+// Counts the Home stat numbers up from zero, and shrinks the "2 hrs" bar,
 // once each is on screen. Skipped entirely when the visitor prefers reduced
 // motion, so the final numbers simply show.
 (function () {
@@ -28,12 +28,12 @@
     entries.forEach(function (entry) {
       if (!entry.isIntersecting) return;
       observer.unobserve(entry.target);
-      if (entry.target.classList.contains('bigstat')) entry.target.classList.add('is-in');
+      if (entry.target.classList.contains('stat-time')) entry.target.classList.add('is-in');
       else countUp(entry.target);
     });
   }, { threshold: 0.5 });
 
   numbers.forEach(function (el) { show(el, 0); observer.observe(el); });
-  var bar = document.querySelector('.bigstat');
+  var bar = document.querySelector('.stat-time');
   if (bar) observer.observe(bar);
 })();
