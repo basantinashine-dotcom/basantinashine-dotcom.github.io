@@ -1,0 +1,344 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>LLM-as-a-Judge — Pitfalls, Biases &amp; Production Fixes · Basanti Nashine</title>
+<meta name="description" content="When to use an LLM judge, the four biases that skew its verdicts and how to fix each, pairwise vs. pointwise scoring, and how to prove a judge agrees with your experts before you ship it.">
+<link rel="canonical" href="https://basantinashine-dotcom.github.io/llm-as-a-judge/">
+<meta property="og:title" content="LLM-as-a-Judge: Pitfalls, Biases &amp; Production Fixes">
+<meta property="og:description" content="The four biases that skew LLM judges, how to fix each, and how to prove your judge agrees with experts.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://basantinashine-dotcom.github.io/llm-as-a-judge/">
+<meta property="og:image" content="https://basantinashine-dotcom.github.io/photo-1200.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#fcf9f0">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%231c1a16'/%3E%3Ctext x='16' y='22' font-family='system-ui,sans-serif' font-size='17' font-weight='600' fill='%23fcf9f0' text-anchor='middle'%3Eb%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400&display=swap">
+<link rel="stylesheet" href="../style.css?v=2026-12-01">
+<script>
+  // Hide the animations' starting frames only when the page script can play them.
+  // If it hasn't started within 3 seconds, show every end frame instead.
+  document.documentElement.classList.add('js-ev');
+  setTimeout(function () {
+    if (!document.documentElement.classList.contains('ev-ready')) document.documentElement.classList.remove('js-ev');
+  }, 3000);
+</script>
+<script src="../nav.js?v=2026-12-01" defer></script>
+<script src="../agentic-evals.js?v=2026-12-01" defer></script>
+<script src="../llm-judge.js?v=2026-12-01" defer></script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "LLM-as-a-Judge: Pitfalls, Biases & Production Fixes",
+  "description": "When to use an LLM judge, the four biases that skew it and how to fix each, pairwise vs. pointwise scoring, and meta-evaluation with Cohen's kappa and Spearman correlation.",
+  "url": "https://basantinashine-dotcom.github.io/llm-as-a-judge/",
+  "image": "https://basantinashine-dotcom.github.io/photo-1200.jpg",
+  "datePublished": "2026-11-22",
+  "author": { "@type": "Person", "name": "Basanti Nashine", "url": "https://basantinashine-dotcom.github.io/" }
+}
+</script>
+</head>
+<body>
+<main class="ev">
+
+  <nav class="site-nav" aria-label="Site">
+    <a class="brand" href="../">Basanti Nashine</a>
+    <a href="../work/">Work</a>
+    <a href="../projects/">Projects</a>
+    <a href="../agents/">Agents</a>
+    <details class="nav-menu current">
+      <summary>AI Cheat Sheet</summary>
+      <div class="nav-pop">
+        <a href="../agentic-evals-101/">Evals</a>
+        <a href="../llm-as-a-judge/" aria-current="page">LLM-as-a-Judge</a>
+      </div>
+    </details>
+    <a class="nav-ext" href="https://www.linkedin.com/in/basanti-nashine-b7751aa2/">LinkedIn ↗</a>
+  </nav>
+
+  <!-- Hero -->
+  <section class="ev-sec ev-hero" aria-labelledby="page-title">
+    <div class="ev-copy">
+      <span class="mono ev-kicker">AI Cheat Sheet · LLM-as-a-Judge</span>
+      <h1 id="page-title">LLM-as-a-Judge</h1>
+      <p class="jg-sub">Pitfalls, biases and production fixes</p>
+      <p>An LLM judge is a model that grades another model’s output against a rubric. It’s the only way to check subjective quality at scale, and it’s easy to get wrong: judges have predictable biases, and their scores drift. This guide covers the biases, the fixes, and how to prove a judge is reliable before you trust it.</p>
+    </div>
+    <div class="ev-vis">
+      <figure class="ev-panel ev-trace ev-anim" aria-label="A judge prompt: one criterion, a pass and fail rubric, the output to grade, and the verdict with its reason.">
+        <div class="ev-bar"><span>Judge prompt · support reply</span><span>1 criterion</span></div>
+        <ol class="ev-log">
+          <li class="ev-step" style="--i:0"><span class="ev-kind">Criterion</span><span class="ev-text">Does the reply answer the customer’s actual question?</span></li>
+          <li class="ev-step" style="--i:1"><span class="ev-kind">Pass if</span><span class="ev-text">It answers directly and correctly, using the order details.</span></li>
+          <li class="ev-step" style="--i:2"><span class="ev-kind">Fail if</span><span class="ev-text">It’s off-topic, wrong, or asks for details already given.</span></li>
+          <li class="ev-step" style="--i:3"><span class="ev-kind">Output</span><span class="ev-text">“Your order shipped today and arrives Thursday.”</span></li>
+          <li class="ev-step" style="--i:4"><span class="ev-kind">Verdict</span><span class="ev-text">Answers when it will arrive, with the order’s date.</span><span class="ev-stamp ok" style="--s:0">✓ pass</span></li>
+        </ol>
+      </figure>
+    </div>
+  </section>
+
+  <!-- When to use -->
+  <section class="ev-sec" aria-labelledby="when">
+    <div class="ev-copy">
+      <span class="mono ev-kicker">When to use</span>
+      <h2 id="when">Between code checks and people</h2>
+      <p>Use code assertions for anything you can check exactly: format, length, the right tool call, the final state. Use people for ground truth and hard cases. An LLM judge fills the gap: subjective quality, like tone or helpfulness, checked on every output, in seconds, for a fraction of what reviewers cost.</p>
+      <p>The trade: it’s cheaper and faster than people, but less consistent than code and less accurate than experts, so it has to be checked against them.</p>
+    </div>
+    <div class="ev-vis">
+      <figure class="ev-panel jg-compare">
+        <table>
+          <thead><tr><th scope="col"><span class="sr-only">Quality</span></th><th scope="col">Code check</th><th scope="col">LLM judge</th><th scope="col">Human expert</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">Cost per check</th><td><span class="jg-dots" data-n="3">Lowest</span></td><td><span class="jg-dots" data-n="2">Low</span></td><td><span class="jg-dots" data-n="0">High</span></td></tr>
+            <tr><th scope="row">Speed</th><td><span class="jg-dots" data-n="3">Instant</span></td><td><span class="jg-dots" data-n="2">Seconds</span></td><td><span class="jg-dots" data-n="0">Days</span></td></tr>
+            <tr><th scope="row">Scale</th><td><span class="jg-dots" data-n="3">Every output</span></td><td><span class="jg-dots" data-n="3">Every output</span></td><td><span class="jg-dots" data-n="1">A sample</span></td></tr>
+            <tr><th scope="row">Judges nuance</th><td><span class="jg-dots" data-n="0">No</span></td><td><span class="jg-dots" data-n="2">Mostly</span></td><td><span class="jg-dots" data-n="3">Best</span></td></tr>
+            <tr><th scope="row">Consistency</th><td><span class="jg-dots" data-n="3">Exact</span></td><td><span class="jg-dots" data-n="1">Drifts</span></td><td><span class="jg-dots" data-n="2">Varies by person</span></td></tr>
+          </tbody>
+        </table>
+        <figcaption class="ev-figcap">More dots is better. Layer them: code first, the judge on what’s left, people to calibrate.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section class="ev-sec ev-wide jg-band" aria-labelledby="biases">
+    <div class="ev-copy">
+      <span class="mono ev-kicker">The four major judge biases</span>
+      <h2 id="biases">What skews a judge, and the fix for each</h2>
+    </div>
+  </section>
+
+  <!-- Bias 1: position -->
+  <section class="ev-sec" aria-labelledby="position">
+    <div class="ev-copy">
+      <span class="mono ev-kicker">Bias 1 · Position</span>
+      <h2 id="position">The first answer wins too often</h2>
+      <p>In pairwise comparisons, judges favor whichever answer they see first (or, for some models, last), whatever it says.</p>
+      <p class="jg-fix"><b>Fix:</b> run every pair in both orders. Count a win only if it survives the swap; if the verdict flips, call it a tie.</p>
+      <p class="ev-src">Sources: <a href="https://arxiv.org/abs/2306.05685">Zheng et al., Judging LLM-as-a-Judge ↗</a> · <a href="https://arxiv.org/abs/2305.17926">Wang et al., LLMs are not Fair Evaluators ↗</a></p>
+    </div>
+    <div class="ev-vis">
+      <figure class="ev-panel ev-bias ev-anim" aria-label="Two answers side by side. The judge picks the one on the left. The answers swap places, and the judge picks the one on the left again, which is now the other answer. Counted as a tie.">
+        <div class="ev-pair">
+          <div class="ev-answer ev-x"><span class="ev-alabel">Answer X</span>“Your refund is on its way. It should arrive in 3 to 5 days.”</div>
+          <div class="ev-answer ev-y"><span class="ev-alabel">Answer Y</span>“Refund issued. Expect it within 3 to 5 business days.”</div>
+        </div>
+        <ol class="ev-rounds">
+          <li class="ev-round r1"><span class="ev-stamp judge">Judge</span><span>Order X, Y: picks <b>X</b></span></li>
+          <li class="ev-round r2"><span class="ev-stamp judge">Judge</span><span>Order Y, X: picks <b>Y</b></span></li>
+        </ol>
+        <p class="ev-bias-cap">The verdict flipped, so it’s a tie, not a win.</p>
+      </figure>
+    </div>
+  </section>
+
+  <!-- Bias 2: verbosity -->
+  <section class="ev-sec" aria-labelledby="verbosity">
+    <div class="ev-copy">
+      <span class="mono ev-kicker">Bias 2 · Verbosity</span>
+      <h2 id="verbosity">Longer looks better</h2>
+      <p>Judges tend to rate longer answers higher, even when the extra words add nothing. Length gets mistaken for quality.</p>
+      <p class="jg-fix"><b>Fix:</b> say in the rubric that length isn’t quality and that padding counts against an answer. Compare answers of similar length, or adjust for length when you report win rates.</p>
+      <p class="ev-src">Sources: <a href="https://arxiv.org/abs/2306.05685">Zheng et al. ↗</a> · <a href="https://arxiv.org/abs/2404.04475">Dubois et al., Length-Controlled AlpacaEval ↗</a></p>
+    </div>
+    <div class="ev-vis">
+      <figure class="ev-panel jg-verbose" data-mode="naive" aria-label="Interactive: a short correct answer and a long padded one. Switch between a naive judge, which picks the long answer, and a judge with length controls, which picks the short one.">
+        <div class="ev-toggle" role="group" aria-label="Judge">
+          <button type="button" data-mode="naive" aria-pressed="true">Naive judge</button>
+          <button type="button" data-mode="fixed" aria-pressed="false">With length controls</button>
+        </div>
+        <div class="jg-answers">
+          <div class="ev-answer jg-short"><span class="ev-alabel">Answer A · 13 words</span><span class="jg-text">“Yes. Unopened items can be returned within 30 days for a full refund.”</span></div>
+          <div class="ev-answer jg-long"><span class="ev-alabel">Answer B · 47 words</span><span class="jg-text">“Great question! Returns are an important part of shopping, and we want you to feel confident. <mark>Generally speaking, in many cases, depending on the situation,</mark> unopened items can be returned within 30 days. <mark>We truly value your business and hope this helps clarify our policy for you.</mark>”</span></div>
+        </div>
+        <p class="jg-verdict" aria-live="polite">Judge picks <b>B</b>: “more thorough and detailed.” Its extra words add nothing.</p>
+      </figure>
+    </div>
+  </section>
+
+  <!-- Bias 3: self-enhancement -->
+  <section class="ev-sec" aria-labelledby="self">
+    <div class="ev-copy">
+      <span class="mono ev-kicker">Bias 3 · Self-enhancement</span>
+      <h2 id="self">Judges prefer their own writing</h2>
+      <p>A judge tends to favor outputs that sound like it, so when the same model, or model family, both writes and grades, scores come out inflated.</p>
+      <p class="jg-fix"><b>Fix:</b> use a judge from a different model family than the generator, or a small jury of diverse models and take the majority.</p>
+      <p class="ev-src">Sources: <a href="https://arxiv.org/abs/2404.13076">Panickssery et al., LLM Evaluators Favor Their Own Generations ↗</a> · <a href="https://arxiv.org/abs/2404.18796">Verga et al., Replacing Judges with Juries ↗</a></p>
+    </div>
+    <div class="ev-vis">
+      <figure class="ev-panel jg-self" aria-label="Left: the same model family writes and grades, and the score is inflated. Right: a jury of three different model families votes pass, pass, fail, and the majority verdict is pass.">
+        <div class="jg-self-row">
+          <div class="jg-self-col">
+            <span class="ev-alabel">Same family</span>
+            <div class="jg-chain"><span class="jg-chip">Model A writes</span><span class="jg-arrow" aria-hidden="true">→</span><span class="jg-chip">Model A grades</span></div>
+            <span class="ev-stamp ask">inflated score</span>
+          </div>
+          <div class="jg-self-col">
+            <span class="ev-alabel">Fix: a diverse jury</span>
+            <div class="jg-jury">
+              <span class="jg-juror"><span class="jg-chip">Model B</span><span class="ev-stamp ok">✓</span></span>
+              <span class="jg-juror"><span class="jg-chip">Model C</span><span class="ev-stamp ok">✓</span></span>
+              <span class="jg-juror"><span class="jg-chip">Model D</span><span class="ev-stamp bad">✗</span></span>
+            </div>
+            <span class="ev-stamp ok">majority: pass</span>
+          </div>
+        </div>
+      </figure>
+    </div>
+  </section>
+
+  <!-- Bias 4: calibration and drift -->
+  <section class="ev-sec" aria-labelledby="drift">
+    <div class="ev-copy">
+      <span class="mono ev-kicker">Bias 4 · Calibration and score drift</span>
+      <h2 id="drift">Scores wander unless you anchor them</h2>
+      <p>Ask a judge for “a score from 1 to 5” and it decides for itself what a 3 means, differently from run to run. Scores also drift when the model, the prompt or the rubric changes.</p>
+      <ul class="points jg-fixes">
+        <li><b>Cut randomness:</b> use temperature 0 where your model allows it. Some newer models don’t, so run the judge a few times and take the majority.</li>
+        <li><b>Anchor the scale:</b> describe each point with a concrete behavior, like the example here. Many teams go further and use pass/fail per criterion.</li>
+        <li><b>Stop the drift:</b> pin the model version, version the rubric, and rescore a fixed anchor set after every change.</li>
+      </ul>
+      <p class="ev-src">Sources: <a href="https://arxiv.org/abs/2404.12272">Shankar et al., Who Validates the Validators? ↗</a> · <a href="https://hamel.dev/blog/posts/llm-judge/">Hamel Husain, LLM judges that drive results ↗</a></p>
+    </div>
+    <div class="ev-vis">
+      <figure class="ev-panel jg-scale" aria-label="An anchored 1 to 5 scale for factual accuracy, with a behavior for each point.">
+        <div class="ev-bar"><span>Anchored scale · factual accuracy</span><span>1–5</span></div>
+        <ol class="jg-anchors">
+          <li><b>5</b>Every claim matches the source, and nothing the customer needs is missing.</li>
+          <li><b>4</b>Every claim matches the source, but one needed detail is missing.</li>
+          <li><b>3</b>One minor error that wouldn’t change what the customer does.</li>
+          <li><b>2</b>One error that would mislead the customer.</li>
+          <li><b>1</b>Contradicts the source, or invents facts.</li>
+        </ol>
+        <figcaption class="ev-figcap">Each point names a behavior the judge can check, so a 3 means the same thing every run.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- Pairwise vs. pointwise -->
+  <section class="ev-sec" aria-labelledby="pairwise">
+    <div class="ev-copy">
+      <span class="mono ev-kicker">Pairwise vs. pointwise</span>
+      <h2 id="pairwise">Compare two, or score one?</h2>
+      <p>Pairwise asks “which is better, A or B?” Judges are more sensitive comparing than scoring, so it’s the better choice for picking between two prompts or models. To rank many, run head-to-head matches and turn the wins into Elo-style ratings, as Chatbot Arena does.</p>
+      <p>Pointwise asks “how good is this one?” against a rubric. It gives you an absolute score you can set a threshold on, so it’s what you use to gate releases and monitor production.</p>
+      <p class="ev-src">Source: <a href="https://arxiv.org/abs/2403.04132">Chiang et al., Chatbot Arena ↗</a></p>
+    </div>
+    <div class="ev-vis">
+      <figure class="ev-panel jg-modes">
+        <div class="jg-mode">
+          <span class="ev-alabel">Pairwise</span>
+          <p class="jg-q">“Which is better, A or B?”</p>
+          <dl>
+            <div><dt>Gives you</dt><dd>A winner; many matches give a ranking</dd></div>
+            <div><dt>Use for</dt><dd>Choosing between prompts or models</dd></div>
+            <div><dt>Cost</dt><dd>Grows with every pair you compare</dd></div>
+            <div><dt>Watch for</dt><dd>Position bias: always swap the order</dd></div>
+          </dl>
+        </div>
+        <div class="jg-mode">
+          <span class="ev-alabel">Pointwise</span>
+          <p class="jg-q">“How good is this one?”</p>
+          <dl>
+            <div><dt>Gives you</dt><dd>An absolute score per output</dd></div>
+            <div><dt>Use for</dt><dd>Release gates and production monitoring</dd></div>
+            <div><dt>Cost</dt><dd>One check per output</dd></div>
+            <div><dt>Watch for</dt><dd>Score drift: anchor the scale</dd></div>
+          </dl>
+        </div>
+      </figure>
+    </div>
+  </section>
+
+  <!-- Meta-evaluation -->
+  <section class="ev-sec" aria-labelledby="meta">
+    <div class="ev-copy">
+      <span class="mono ev-kicker">Meta-evaluation</span>
+      <h2 id="meta">Prove the judge before you deploy it</h2>
+      <p>Have experts label a set of real outputs, run the judge on the same set, and measure how well they agree. Raw agreement misleads: if 90% of outputs pass, a judge that always says “pass” agrees 90% of the time and catches nothing. Try it.</p>
+      <ul class="points jg-fixes">
+        <li><b>Cohen’s kappa</b> for pass/fail labels: agreement after removing what chance alone would give. 1 is perfect, 0 is chance. Use weighted kappa for 1–5 scores.</li>
+        <li><b>Spearman correlation</b> for scores: do the judge and the experts rank outputs in the same order?</li>
+        <li><b>The bar:</b> aim for the agreement your experts reach with each other, and check how many real failures the judge catches.</li>
+      </ul>
+      <p class="ev-src">Sources: <a href="https://doi.org/10.1177/001316446002000104">Cohen (1960), A coefficient of agreement ↗</a> · <a href="https://doi.org/10.2307/2529310">Landis &amp; Koch (1977) ↗</a> · <a href="https://hamel.dev/blog/posts/llm-judge/">Hamel Husain ↗</a></p>
+    </div>
+    <div class="ev-vis">
+      <figure class="ev-panel jg-kappa" aria-label="Interactive: enter how often the judge and the experts agree and disagree, and see raw agreement, Cohen's kappa and the share of real failures the judge catches.">
+        <div class="jg-presets" role="group" aria-label="Examples">
+          <button type="button" data-preset="good">A good judge</button>
+          <button type="button" data-preset="always">Always says pass</button>
+          <button type="button" data-preset="strict">A harsh judge</button>
+        </div>
+        <table class="jg-matrix">
+          <thead><tr><td></td><th scope="col">Judge: pass</th><th scope="col">Judge: fail</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">Experts: pass</th><td><input type="number" min="0" max="999" value="80" data-cell="a" aria-label="Experts pass, judge pass"></td><td><input type="number" min="0" max="999" value="4" data-cell="b" aria-label="Experts pass, judge fail"></td></tr>
+            <tr><th scope="row">Experts: fail</th><td><input type="number" min="0" max="999" value="3" data-cell="c" aria-label="Experts fail, judge pass"></td><td><input type="number" min="0" max="999" value="13" data-cell="d" aria-label="Experts fail, judge fail"></td></tr>
+          </tbody>
+        </table>
+        <div class="jg-results" aria-live="polite">
+          <div><span class="jg-num" data-out="agree">93%</span><span class="ev-cap">raw agreement</span></div>
+          <div><span class="jg-num" data-out="kappa">0.75</span><span class="ev-cap">Cohen’s kappa · <b data-out="band">substantial</b></span></div>
+          <div><span class="jg-num" data-out="caught">81%</span><span class="ev-cap">real failures caught</span></div>
+        </div>
+        <p class="jg-formula mono">κ = (agreement − chance agreement) / (1 − chance agreement)</p>
+      </figure>
+    </div>
+  </section>
+
+  <!-- Checklist -->
+  <section class="ev-sec ev-wide" aria-labelledby="checklist">
+    <div class="ev-copy">
+      <span class="mono ev-kicker">Before you ship a judge</span>
+      <h2 id="checklist">A production checklist</h2>
+    </div>
+    <ul class="jg-check">
+      <li>One criterion per judge, with pass and fail written out</li>
+      <li>Pass/fail, or a scale where every point is anchored</li>
+      <li>Pairwise runs in both orders; flips count as ties</li>
+      <li>The rubric says length isn’t quality</li>
+      <li>A judge from a different model family than the generator</li>
+      <li>Model version pinned and rubric versioned</li>
+      <li>Kappa or Spearman measured against expert labels</li>
+      <li>A fixed anchor set rescored after every change</li>
+    </ul>
+  </section>
+
+  <!-- Sources -->
+  <section class="ev-sec ev-wide" aria-labelledby="sources">
+    <div class="ev-copy">
+      <span class="mono ev-kicker">Sources</span>
+      <h2 id="sources">Further reading</h2>
+    </div>
+    <ol class="ev-sources">
+      <li><a href="https://arxiv.org/abs/2306.05685">Zheng et al., Judging LLM-as-a-Judge with MT-Bench and Chatbot Arena</a> <span class="muted">(NeurIPS 2023)</span></li>
+      <li><a href="https://arxiv.org/abs/2305.17926">Wang et al., Large Language Models are not Fair Evaluators</a></li>
+      <li><a href="https://arxiv.org/abs/2404.04475">Dubois et al., Length-Controlled AlpacaEval</a></li>
+      <li><a href="https://arxiv.org/abs/2404.13076">Panickssery et al., LLM Evaluators Recognize and Favor Their Own Generations</a></li>
+      <li><a href="https://arxiv.org/abs/2404.18796">Verga et al., Replacing Judges with Juries</a></li>
+      <li><a href="https://arxiv.org/abs/2403.04132">Chiang et al., Chatbot Arena: An Open Platform for Evaluating LLMs by Human Preference</a></li>
+      <li><a href="https://arxiv.org/abs/2404.12272">Shankar et al., Who Validates the Validators?</a></li>
+      <li><a href="https://hamel.dev/blog/posts/llm-judge/">Hamel Husain, Creating a LLM-as-a-Judge That Drives Business Results</a></li>
+      <li><a href="https://doi.org/10.1177/001316446002000104">Cohen, A Coefficient of Agreement for Nominal Scales</a> <span class="muted">(1960)</span></li>
+      <li><a href="https://doi.org/10.2307/2529310">Landis and Koch, The Measurement of Observer Agreement for Categorical Data</a> <span class="muted">(1977)</span></li>
+    </ol>
+  </section>
+
+  <footer>
+    <div class="elsewhere">
+      <a href="https://www.linkedin.com/in/basanti-nashine-b7751aa2/">LinkedIn ↗</a>
+      <a href="https://github.com/basantinashine-dotcom">GitHub ↗</a>
+    </div>
+    <span class="muted">© 2026 Basanti Nashine</span>
+  </footer>
+
+</main>
+</body>
+</html>

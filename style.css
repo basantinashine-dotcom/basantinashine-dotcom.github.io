@@ -838,3 +838,120 @@ main.ev {
 }
 .ev-plan li::before { content: "0" counter(plan); font-family: var(--font-mono); font-size: var(--tiny); color: var(--heading); }
 .ev-plan li b { font-weight: 600; color: var(--fg); }
+
+/* LLM-as-a-Judge (llm-as-a-judge/): reuses the Agentic Evals 101 layout and pieces, plus these */
+.jg-sub { margin-top: -0.25rem; font-size: 1.25rem; font-weight: 500; color: var(--fg); }
+.jg-band .ev-copy { max-width: 44rem; }
+.jg-band { margin-bottom: -2.25rem; padding-top: 1.75rem; border-top: 1px solid var(--line); }
+.jg-fix { padding: 0.6rem 0.8rem; border-left: 2px solid var(--ok); background: var(--ok-bg); border-radius: 0 8px 8px 0; font-size: var(--small); }
+.jg-fix b, .jg-fixes b { font-weight: 600; }
+.jg-fixes { font-size: var(--small); }
+
+/* When to use: rating dots */
+.jg-compare table { width: 100%; border-collapse: collapse; }
+.jg-compare th, .jg-compare td { padding: 0.55rem 0.4rem; border-top: 1px solid var(--line); text-align: left; vertical-align: top; font-weight: 400; }
+.jg-compare thead th { border-top: 0; padding-top: 0; font-weight: 600; font-size: 0.8125rem; }
+.jg-compare tbody th { color: var(--muted); font-size: 0.8125rem; }
+.jg-dots {
+  --on: var(--heading);
+  --off: var(--line);
+  --c1: var(--off);
+  --c2: var(--off);
+  --c3: var(--off);
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+.jg-dots::before {
+  content: "";
+  width: 2.7rem;
+  height: 0.7rem;
+  background:
+    radial-gradient(circle at 0.35rem 50%, var(--c1) 0.3rem, transparent 0.32rem),
+    radial-gradient(circle at 1.35rem 50%, var(--c2) 0.3rem, transparent 0.32rem),
+    radial-gradient(circle at 2.35rem 50%, var(--c3) 0.3rem, transparent 0.32rem);
+}
+.jg-dots[data-n="1"] { --c1: var(--on); }
+.jg-dots[data-n="2"] { --c1: var(--on); --c2: var(--on); }
+.jg-dots[data-n="3"] { --c1: var(--on); --c2: var(--on); --c3: var(--on); }
+
+/* Verbosity: naive judge vs. length controls */
+.jg-answers { display: grid; grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr); gap: 0.75rem; align-items: start; }
+@media (max-width: 480px) { .jg-answers { grid-template-columns: minmax(0, 1fr); } }
+.jg-answers .ev-answer { position: relative; transition: border-color 0.2s ease; }
+.jg-verbose mark { background: none; color: inherit; transition: background 0.2s ease; }
+.jg-verbose[data-mode="fixed"] mark { background: var(--bad-bg); color: var(--bad); }
+.jg-verbose[data-mode="naive"] .jg-long, .jg-verbose[data-mode="fixed"] .jg-short { border-color: var(--heading); }
+.jg-verbose[data-mode="naive"] .jg-long::after, .jg-verbose[data-mode="fixed"] .jg-short::after {
+  content: "Judge’s pick";
+  position: absolute;
+  top: -0.6rem;
+  right: 0.6rem;
+  padding: 0 0.4rem;
+  background: var(--panel);
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  color: var(--heading);
+}
+.jg-verdict { margin: 0; }
+
+/* Self-enhancement: same family vs. a jury */
+.jg-self-row { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
+@media (max-width: 480px) { .jg-self-row { grid-template-columns: minmax(0, 1fr); } }
+.jg-self-col { display: flex; flex-direction: column; align-items: flex-start; gap: 0.6rem; padding: 0.8rem; border: 1px solid var(--line); border-radius: 8px; background: var(--bg); }
+.jg-chain, .jg-jury { display: flex; flex-wrap: wrap; align-items: center; gap: 0.4rem; }
+.jg-chip { padding: 0.2rem 0.5rem; border: 1px solid var(--line); border-radius: 6px; background: var(--panel); font-size: 0.8125rem; white-space: nowrap; }
+.jg-arrow { color: var(--muted); }
+.jg-juror { display: inline-flex; align-items: center; gap: 0.3rem; }
+
+/* Calibration: anchored scale */
+.jg-anchors { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0.4rem; }
+.jg-anchors li { display: grid; grid-template-columns: 2rem minmax(0, 1fr); align-items: baseline; gap: 0.6rem; padding: 0.45rem 0.55rem; border: 1px solid var(--line); border-radius: 8px; background: var(--bg); }
+.jg-anchors b { font-family: "Newsreader", Georgia, serif; font-size: 1.25rem; font-weight: 500; line-height: 1; color: var(--heading); text-align: center; }
+
+/* Pairwise vs. pointwise */
+.jg-modes { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.75rem; }
+@media (max-width: 480px) { .jg-modes { grid-template-columns: minmax(0, 1fr); } }
+.jg-mode { display: flex; flex-direction: column; gap: 0.5rem; padding: 0.8rem; border: 1px solid var(--line); border-radius: 8px; background: var(--bg); }
+.jg-q { margin: 0; font-weight: 600; }
+.jg-mode dl { margin: 0; display: flex; flex-direction: column; gap: 0.45rem; }
+.jg-mode dt { font-family: var(--font-mono); font-size: 0.6875rem; letter-spacing: 0.04em; text-transform: uppercase; color: var(--muted); }
+.jg-mode dd { margin: 0.05rem 0 0; font-size: 0.8125rem; }
+
+/* Meta-evaluation: kappa calculator */
+.jg-presets { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+.jg-presets button { padding: 0.3rem 0.7rem; border: 1px solid var(--line); border-radius: 999px; background: var(--bg); cursor: pointer; font-size: 0.8125rem; }
+.jg-presets button[aria-pressed="true"] { background: var(--fg); border-color: var(--fg); color: var(--bg); }
+.jg-matrix { width: 100%; border-collapse: separate; border-spacing: 0.4rem; margin: -0.4rem; width: calc(100% + 0.8rem); }
+.jg-matrix th { font-weight: 500; font-size: 0.8125rem; color: var(--muted); text-align: left; }
+.jg-matrix thead th { text-align: center; }
+.jg-matrix td { padding: 0; }
+.jg-matrix input {
+  width: 100%;
+  padding: 0.55rem 0.5rem;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--bg);
+  font: inherit;
+  font-family: var(--font-mono);
+  font-size: 1rem;
+  text-align: center;
+  color: var(--fg);
+}
+/* Agreements green, disagreements red (each row starts with its label, so count td cells) */
+.jg-matrix tbody tr:first-child td:nth-of-type(1) input, .jg-matrix tbody tr:last-child td:nth-of-type(2) input { background: var(--ok-bg); border-color: var(--ok); }
+.jg-matrix tbody tr:first-child td:nth-of-type(2) input, .jg-matrix tbody tr:last-child td:nth-of-type(1) input { background: var(--bad-bg); border-color: var(--bad); }
+.jg-results { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.75rem; }
+@media (max-width: 480px) { .jg-results { grid-template-columns: minmax(0, 1fr); } }
+.jg-results > div { display: flex; flex-direction: column; gap: 0.15rem; }
+.jg-num { font-family: "Newsreader", Georgia, serif; font-size: 2rem; font-weight: 500; line-height: 1.1; color: var(--heading); font-variant-numeric: lining-nums tabular-nums; }
+.jg-formula { margin: 0; color: var(--muted); }
+
+/* Checklist */
+.jg-check { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: minmax(0, 1fr); gap: 0.5rem 2rem; }
+@media (min-width: 760px) { .jg-check { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.jg-check li { position: relative; padding: 0.55rem 0 0.55rem 1.9rem; border-top: 1px solid var(--line); }
+.jg-check li::before { content: "✓"; position: absolute; left: 0.2rem; top: 0.5rem; display: grid; place-items: center; width: 1.2rem; height: 1.2rem; border-radius: 50%; background: var(--ok-bg); color: var(--ok); font-size: 0.75rem; }
+
