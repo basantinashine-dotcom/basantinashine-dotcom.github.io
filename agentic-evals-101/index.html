@@ -15,7 +15,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400&display=swap">
-<link rel="stylesheet" href="../style.css?v=2026-11-28">
+<link rel="stylesheet" href="../style.css?v=2026-11-29">
 <script>
   // Hide the animations' starting frames only when the page script can play them.
   // If it hasn't started within 3 seconds, show every end frame instead.
@@ -24,8 +24,8 @@
     if (!document.documentElement.classList.contains('ev-ready')) document.documentElement.classList.remove('js-ev');
   }, 3000);
 </script>
-<script src="../nav.js?v=2026-11-28" defer></script>
-<script src="../agentic-evals.js?v=2026-11-28" defer></script>
+<script src="../nav.js?v=2026-11-29" defer></script>
+<script src="../agentic-evals.js?v=2026-11-29" defer></script>
 </head>
 <body>
 <main class="ev">
@@ -277,12 +277,12 @@
     </div>
   </section>
 
-  <!-- 10. From my work. PLACEHOLDER COPY from the brief: Basanti to supply final copy before publishing. -->
+  <!-- 10. From my work -->
   <section class="ev-sec" aria-labelledby="mywork">
     <div class="ev-copy">
       <span class="mono ev-kicker">From my work</span>
       <h2 id="mywork">How I validated a critic LLM at scale</h2>
-      <p>At Amazon, I led the evaluation strategy for GenAI ad content, using a critic LLM checked against a human-labeled golden dataset. Getting the judge to 99% agreement with human reviewers is what let us trust automated evals at scale.</p>
+      <p>At Amazon, my team generated search ads for millions of keyword and product pairs, far more than people could ever review. So nothing ran until a critic LLM passed it, and we trusted that critic only once it agreed with human-labeled examples 99% of the time.</p>
       <p class="ev-src"><a href="../work/#search-ads">Read the full story on my Work page →</a></p>
     </div>
     <div class="ev-vis">
@@ -291,6 +291,16 @@
         <div class="ev-meter-bar"><span></span></div>
         <p class="ev-cap">Critic LLM agreement with human-labeled golden dataset</p>
       </figure>
+    </div>
+    <div class="ev-plan">
+      <h3>How we got there</h3>
+      <ol>
+        <li><b>Ground both sides</b>The writer and the critic saw the same product details, so the critic checked each claim against the source, not its own memory.</li>
+        <li><b>Layer the checks</b>Rules caught what code can check, like length limits and repeated text. The critic judged relevance, accuracy and policy, each with its own pass mark.</li>
+        <li><b>Close the loop</b>An ad that failed went back to be rewritten. Only ads that passed every check were stored and served.</li>
+        <li><b>Calibrate against people</b>Reviewers labeled a sample of ads, and we compared the critic’s verdicts with theirs until the two agreed 99% of the time.</li>
+        <li><b>Tune without a release</b>The critic’s prompts and pass marks lived in configuration, not code, so scientists could retune them quickly, then confirm with offline benchmarks and an A/B test.</li>
+      </ol>
     </div>
   </section>
 

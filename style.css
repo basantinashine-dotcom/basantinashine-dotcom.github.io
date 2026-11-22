@@ -817,3 +817,24 @@ main.ev {
 
 /* Section 12: sources */
 .ev-sources { margin: 0; padding-left: 1.5rem; display: flex; flex-direction: column; gap: 0.45rem; font-size: var(--small); }
+
+/* Section 10: the five-step plan under the agreement meter */
+.ev-plan { grid-column: 1 / -1; display: flex; flex-direction: column; gap: 0.9rem; }
+.ev-plan h3 { font-size: var(--text); font-weight: 600; }
+.ev-plan ol { list-style: none; counter-reset: plan; margin: 0; padding: 0; display: grid; grid-template-columns: minmax(0, 1fr); gap: 0.75rem; }
+@media (min-width: 1000px) { .ev-plan ol { grid-template-columns: repeat(5, minmax(0, 1fr)); } }
+.ev-plan li {
+  counter-increment: plan;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  padding: 0.9rem 1rem 1rem;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  font-size: var(--small);
+  line-height: 1.5;
+  color: var(--muted);
+}
+.ev-plan li::before { content: "0" counter(plan); font-family: var(--font-mono); font-size: var(--tiny); color: var(--heading); }
+.ev-plan li b { font-weight: 600; color: var(--fg); }
