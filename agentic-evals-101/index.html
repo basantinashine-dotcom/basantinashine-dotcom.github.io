@@ -66,24 +66,11 @@
   </nav>
 
   <!-- 1. Hero -->
-  <section class="ev-sec ev-hero" aria-labelledby="page-title">
+  <section class="ev-sec ev-hero ev-wide" aria-labelledby="page-title">
     <div class="ev-copy">
       <span class="mono ev-kicker">AI PM Playbooks · Agentic Evals</span>
       <h1 id="page-title">Agentic Evals 101</h1>
       <p>Agents don’t just answer. They plan, call tools, change things and adapt. That makes them powerful, and much harder to test. This page walks through how to evaluate them, one idea at a time.</p>
-    </div>
-    <div class="ev-vis">
-      <figure class="ev-panel ev-trace ev-anim" aria-label="An agent trace: a user asks for a refund, the agent looks up the order, gets the result, issues the refund and replies. Then graders stamp it: a code check passes the refund, a model judge passes the reply, and a human review is pending.">
-        <div class="ev-bar"><span>Trace · refund request</span><span>5 steps</span></div>
-        <ol class="ev-log">
-          <li class="ev-step" style="--i:0"><span class="ev-kind">User task</span><span class="ev-text">“My order arrived broken. Can I get a refund?”</span></li>
-          <li class="ev-step" style="--i:1"><span class="ev-kind">Tool call</span><code>lookup_order(customer="4821")</code></li>
-          <li class="ev-step" style="--i:2"><span class="ev-kind">Tool result</span><code>order 1193 · $42.00 · delivered</code></li>
-          <li class="ev-step" style="--i:3"><span class="ev-kind">Tool call</span><code>issue_refund(order="1193", amount=42.00)</code><span class="ev-stamp ok" style="--s:0">✓ code</span></li>
-          <li class="ev-step" style="--i:4"><span class="ev-kind">Final answer</span><span class="ev-text">“Done. $42.00 is on its way back to your card.”</span><span class="ev-stamp ok" style="--s:1">✓ judge</span></li>
-        </ol>
-        <div class="ev-trace-foot"><span class="ev-stamp ask" style="--s:2">? human</span><span>Whole trace: spot-checked by a person</span></div>
-      </figure>
     </div>
   </section>
 

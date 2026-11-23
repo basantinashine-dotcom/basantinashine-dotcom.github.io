@@ -63,24 +63,12 @@
   </nav>
 
   <!-- Hero -->
-  <section class="ev-sec ev-hero" aria-labelledby="page-title">
+  <section class="ev-sec ev-hero ev-wide" aria-labelledby="page-title">
     <div class="ev-copy">
       <span class="mono ev-kicker">AI PM Playbooks · LLM-as-a-Judge</span>
       <h1 id="page-title">LLM-as-a-Judge</h1>
       <p class="jg-sub">Pitfalls, biases and production fixes</p>
       <p>An LLM judge is a model that grades another model’s output against a rubric. It’s the only way to check subjective quality at scale, and it’s easy to get wrong: judges have predictable biases, and their scores drift. This guide covers the biases, the fixes, and how to prove a judge is reliable before you trust it.</p>
-    </div>
-    <div class="ev-vis">
-      <figure class="ev-panel ev-trace ev-anim" aria-label="A judge prompt: one criterion, a pass and fail rubric, the output to grade, and the verdict with its reason.">
-        <div class="ev-bar"><span>Judge prompt · support reply</span><span>1 criterion</span></div>
-        <ol class="ev-log">
-          <li class="ev-step" style="--i:0"><span class="ev-kind">Criterion</span><span class="ev-text">Does the reply answer the customer’s actual question?</span></li>
-          <li class="ev-step" style="--i:1"><span class="ev-kind">Pass if</span><span class="ev-text">It answers directly and correctly, using the order details.</span></li>
-          <li class="ev-step" style="--i:2"><span class="ev-kind">Fail if</span><span class="ev-text">It’s off-topic, wrong, or asks for details already given.</span></li>
-          <li class="ev-step" style="--i:3"><span class="ev-kind">Output</span><span class="ev-text">“Your order shipped today and arrives Thursday.”</span></li>
-          <li class="ev-step" style="--i:4"><span class="ev-kind">Verdict</span><span class="ev-text">Answers when it will arrive, with the order’s date.</span><span class="ev-stamp ok" style="--s:0">✓ pass</span></li>
-        </ol>
-      </figure>
     </div>
   </section>
 
