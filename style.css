@@ -1109,3 +1109,17 @@ main.ev {
 .gr-steps .done::before { content: "✓"; background: var(--ok-bg); color: var(--ok); }
 .gr-steps .wait::before { content: "…"; background: var(--ask-bg); color: var(--ask); }
 .gr-steps .fail::before { content: "!"; background: var(--bad-bg); color: var(--bad); }
+
+/* Build guides: a small table of numbers (agents/eval-agent/) */
+.odds-wrap { overflow-x: auto; }
+.guide .odds { width: 100%; border-collapse: collapse; font-size: var(--small); font-variant-numeric: tabular-nums; }
+.guide .odds th, .guide .odds td { padding: 0.5rem 0.6rem; border-bottom: 1px solid var(--line); text-align: right; white-space: nowrap; }
+.guide .odds th:first-child { text-align: left; }
+.guide .odds thead th { font-weight: 600; }
+.guide .odds tbody th { font-weight: 400; color: var(--muted); }
+.guide .odds .hl { background: rgba(123, 30, 46, 0.06); font-weight: 600; color: var(--heading); }
+@media (max-width: 480px) {
+  .guide .odds { font-size: 0.8125rem; }
+  .guide .odds th, .guide .odds td { padding: 0.45rem 0.3rem; }
+  .guide .odds thead th, .guide .odds tbody th { white-space: normal; }  /* headers wrap so the table fits a phone */
+}
