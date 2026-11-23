@@ -32,6 +32,10 @@ Home uses Geist for text and Newsreader, a serif, only for the name in the hero.
 - `decision-log-demo.gif` (Read, Ask why, Share) and `adcanvas-demo.gif` (Generate, Check, Approve) are the same kind of three-step demo, on the Agents and Projects pages respectively, each with a `-still.webp` for reduced motion. Decision Log uses the sample note from its README; AdCanvas uses the app's real theme names, sizes and review labels with drawn product images.
 - `photo-1200.jpg` is the 1200×800 image shown when the site is shared on social media or in messages.
 
+## Visitor counts
+
+Every page loads GoatCounter (`basantipm.goatcounter.com`), which counts visits without cookies, so no consent banner is needed. The dashboard is at https://basantipm.goatcounter.com. Add the same `<script data-goatcounter=…>` line to the `<head>` of any new page. Visits from `localhost` aren't counted.
+
 ## Search engines
 
 - `robots.txt` lets every crawler in and points to `sitemap.xml`, which lists each page's address.
