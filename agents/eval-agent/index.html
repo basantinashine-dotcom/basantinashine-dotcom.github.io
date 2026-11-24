@@ -67,6 +67,7 @@
       <li><a href="#solution">How the agent solves it</a></li>
       <li><a href="#concepts">Agentic AI ideas it uses</a></li>
       <li><a href="#build">Build it with Claude, step by step</a></li>
+      <li><a href="#own">Use it on your own agent</a></li>
       <li><a href="#test">Test it with Claude</a></li>
       <li><a href="#connectors">Outside services it connects to</a></li>
       <li><a href="#stack">Tech stack</a></li>
@@ -726,8 +727,185 @@ notices, and exit non-zero if a must-never-fail check fails. Write
 pytest tests with a scripted Claude so they run without internet.</code></pre>
   </section>
 
+  <section aria-labelledby="own">
+    <h2 id="own"><span class="num">5</span>Use it on your own agent</h2>
+    <p>Everything so far used Pebble &amp; Co, whose pretend tools were written by hand. For your own agent, use the full version: it does Steps 3 to 10 for you, starting by reading your agent’s code. Your agent’s packages need to be installed where you run it.</p>
+    <pre data-label="Terminal"><code>pip install -e path/to/eval-agent
+cd path/to/your-agent
+
+# Read your repo; write evals/target.py, fakes.py, tool_map.yaml
+eval-agent setup .
+# How your cases were read, and what's missing
+eval-agent cases evals/cases.jsonl
+# Run your agent with pretend tools, 5 tries per case
+eval-agent explore --target evals.target:make_target \
+    --cases evals/cases.jsonl --reps 5
+# Failure types, with counts
+eval-agent analyze
+# The plan; then plan --feedback "..." or plan --approve
+eval-agent plan
+# Code checks and judges, proven on your runs
+eval-agent build
+# Planted breaks: caught, weak or no effect
+eval-agent mutate
+# Label about 20 answers, then see if the judges agree with you
+eval-agent label
+eval-agent calibrate
+# Score a run; it fails if a must-never-fail check fails
+eval-agent score</code></pre>
+
+    <h3>Start with setup</h3>
+    <p><code>eval-agent setup</code> is itself a Claude Agent SDK agent. It reads your repo, finds your agent and every tool it can call, and writes three files into <code>evals/</code>: <code>target.py</code> (how to run your agent), <code>fakes.py</code> (a pretend version of every tool) and <code>tool_map.yaml</code> (what it found, for you to check). It’s kept on a short leash:</p>
+    <ul class="points">
+      <li>It reads only files git tracks, never <code>.env</code> or anything that looks like it holds keys. It writes only inside <code>evals/</code>, runs no commands, and never edits your code.</li>
+      <li>Everything it reads is data. If a file in your repo tells it to do something, it doesn’t, and lists it under questions for you.</li>
+      <li>Before trusting what it wrote, code checks it: the files can’t run commands or touch the network; they load in a separate process with the network blocked; every real tool has a pretend version with exactly the same name, description and inputs; each pretend tool runs once without crashing; and nothing in your repo changed.</li>
+      <li>Then it runs your agent once on a simple, harmless task, and tells you if any file in your repo changed. If one did, something reached your real code.</li>
+    </ul>
+    <p>Use <code>--exclude</code> for files it must not read, like an answer key, and <code>--note</code> to tell it where your agent starts if that’s hard to find. It stops at <code>--max-cost</code>, $3 by default. On the sample agent, with its answer key hidden, setup passed its checks on the first try for $0.13. On the Threads Agent’s reply drafter, it passed for $0.59. Setup prints each check as it works; on the sample, the last one said:</p>
+    <pre data-label="Output"><code>PASSED: pebble-support (sdk)
+Pretend tools: shop/get_order, shop/issue_refund (changes things), shop/send_email (changes things), shop/delete_account (changes things)</code></pre>
+
+    <h3>Check the tool map</h3>
+    <p>The plan is built from setup’s map: which tools change the real world, your red lines, and what the tests don’t cover. A risky tool marked as harmless can end up without a “must never fail” check. So read <code>tool_map.yaml</code> before you run anything, and fix it in place; later steps read this file. Here it is for Pebble &amp; Co, shortened:</p>
+    <pre data-label="evals/tool_map.yaml"><code># Written by `eval-agent setup` on 2026-11-24. Please check it:
+# - is every tool that sends, pays, posts, deletes or changes data marked changes_real_world: true?
+# - is never_do_proposed right? Fix anything that's wrong here; later steps read this file.
+agent: pebble-support
+framework: Claude Agent SDK
+entry_point: 'examples/support_agent/agent.py: build_options()'
+tools:
+- name: get_order
+  server: shop
+  what_it_does: looks up an order
+  changes_real_world: false
+  faked: true
+  how_faked: reads the pretend orders
+- name: issue_refund
+  server: shop
+  what_it_does: refunds money to the customer
+  changes_real_world: true
+  faked: true
+  how_faked: adds a refund to the pretend world
+# ...send_email and delete_account, both changes_real_world: true
+changed_for_testing: []
+never_do_proposed:
+- Refund an order that isn't the customer's
+- Refund more than the order total
+- Delete an account without asking first
+not_covered: []
+questions:
+- Should the agent check who someone is before deleting their account?
+check: passed</code></pre>
+    <ol class="steps">
+      <li><strong><code>changes_real_world</code></strong>: every tool that sends, pays, posts, deletes or writes anywhere must say <code>true</code>. Setup says true when it’s unsure; a wrong <code>false</code> is the costly mistake.</li>
+      <li><strong><code>faked</code></strong>: every tool must say <code>true</code>, read-only ones too, so tests don’t depend on real data.</li>
+      <li><strong><code>how_faked</code></strong>: does the pretend tool keep state and fail the way the real one does? A refund made in one call should show up in the next lookup.</li>
+      <li><strong><code>changed_for_testing</code></strong>: every change to how your agent runs during tests. Make sure none of them switches off a rule you want tested.</li>
+      <li><strong><code>never_do_proposed</code></strong>: your red lines, guessed from the code. Add what’s missing; these become the “must never fail” checks.</li>
+      <li><strong><code>not_covered</code></strong> and <strong><code>questions</code></strong>: what the tests won’t see, and what setup couldn’t decide. Answer them before you trust the results.</li>
+    </ol>
+    <p>Before handing the map over, setup checks that it agrees with the pretend tools, and fixes it when they don’t. Had it marked <code>send_email</code> as harmless, it would have been told:</p>
+    <pre data-label="Output"><code>shop/send_email: the map says changes_real_world=False, but the pretend tool has side_effect=True. Make them agree.</code></pre>
+    <p>That check runs only during setup. If you change a tool’s <code>changes_real_world</code> later, also change <code>side_effect</code> on its pretend version in <code>fakes.py</code>.</p>
+
+    <h3>Fake tools that keep state</h3>
+    <p>Pebble &amp; Co’s tools touch a small JSON file. Real agents touch databases and outside services. The rule is the same: <strong>fake the tool, not the system behind it.</strong> Each try starts from the case’s <code>starting_state</code>, and pretend tools read and change only that, never the network, files or environment variables.</p>
+    <ul class="points">
+      <li><strong>Databases:</strong> put just the rows the tools read into the world, shaped like real rows, and make writes change them, so a later lookup sees the change. Base the example world on your repo’s seed data, never real people’s data.</li>
+      <li><strong>Outside services</strong> (email, payments, posting): record each call in the world, like a pretend outbox, and return what the real service returns, including its error messages. Then <code>inject_failures</code> tests how your agent copes when the service is down.</li>
+      <li><strong>Time and IDs:</strong> put “now” in the starting state, and make IDs from counts (<code>r1</code>, <code>r2</code>), so a try can be repeated exactly.</li>
+      <li><strong>What can’t be faked safely</strong>, like shell commands or a tool server whose code you can’t see: the runner refuses to start a tool server with no pretend version. List it under <code>not_covered</code> and test that path another way.</li>
+    </ul>
+    <p>In the full version, pretend tools get a <code>FakeWorld</code> and keep state in <code>world.state</code>. A database-backed tool might look like this:</p>
+    <pre data-label="evals/fakes.py"><code># The real update_order_status writes to the orders table.
+# The pretend one keeps its name, inputs and error message.
+def update_order_status(args: dict, world: FakeWorld) -&gt; dict:
+    # .get: a world without orders doesn't crash
+    for order in world.state.get("orders", []):
+        if order["id"] == args["order_id"]:
+            order["status"] = args["status"]  # later lookups see it
+            return {"id": order["id"], "status": order["status"]}
+    raise ToolError(f"No order with ID {args['order_id']}.")</code></pre>
+
+    <h3>Agents written in plain code</h3>
+    <p>Not every agent is built on the Agent SDK. The <a href="../threads-agent/">Threads Agent</a>’s reply drafter is plain Python: it asks Claude to draft a reply to a post, then the agent’s own code decides whether that reply may go out. For agents like this, the target is a <code>CallableTarget</code>: a function that runs your agent once on a case and returns its final answer as text. Every tool call goes through <code>toolbox.call</code>, so it’s faked and recorded. Here’s the Threads Agent’s adapter, simplified:</p>
+    <pre data-label="evals/target.py"><code>"""How the Eval Agent runs the Threads reply drafter: the real
+model call and the real rules, with posting faked."""
+from eval_agent.fakes import FakeTool, FakeWorld
+from eval_agent.runner import CallableTarget
+
+from outreach import policy                 # the agent's own rules
+from outreach.drafter import ClaudeDrafter  # its own model call
+
+RULES = """Rules enforced in code after the model drafts:
+- Some kinds of post never get a reply, whatever the model drafts.
+- Replies with phone numbers, @mentions or outside links are blocked.
+- The owner approves every reply before it's posted."""
+
+def _reply(args: dict, world: FakeWorld) -&gt; dict:
+    replies = world.state.setdefault("replies", [])
+    replies.append({"to": args["post_id"], "text": args["text"]})
+    return {"id": f"r{len(replies)}", "status": "posted"}
+
+def fakes() -&gt; list[FakeTool]:
+    return [FakeTool("reply", "Post a public reply to a Threads post.",
+                     {"post_id": str, "text": str}, _reply,
+                     side_effect=True)]
+
+def make_target() -&gt; CallableTarget:
+    drafter = ClaudeDrafter(...)  # built from the agent's own config
+
+    def run(case, toolbox) -&gt; str:
+        # The real model call. post_from turns the case into a post.
+        draft = drafter.assess(post_from(case))
+        # Show the model's choices apart from the code's
+        lines = [f"Model's should_reply: {draft.should_reply}",
+                 f"Model's reply: {draft.reply_body or '(empty)'}"]
+        decision = policy.decide(draft.category, draft.should_reply,
+                                 draft.reply_body)
+        if decision.status != "drafted":
+            lines.append(f"Code decision: no reply ({decision.reason}).")
+            return "\n".join(lines)
+        toolbox.call("reply", {"post_id": case.id,
+                               "text": draft.reply_body})
+        lines.append(f"Final reply (posted in this test): "
+                     f"{draft.reply_body}")
+        return "\n".join(lines)
+
+    return CallableTarget("threads-reply-agent", run, fakes,
+                          instructions=drafter.system_prompt
+                          + "\n\n" + RULES)</code></pre>
+    <ul class="points">
+      <li><strong>Keep your agent’s model calls real.</strong> They’re what you’re testing. Fake only what touches the world, here the reply.</li>
+      <li><strong>Route every tool call to a fake.</strong> If your code accepts its tools, pass the fakes in. If it calls them directly, patch them with <code>unittest.mock.patch</code> where they’re looked up, not where they’re defined, and make <code>run</code> a plain function so tries don’t overlap.</li>
+      <li><strong>Show the model’s choices apart from your code’s.</strong> When a reply is blocked, the analyzer needs to know whether the model or the rules did it.</li>
+      <li><strong>Pass your prompt and your code’s rules as <code>instructions</code>.</strong> The analyzer can’t read your code, so tell it what the code enforces.</li>
+      <li><strong>Write down what the test leaves out.</strong> This one doesn’t check daily caps or cooldowns, and its docstring says so.</li>
+    </ul>
+    <p>Its first run used 11 made-up posts, 6 of which the agent must not answer. All 6 got no reply.</p>
+
+    <h3>No test cases yet?</h3>
+    <p>You don’t need a polished dataset to start. Only <code>task</code> is required to run a case, and <code>expected_outcome</code> is what lets it be graded.</p>
+    <ol class="steps">
+      <li><strong>Write 5 to 10 by hand.</strong> Copy real requests from your logs or support inbox. Add one case for each thing your agent must never do, and a few where it should refuse or ask first.</li>
+      <li><strong>Use whatever format you have.</strong> JSONL, JSON or a CSV export from a spreadsheet all work, and common column names are understood: <code>question</code> is read as the task, <code>expected</code> as the expected outcome.</li>
+      <li><strong>Ask what’s missing.</strong> <code>eval-agent cases</code> says how it read your file and where the gaps are. This is its real output for the sample:</li>
+    </ol>
+    <pre data-label="Output"><code>I read 10 cases from cases.jsonl.
+Every case has an expected outcome.
+7 are cases where the agent should refuse or ask first.
+3 include scripted replies for when the agent asks a question.
+Tags: refund (6), should-refuse (4), should-ask-first (3), happy-path (2), account (2), order-status (2), tool-failure (1), prompt-injection (1).
+Gaps: Only 10 cases. At least 20 is a good start.</code></pre>
+    <p>Then let Claude fill the gaps. <code>eval-agent generate</code> writes up to 15 new cases that cover what yours miss: tool failures, hidden instructions, edge cases, requests to refuse. It uses your example world’s shape, drops any case that can’t run, and saves the rest in <code>added/</code>, tagged <code>synthetic</code>, each with a sentence on why it’s there. Your own file is never changed. Read them and delete any you don’t want.</p>
+    <pre data-label="Terminal"><code>eval-agent generate --target evals.target:make_target \
+    --cases evals/cases.jsonl --count 10</code></pre>
+    <p>It’s worth it. The sample agent’s refund-confirmed-after-the-refund-failed bug showed up only in its 10 generated cases, not in the 10 written by hand. Aim for at least 20 cases, with at least 5 for each “must never fail” check, and keep adding real requests as they come in.</p>
+  </section>
+
   <section aria-labelledby="test">
-    <h2 id="test"><span class="num">5</span>Test it with Claude</h2>
+    <h2 id="test"><span class="num">6</span>Test it with Claude</h2>
     <p>An eval agent is an agent too, so it needs testing. And it has one extra risk: if it’s wrong, you’ll trust a test that doesn’t work. Use four layers, from fastest to slowest.</p>
 
     <h3>Layer 1. Test the plumbing, with no internet</h3>
@@ -774,7 +952,7 @@ def test_a_tool_can_fail_on_purpose():
   </section>
 
   <section aria-labelledby="connectors">
-    <h2 id="connectors"><span class="num">6</span>Outside services it connects to</h2>
+    <h2 id="connectors"><span class="num">7</span>Outside services it connects to</h2>
     <dl class="ideas">
       <dt>Claude API</dt>
       <dd>Through the anthropic library, with answers in a fixed form (structured outputs). Opus 5.5 reviews the runs, writes the plan and writes the tests. Sonnet 5.5 answers the judge questions.</dd>
@@ -787,7 +965,7 @@ def test_a_tool_can_fail_on_purpose():
   </section>
 
   <section aria-labelledby="stack">
-    <h2 id="stack"><span class="num">7</span>Tech stack</h2>
+    <h2 id="stack"><span class="num">8</span>Tech stack</h2>
     <ul class="points">
       <li><strong>Python 3.11+</strong>, run as a command-line tool (a program you use by typing in the terminal)</li>
       <li><strong>Claude Agent SDK</strong> to run the agent under test, and for the setup agent in the full version</li>
@@ -799,7 +977,7 @@ def test_a_tool_can_fail_on_purpose():
   </section>
 
   <section aria-labelledby="lesson">
-    <h2 id="lesson"><span class="num">8</span>The lesson</h2>
+    <h2 id="lesson"><span class="num">9</span>The lesson</h2>
     <p class="tie">An eval you haven’t tested is a guess. Look at what your agent actually does before deciding what to measure. Put the rules a program can check in code, ask judges only yes-or-no questions, and check them against your own answers. Keep a person in charge of what matters. Then break your agent on purpose: a test earns your trust only after you’ve seen it catch something.</p>
   </section>
 
