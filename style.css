@@ -112,10 +112,9 @@ section { display: flex; flex-direction: column; gap: 1.1rem; }
   height: auto;
   aspect-ratio: 12 / 1;
   object-fit: cover;
-  object-position: 50% 68%;
+  object-position: 50% 50%;
   border-radius: 12px;
   background: var(--line);
-  filter: saturate(0.88);
 }
 @media (max-width: 600px) { .band img { aspect-ratio: 7 / 1; border-radius: 8px; } }
 .hero-text { display: flex; flex-direction: column; gap: 1.25rem; max-width: 44rem; }
