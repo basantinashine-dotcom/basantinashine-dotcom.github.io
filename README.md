@@ -29,7 +29,8 @@ Home uses Geist for text and Newsreader, a serif, only for the name in the hero.
 - `shot-hey-mama-*`, `shot-tagalong-*` and `shot-campaign-lab-*` are screenshots of those three live apps on the Projects page. Each comes as 600px and 1200px WebP plus a 1200×750 JPEG fallback (16:10).
 - `threads-agent-loop.gif` is the looping three-step demo of the growth agent (Look, Queue, Approve) on the Agents page, 1152×720, built from illustrative slides with sample data. Visitors whose device asks for reduced motion see `threads-agent-loop-still.webp`, the first slide, instead. `threads-agent-queue.webp`, the Queue slide, is the Threads Agent's card image on Home.
 - `eval-agent-still.webp` is an illustration of the Eval Agent's plan step, with sample data, on the Agents page and as its card on Home.
-- `decision-log-demo.gif` (Read, Ask why, Share) and `adcanvas-demo.gif` (Generate, Check, Approve) are the same kind of three-step demo, on the Agents and Projects pages respectively, each with a `-still.webp` for reduced motion. Decision Log uses the sample note from its README; AdCanvas uses the app's real theme names, sizes and review labels with drawn product images.
+- `decision-log-demo.gif` (Read, Ask why, Share) is a three-step demo on the Agents page, with a `-still.webp` for reduced motion; it uses the sample note from its README.
+- The AdCanvas demo on Projects is a continuous animation of one generation: pick the Modern home theme and generate three variations, check each against the original (variation 2's label changed), then approve two and reject one. Browsers get `adcanvas-demo.webp` (smooth, smaller); `adcanvas-demo.gif` is the fallback, and `adcanvas-demo-still.webp` (the check step) is for reduced motion and the Home card. It uses the app's real theme names, settings and review labels, with drawn product images.
 - `photo-1200.jpg` is the 1200×800 image shown when the site is shared on social media or in messages.
 
 ## Visitor counts
