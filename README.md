@@ -6,7 +6,7 @@ The site is four static pages, plus build guides for the agents and AI PM Playbo
 
 | Page | File | What's on it |
 |---|---|---|
-| Home | `index.html` | A wider page: the hero (a thin artwork band, then name and headline), four compact stat cards that each link to their Work story (the 12 wks → 2 hrs card has a small before/after bar), the bio with Background beside it, Selected work as rows with outcomes, Personal projects as screenshot cards, Agents as image cards (three across on wide screens), with a link to the Threads build guide, Get in touch |
+| Home | `index.html` | A wider page: the hero (a thin artwork band, then name and headline), the bio with Background beside it, four compact stat cards that each link to their Work story (the 12 wks → 2 hrs card has a small before/after bar), Selected work as rows with outcomes, Personal projects as screenshot cards, Agents as image cards (three across on wide screens), with a link to the Threads build guide, Get in touch |
 | Work | `work/index.html` | The five Selected work stories, each with an anchor (`#search-ads`, `#personalization`, `#advertiser-agents`, `#marketing-mix`, `#next-best-engagement`) |
 | Projects | `projects/index.html` | Apps, each with Problem, Solution and Stack: AdCanvas, Hey Mama (with its spec sheet), Tagalong and Campaign Lab (`#adcanvas`, `#hey-mama`, `#tagalong`, `#campaign-lab`) |
 | Agents | `agents/index.html` | AI agents, each with Problem, Solution and Stack: the Eval Agent (`#eval-agent`), the Threads Agent (`#threads-agent`) and Decision Log (`#decision-log`) |
