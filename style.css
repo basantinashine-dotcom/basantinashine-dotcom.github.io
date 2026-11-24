@@ -205,7 +205,10 @@ section { display: flex; flex-direction: column; gap: 1.1rem; }
 /* One-line lists on Home */
 .list { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 0.5rem; }
 .list .mono { color: var(--muted); margin-left: 0.4rem; white-space: nowrap; }
-.career { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 0.4rem; }
+.career { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 0.9rem; }
+.career li { display: flex; flex-direction: column; gap: 0.1rem; padding-left: 0.85rem; border-left: 2px solid var(--line); line-height: 1.45; }
+.career-org { font-weight: 500; }
+.career-role { font-size: var(--small); color: var(--muted); }
 
 /* Problem, Solution and Stack lines: Home lists (.projlist) and Agents page entries (.facts) */
 .projlist { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 1.4rem; }
