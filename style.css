@@ -1125,3 +1125,77 @@ main.ev {
   .guide .odds th, .guide .odds td { padding: 0.45rem 0.3rem; }
   .guide .odds thead th, .guide .odds tbody th { white-space: normal; }  /* headers wrap so the table fits a phone */
 }
+
+/* My product philosophy (philosophy/creating-products/): a three-circle diagram that follows the scroll */
+main.ph {
+  max-width: 64rem;
+  gap: 4rem;
+  --ph-c1: rgba(236, 128, 96, 0.72);   /* customers */
+  --ph-c2: rgba(116, 192, 152, 0.72);  /* strategic goals */
+  --ph-c3: rgba(226, 192, 88, 0.72);   /* market space */
+  --ph-serif: "Newsreader", Georgia, "Times New Roman", serif;
+}
+@media (max-width: 600px) { main.ph { gap: 3rem; } }
+.ph-hero { display: flex; flex-direction: column; gap: 1rem; }
+.ph-kicker { font-size: var(--tiny); letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+.ph-hero h1 { font-family: var(--ph-serif); font-weight: 500; font-size: clamp(2.75rem, 8vw, 5.25rem); line-height: 0.95; letter-spacing: -0.02em; }
+.ph-hero h1 em { font-style: italic; color: var(--heading); }
+.ph-sub { max-width: 34rem; font-size: 1.125rem; color: var(--muted); }
+
+.ph-scrolly { display: grid; grid-template-columns: minmax(0, 1fr); gap: 0.5rem; }
+@media (min-width: 880px) { .ph-scrolly { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 3.5rem; } }
+.ph-stick { position: sticky; top: 0; z-index: 2; align-self: start; padding: 0.5rem 0 0.75rem; background: var(--bg); }
+@media (min-width: 880px) { .ph-stick { top: 2rem; padding: 0; } }
+.ph-venn { display: block; width: 100%; max-width: 15rem; height: auto; margin: 0 auto; overflow: visible; }
+@media (min-width: 880px) { .ph-venn { max-width: 25rem; } }
+.ph-circles { mix-blend-mode: multiply; }
+.ph-c { cursor: pointer; transition: opacity 0.5s ease; }
+.ph-c1 { fill: var(--ph-c1); } .ph-c2 { fill: var(--ph-c2); } .ph-c3 { fill: var(--ph-c3); }
+.ph-live .ph-c.is-dim { opacity: 0.3; }
+.ph-loop { fill: none; stroke: var(--heading); stroke-width: 3; stroke-dasharray: 6 6; transition: opacity 0.5s ease; }
+.ph-live .ph-loop:not(.is-on) { opacity: 0.25; }
+#ph-arrow path { fill: var(--heading); }
+.ph-pair { fill: var(--bg); stroke: var(--fg); stroke-width: 1.5; cursor: pointer; transition: fill 0.2s ease; }
+.ph-pair.is-on { fill: var(--fg); }
+.ph-star { fill: var(--fg); cursor: pointer; }
+.ph-star-t { fill: var(--bg); font-size: 16px; pointer-events: none; }
+.ph-label { font-family: var(--ph-serif); font-size: 20px; fill: var(--fg); pointer-events: none; }
+.ph-label-sm { font-size: 17px; }
+.ph-venn [data-k] { outline: none; }
+.ph-venn [data-k]:focus-visible { stroke: var(--fg); stroke-width: 3; }
+.ph-animate .ph-c { transform-box: fill-box; transform-origin: center; animation: ph-in 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) both; }
+.ph-animate .ph-c2 { animation-delay: 0.15s; } .ph-animate .ph-c3 { animation-delay: 0.3s; }
+.ph-animate .ph-star { animation: ph-glow 2.6s ease-in-out infinite; }
+@keyframes ph-in { from { opacity: 0; transform: scale(0.6); } }
+@keyframes ph-glow { 0%, 100% { filter: drop-shadow(0 0 0 rgba(123, 30, 46, 0)); } 50% { filter: drop-shadow(0 0 8px rgba(123, 30, 46, 0.55)); } }
+
+.ph-caption { display: none; }
+@media (min-width: 880px) {
+  /* Shown only while someone points at the diagram; the steps carry the words otherwise */
+  .ph-live .ph-caption { display: flex; flex-direction: column; gap: 0.35rem; min-height: 9.5rem; margin-top: 1rem; padding-left: 1.25rem; border-left: 2px solid var(--heading); opacity: 0; transition: opacity 0.25s ease; }
+  .ph-live .ph-caption.is-shown { opacity: 1; }
+}
+.ph-step { font-size: 0.6875rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--heading); }
+.ph-title { font-family: var(--ph-serif); font-size: 1.75rem; font-weight: 500; line-height: 1.15; letter-spacing: 0; }
+.ph-body { color: var(--muted); }
+
+.ph-steps { padding-bottom: 35vh; }
+.ph-art { min-height: 60vh; display: flex; flex-direction: column; justify-content: center; gap: 0.4rem; transition: opacity 0.5s ease; }
+.ph-live .ph-art:not(.is-on) { opacity: 0.3; }
+.ph-num { font-family: var(--ph-serif); font-size: 3.5rem; line-height: 1; color: var(--heading); }
+.ph-art h3 { font-family: var(--ph-serif); font-size: 2rem; font-weight: 500; line-height: 1.15; }
+.ph-art h3 + p { font-size: 1.0625rem; color: var(--muted); }
+@media (max-width: 600px) { .ph-art { min-height: 50vh; } .ph-art h3 { font-size: 1.625rem; } .ph-num { font-size: 2.75rem; } }
+
+.ph-skip { padding: 2.5rem 1.75rem; border-radius: 16px; background: #f4ede0; }
+@media (max-width: 600px) { .ph-skip { padding: 2rem 1.25rem; } }
+.ph-skip > h2 { font-family: var(--ph-serif); font-weight: 500; font-size: 2.25rem; line-height: 1.1; color: var(--fg); }
+.ph-cards { margin-top: 1.75rem; display: grid; grid-template-columns: minmax(0, 1fr); gap: 1.75rem 2rem; }
+@media (min-width: 760px) { .ph-cards { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.ph-card { display: flex; flex-direction: column; gap: 0.35rem; padding-top: 1rem; border-top: 2px solid var(--heading); }
+.ph-card h3 { font-family: var(--ph-serif); font-size: 1.5rem; font-weight: 500; line-height: 1.2; }
+.ph-card h3 + p { color: var(--muted); }
+
+.ph-end { display: flex; flex-direction: column; gap: 0.4rem; }
+.ph-motto { font-family: var(--ph-serif); font-size: clamp(1.75rem, 4vw, 2.5rem); line-height: 1.15; }
+.ph-motto em { font-style: italic; color: var(--heading); }

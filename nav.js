@@ -1,5 +1,5 @@
-// Closes "AI PM Playbooks" menu on Escape or a click outside it.
-// The menu itself is a <details> element, so it opens and closes without this.
+// Closes the "AI PM Playbooks" and "My Philosophy" menus on Escape or a click outside them.
+// Each menu is a <details> element, so it opens and closes without this.
 (function () {
   function closeAll(except) {
     document.querySelectorAll('details.nav-menu[open]').forEach(function (menu) {
