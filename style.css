@@ -1199,3 +1199,126 @@ main.ph {
 .ph-end { display: flex; flex-direction: column; gap: 0.4rem; }
 .ph-motto { font-family: var(--ph-serif); font-size: clamp(1.75rem, 4vw, 2.5rem); line-height: 1.15; }
 .ph-motto em { font-style: italic; color: var(--heading); }
+
+/* Leading Product Teams (philosophy/leading-product-teams/): seven habits, each with a short animation */
+.ld-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 3.5rem; }
+@media (max-width: 600px) { .ld-list { gap: 2.75rem; } }
+.ld-item { display: grid; grid-template-columns: minmax(0, 1fr); gap: 1.25rem; align-items: center; }
+@media (min-width: 880px) { .ld-item { grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); gap: 3.5rem; } }
+.ld-text { display: flex; flex-direction: column; gap: 0.5rem; }
+.ld-text h2 { font-family: var(--ph-serif); font-weight: 500; font-size: 2rem; line-height: 1.15; letter-spacing: -0.005em; }
+.ld-text p { font-size: 1.0625rem; color: var(--muted); }
+@media (max-width: 600px) { .ld-text h2 { font-size: 1.625rem; } }
+.ld-fig { margin: 0; padding: 0.5rem; background: #fffdf8; border: 1px solid var(--line); border-radius: 14px; cursor: pointer; }
+.ld-fig svg { display: block; width: 100%; height: auto; }
+.ld-next { font-size: var(--small); }
+
+/* Shapes and text inside the pictures */
+.ld-fig text { font-family: var(--font-sans); }
+.ld-cap { font-family: var(--font-mono) !important; font-size: 10.5px; letter-spacing: 0.04em; fill: var(--muted); }
+.ld-col { font-family: var(--font-mono) !important; font-size: 10.5px; letter-spacing: 0.06em; text-transform: uppercase; fill: var(--muted); }
+.ld-divider { stroke: var(--line); stroke-width: 1.5; }
+.ld-outline { fill: none; stroke: var(--underline); stroke-width: 1.5; stroke-dasharray: 4 4; }
+.ld-sight { stroke: var(--muted); stroke-width: 1.4; opacity: 0.55; }
+.ld-face { stroke: #fffdf8; stroke-width: 1.5; }
+.ld-chip { fill: #f4ede0; stroke: var(--underline); }
+.ld-chip-t { font-size: 12px; font-weight: 500; fill: var(--fg); }
+.ld-ring { fill: none; stroke: var(--heading); stroke-width: 2; }
+.ld-bull { fill: var(--heading); }
+.ld-arrow line, .ld-arrow .tail { fill: none; stroke: var(--fg); stroke-width: 2.5; stroke-linecap: round; }
+.ld-arrow .head { fill: var(--fg); }
+.ld-path { stroke: var(--underline); stroke-width: 3; }
+.ld-node { fill: #fffdf8; stroke: var(--fg); stroke-width: 1.5; }
+.ld-pole { stroke: var(--fg); stroke-width: 2; }
+.ld-mark { font-size: 13px; font-weight: 700; fill: #fffdf8; }
+.ld-glass { fill: rgba(255, 253, 248, 0.45); stroke: var(--fg); stroke-width: 3; }
+.ld-handle { stroke: var(--fg); stroke-width: 4; stroke-linecap: round; }
+.ld-lens { transform: translate(292px, 158px); }
+.ld-sketch { fill: none; stroke: var(--fg); stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.ld-btn { transform-box: fill-box; transform-origin: center; transform: scale(1.25); }
+.ld-btn rect { fill: var(--fg); }
+.ld-btn text { font-size: 11px; font-weight: 600; fill: #fffdf8; }
+.ld-cursor { transform: translate(114px, 150px); }
+.ld-bubble { fill: #fffdf8; stroke: var(--underline); stroke-width: 1.5; }
+.ld-bubble.ok { fill: #e4efe1; stroke: #3b7a4e; }
+.ld-bubble-t { font-size: 12px; font-weight: 500; fill: var(--fg); }
+.ld-card { fill: #fffdf8; stroke: var(--underline); stroke-width: 1.5; }
+.ld-card-red { fill: #f6e2dc; stroke: #b0472f; stroke-width: 1.5; opacity: 0; }
+.ld-card-l { stroke: var(--underline); stroke-width: 4; stroke-linecap: round; }
+.ld-ring2 { fill: none; stroke: var(--heading); stroke-width: 2; opacity: 0; transform-box: fill-box; transform-origin: center; }
+.ld-doc { fill: #fffdf8; stroke: var(--underline); stroke-width: 1.5; }
+.ld-doc-h { font-family: var(--font-mono) !important; font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; fill: var(--heading); }
+.ld-line { fill: #e6dcc7; }
+.ld-stamp { transform-box: fill-box; transform-origin: center; transform: rotate(-8deg); }
+.ld-stamp rect { fill: rgba(123, 30, 46, 0.06); stroke: var(--heading); stroke-width: 2; }
+.ld-stamp text { font-family: var(--font-mono) !important; font-size: 11.5px; font-weight: 600; letter-spacing: 0.12em; fill: var(--heading); }
+.ld-answer { fill: none; stroke: var(--heading); stroke-width: 2; stroke-linecap: round; }
+.ld-answer-h { fill: none; stroke: var(--heading); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.ld-spot { fill: rgba(226, 192, 88, 0.28); }
+.ld-star { font-size: 18px; fill: #d9a92e; }
+.ld-star.sm { font-size: 13px; }
+.ld-flash { opacity: 0; }
+.ld-pop, .ld-flash, .ld-clap { transform-box: fill-box; transform-origin: center; }
+.ld-draw { stroke-dasharray: 1; stroke-dashoffset: 0; }
+.ld-grow { transform-box: fill-box; transform-origin: left center; }
+
+/* Before playing: the first frame (only when the script can play it) */
+.js-ld .ld-fig:not(.is-in) :is(.ld-pop, .ld-fade, .ld-arrow, .ld-stamp, .ld-owner) { opacity: 0; }
+.js-ld .ld-fig:not(.is-in) .ld-draw { stroke-dashoffset: 1; opacity: 0; }
+.js-ld .ld-fig:not(.is-in) .ld-grow { transform: scaleX(0); }
+.js-ld .ld-fig:not(.is-in) .ld-lens { opacity: 0; transform: translate(40px, 110px); }
+.js-ld .ld-fig:not(.is-in) .ld-cursor { opacity: 0; transform: translate(250px, 190px); }
+.js-ld .ld-fig:not(.is-in) .ld-btn { transform: scale(1); }
+.js-ld .ld-fig:not(.is-in) .ld-card-a { transform: translate(98px, -44px); }
+
+/* Playing */
+.js-ld .ld-fig.is-in .ld-pop { animation: ld-pop 0.45s cubic-bezier(0.2, 0.9, 0.3, 1.3) var(--d, 0s) both; }
+.js-ld .ld-fig.is-in .ld-fade { animation: ld-fade 0.5s ease var(--d, 0s) both; }
+.js-ld .ld-fig.is-in .ld-draw { animation: ld-draw 0.7s ease var(--d, 0s) both; }
+.js-ld .ld-fig.is-in .ld-grow { animation: ld-grow 0.45s ease var(--d, 0s) both; }
+.js-ld .ld-fig.is-in .ld-flash { animation: ld-flash 1.2s ease var(--d, 0s) both; }
+.js-ld .ld-fig.is-in .ld-clap { animation: ld-clap 0.9s ease var(--d, 0s) both; }
+.js-ld .ld-fig.is-in .ld-arrow { animation: ld-shoot 0.55s cubic-bezier(0.5, 0, 0.8, 0.4) 1.45s both; }
+.js-ld .ld-fig.is-in .ld-lens { animation: ld-scan 2.6s ease-in-out 0.2s both; }
+.js-ld .ld-fig.is-in .ld-cursor { animation: ld-tap 2.2s ease-in-out 0.8s both; }
+.js-ld .ld-fig.is-in .ld-btn { animation: ld-btn 0.35s ease 2.2s both; }
+.js-ld .ld-fig.is-in .ld-card-a { animation: ld-card-a 0.6s ease 0.9s both; }
+.js-ld .ld-fig.is-in .ld-card-b { animation: ld-card-b 2.6s ease-in-out 0.8s both; }
+.js-ld .ld-fig.is-in .ld-card-red { animation: ld-red 2.6s ease-in-out 0.8s both; }
+.js-ld .ld-fig.is-in .ld-owner { animation: ld-fade 0.35s ease 2.15s both; }
+.js-ld .ld-fig.is-in .ld-ring2 { animation: ld-ripple 1s ease-out 3s both; }
+.js-ld .ld-fig.is-in .ld-stamp { animation: ld-stamp 0.45s cubic-bezier(0.2, 0.9, 0.3, 1.3) 1.5s both; }
+
+@keyframes ld-pop { from { opacity: 0; transform: scale(0.3); } to { opacity: 1; transform: scale(1); } }
+@keyframes ld-fade { from { opacity: 0; } to { opacity: 1; } }
+@keyframes ld-draw { from { stroke-dashoffset: 1; opacity: 0; } 1% { opacity: 1; } to { stroke-dashoffset: 0; opacity: 1; } }
+@keyframes ld-grow { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+@keyframes ld-flash { 0% { opacity: 0; transform: scale(0.3); } 12% { opacity: 1; transform: scale(1); } 75% { opacity: 1; } 100% { opacity: 0; } }
+@keyframes ld-clap { 0%, 100% { transform: none; } 20%, 60% { transform: translateY(-6px); } 40%, 80% { transform: none; } }
+@keyframes ld-shoot { from { opacity: 0; transform: translateX(-70px); } 25% { opacity: 1; } to { opacity: 1; transform: none; } }
+@keyframes ld-scan {
+  0% { opacity: 0; transform: translate(40px, 110px); }
+  8% { opacity: 1; transform: translate(40px, 110px); }
+  34% { transform: translate(120px, 110px); }
+  46% { transform: translate(120px, 110px); }
+  64% { transform: translate(190px, 110px); }
+  76% { transform: translate(190px, 110px); }
+  100% { opacity: 1; transform: translate(292px, 158px); }
+}
+@keyframes ld-tap {
+  0% { opacity: 0; transform: translate(250px, 190px); }
+  10% { opacity: 1; }
+  32% { transform: translate(114px, 150px); }
+  36% { transform: translate(114px, 150px) scale(0.85); }
+  40% { transform: translate(114px, 150px); }
+  58% { transform: translate(160px, 176px); }
+  80% { transform: translate(114px, 150px); }
+  84% { transform: translate(114px, 150px) scale(0.85); }
+  88%, 100% { opacity: 1; transform: translate(114px, 150px); }
+}
+@keyframes ld-btn { from { transform: scale(1); } to { transform: scale(1.25); } }
+@keyframes ld-card-a { from { transform: translate(98px, -44px); } to { transform: none; } }
+@keyframes ld-card-b { 0% { transform: none; } 25%, 65% { transform: translateX(98px); } 85%, 100% { transform: none; } }
+@keyframes ld-red { 0% { opacity: 0; } 25%, 65% { opacity: 1; } 80%, 100% { opacity: 0; } }
+@keyframes ld-ripple { from { opacity: 0.9; transform: scale(1); } to { opacity: 0; transform: scale(2.8); } }
+@keyframes ld-stamp { from { opacity: 0; transform: rotate(-14deg) scale(1.8); } to { opacity: 1; transform: rotate(-8deg); } }
