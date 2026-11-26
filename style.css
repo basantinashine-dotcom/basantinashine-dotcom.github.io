@@ -1240,10 +1240,10 @@ main.ph {
 .ld-btn text { font-size: 11px; font-weight: 600; fill: #fffdf8; }
 .ld-cursor { transform: translate(114px, 150px); }
 .ld-bubble { fill: #fffdf8; stroke: var(--underline); stroke-width: 1.5; }
-.ld-bubble.ok { fill: #e4efe1; stroke: #3b7a4e; }
+.ld-bubble.ok { fill: #eceae2; stroke: #5d7462; }
 .ld-bubble-t { font-size: 12px; font-weight: 500; fill: var(--fg); }
 .ld-card { fill: #fffdf8; stroke: var(--underline); stroke-width: 1.5; }
-.ld-card-red { fill: #f6e2dc; stroke: #b0472f; stroke-width: 1.5; opacity: 0; }
+.ld-card-red { fill: #efe4df; stroke: #8f5a4b; stroke-width: 1.5; opacity: 0; }
 .ld-card-l { stroke: var(--underline); stroke-width: 4; stroke-linecap: round; }
 .ld-ring2 { fill: none; stroke: var(--heading); stroke-width: 2; opacity: 0; transform-box: fill-box; transform-origin: center; }
 .ld-doc { fill: #fffdf8; stroke: var(--underline); stroke-width: 1.5; }
@@ -1254,8 +1254,8 @@ main.ph {
 .ld-stamp text { font-family: var(--font-mono) !important; font-size: 11.5px; font-weight: 600; letter-spacing: 0.12em; fill: var(--heading); }
 .ld-answer { fill: none; stroke: var(--heading); stroke-width: 2; stroke-linecap: round; }
 .ld-answer-h { fill: none; stroke: var(--heading); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
-.ld-spot { fill: rgba(226, 192, 88, 0.28); }
-.ld-star { font-size: 18px; fill: #d9a92e; }
+.ld-spot { fill: rgba(196, 185, 165, 0.28); }
+.ld-star { font-size: 18px; fill: #a89773; }
 .ld-star.sm { font-size: 13px; }
 .ld-flash { opacity: 0; }
 .ld-pop, .ld-flash, .ld-clap { transform-box: fill-box; transform-origin: center; }
@@ -1333,11 +1333,11 @@ main.ph {
 .ld-dtitle { font-family: var(--ph-serif) !important; font-size: 16px; font-weight: 500; fill: var(--fg); }
 .ld-dbody { font-size: 11px; fill: var(--fg); }
 .ld-dmeta { font-size: 9.5px; fill: var(--muted); }
-.ld-hl { fill: rgba(226, 192, 88, 0.38); }
-.ld-ok-t { font-size: 10.5px; font-weight: 600; fill: #3b7a4e; }
+.ld-hl { fill: rgba(140, 129, 114, 0.18); }
+.ld-ok-t { font-size: 10.5px; font-weight: 600; fill: #5d7462; }
 .ld-bubble-t.sm { font-size: 10.5px; }
 .ld-zone { fill: #f8f3e8; }
-.ld-zone.warm { fill: #f6ece4; }
+.ld-zone.warm { fill: #f3efe8; }
 .ld-conf { transform-box: fill-box; transform-origin: center; transform: translate(var(--x), var(--y)) rotate(var(--r)); }
 .ld-steam { fill: none; stroke: #b9ae98; stroke-width: 1.5; stroke-linecap: round; }
 .ld-heart { fill: var(--heading); }
